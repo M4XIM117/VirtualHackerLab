@@ -1,0 +1,21 @@
+services:
+    web-server:
+        build: ./web-server/v1
+        ports:
+            - 22:22
+            - 8080:80
+    database:
+        image: mysql:8.0.27
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3306:3306
+        volumes:
+            - ./web-server/v1/database/init:/docker-entrypoint-initdb.d/
+    kali-client:
+        build: ./kali-client/v1
+        stdin_open: true
+        tty: true
+    w3af:
+        image: andresriancho/w3af:v35-011a74f-develop
