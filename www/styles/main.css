@@ -322,7 +322,7 @@ textarea.form__input {
 
 #test{
     overflow: hidden;
-    object-fit: scale-down;
+    background-color: grey;
 }
 
 .terminal {
