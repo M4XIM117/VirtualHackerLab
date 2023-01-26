@@ -38,7 +38,8 @@ body {
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
-    color: white;
+    background-color: grey;
+    c;
 }
 @media (min-width: 62em) {
     .container {
@@ -324,7 +325,8 @@ textarea.form__input {
 
 .terminal {
     padding-bottom: 4rem;
-    background-color: #171717;
+    background-color: grey;
+    color: white;
 
     /*
     background-image: url("../images/adventures/background.jpg");
