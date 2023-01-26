@@ -1,6 +1,7 @@
 echo "Starte Konvertierung..."
 for file in *.md
-    echo "Konvertiere $file in www/Versuche/" 
+do
+    echo "Konvertiere $file in www/Versuche/Anleitungen" 
 
     pandoc $file -f markdown -t html5 -o ../www/Versuche/Anleitungen/"${file%.*}.html" $file
 done
