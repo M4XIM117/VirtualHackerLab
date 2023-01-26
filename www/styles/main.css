@@ -320,6 +320,10 @@ textarea.form__input {
     font-size: 1.5rem;
 }
 
+#test{
+    overflow: hidden;
+    object-fit: scale-down;
+}
 
 .terminal {
     padding-bottom: 4rem;
