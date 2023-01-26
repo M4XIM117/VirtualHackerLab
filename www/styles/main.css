@@ -38,6 +38,7 @@ body {
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
+    color: white;
 }
 @media (min-width: 62em) {
     .container {
