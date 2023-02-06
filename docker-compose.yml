@@ -1,6 +1,5 @@
-services:
-    web-server:
-        build: 
-            context: ./
-        ports:
-            - 8080:80
+web-server:
+    build: 
+        context: ./
+    ports:
+        - 8080:80
