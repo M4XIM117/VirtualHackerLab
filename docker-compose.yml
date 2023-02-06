@@ -1,4 +1,7 @@
-webserver:
-  build: .
-  ports:
-    - 8080:80
+services:
+    webserver:
+      image: apache_webserver
+      build:
+        context: .
+      ports:
+        -8080:80
