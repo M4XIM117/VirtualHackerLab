@@ -32,7 +32,7 @@ function openPage(pageName, elmnt, color) {
     document.getElementById(pageName).style.display = "block";
     const targetElement = document.getElementById(pageName);
 
-    fetch("Anleitungen/webshell_" + pageName + ".html")
+    fetch("Anleitungen/webshell_" + pageName.toLowerCase() + ".html")
       .then(response => response.text())
       .then(content => {
         targetElement.innerHTML = content;
