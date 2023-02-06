@@ -30,9 +30,9 @@ function openPage(pageName, elmnt, color) {
   
     // Show the specific tab content
     document.getElementById(pageName).style.display = "block";
-    const targetElement = document.getElementById("Einleitung");
+    const targetElement = document.getElementById(pageName);
 
-    fetch("Anleitungen/webshell_einleitung.html")
+    fetch("Anleitungen/webshell_",pageName,".html")
       .then(response => response.text())
       .then(content => {
         targetElement.innerHTML = content;
