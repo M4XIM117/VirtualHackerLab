@@ -1,0 +1,22 @@
+body {
+padding : 0 1em;
+font-family: "Ubuntu", sans-serif;
+line-height: 140%;
+}
+/* ü berschriften */
+h1 {
+color: #dd0000;
+font-size: 200%;
+margin: 3ex 0 2ex 0;
+}
+
+h2 {
+color: #dd0000;
+font-size: 120%;
+margin: 2ex 0 1ex 0;
+}
+
+blockquote {
+margin: 0 3em;
+font-style:italic;
+}

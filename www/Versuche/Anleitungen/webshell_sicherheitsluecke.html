@@ -1,0 +1,132 @@
+<h3 id="behebung-der-sicherheitslücke">Behebung der
+Sicherheitslücke</h3>
+<p>🛠️ <strong>(Perspektive: Serveradministrator/-in)</strong></p>
+<p>Im finalen Schritt dieser Übung wechseln Sie in die Rolle eines/r
+Serveradministrator/-in.</p>
+<p>Wichtig ist es, dass die hier gezeigten Maßnahmen unvollständig sind
+um einen ausreichenden Schutz gegenüber dieser Sicherheitslücke zu
+gewähren. Die Maßnahmen sind jedoch ausreichend für den Anwendungsfall
+dieser Übung.</p>
+<ol type="1">
+<li><p><strong>Maßnahme</strong></p>
+<p>Erstellen Sie eine .htaccess Datei mit unten angeführtem Inhalt</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> /var/www/html/public/uploads/images/.htaccess</span></code></pre></div>
+<p>Inhalt der .htaccess Datei:</p>
+<pre><code>RemoveHandler .php .phtml .php3
+RemoveType .php .phtml .php3
+php_flag engine off</code></pre>
+<p>Die htaccess Datei ist eine Konfigurationsdatei für einen Apache
+Server. Sie enthält Konfigurationen und Regeln bezüglich des
+Verzeichnisses. Die htaccess Datei wird bei jeder Anfrage an den Server
+ausgewertet und angewandt.</p>
+<p>Probieren Sie die Webshell noch einmal über den Browser
+aufzurufen.</p>
+<p>Der Inhalt der Datei verhindert das Ausführen von .ph* (PHP) Dateien
+in dem Verzeichnis.</p></li>
+<li><p><strong>Maßnahme</strong></p>
+<p>Eine unkontrollierte Dateiupload Funktion kann wie Sie in den
+vorherigen Schritten gesehen haben, unkontrollierte Auswirkungen haben.
+Deshalb werden Sie in diesem Schritt eine Dateiupload Validierung
+einfügen.</p>
+<p>Lokalisieren Sie hierfür die Datei <strong>upload.php</strong> im
+Verzeichnis <strong>/var/www/html/php.</strong></p>
+<p>Bearbeiten Sie diese Datei mit <strong>nano.</strong></p>
+<p>Lokalisieren Sie die Zeilen:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>uploadUnSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">// uploadSanitized($fileStorage, $fileName, $tmpFileName);</span></span></code></pre></div>
+<p>Kommentieren Sie die Funktion</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>uploadUnSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span></code></pre></div>
+<p>aus und die Funktion</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>uploadSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span></code></pre></div>
+<p>ein (<strong>“//”</strong> vor der Funktion entfernen/setzten).</p>
+<p>In der uploadSanitized()-Funktion wird der mimeType (Dateityp z.B.
+image/jpeg), welcher über die HTTP-Anfrage gesetzt wird, geprüft und
+validiert. Bei erfolgreicher Validierung (Dateityp ist ein Bildformat)
+wird der Dateiname und Dateiendung neu gesetzt und anschließend wird die
+Datei abgespeichert.</p>
+<p>Der Webserver antwortet mit einem <strong>HTTP 200 OK</strong> beim
+erfolgreichen hochladen einer validen Datei und ein <strong>HTTP 400 Bad
+Request</strong> beim Hochladen einer nicht validen Bilddatei.</p>
+<p>Löschen Sie nun die von Ihnen hochgeladene Webshell und linpeas.sh
+Skript.</p>
+<p>Die Sicherheitslücke ist für den Anwendungsfall dieser Übung
+gestoppt.</p></li>
+</ol>
+<h3 id="erneuter-angriffsversuch"><strong>Erneuter
+Angriffsversuch</strong></h3>
+<p>😈 <strong>(Perspektive: Angreifer/-in)</strong></p>
+<p>Probieren Sie die Webshell noch einmal über den Browser
+hochzuladen.</p>
+<p>Der Webserver sollte Ihnen das hochladen einer nicht validen Datei
+verwehren.</p>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong> 🎊</p>
+<h3 id="behebung-der-sicherheitslücke-1">Behebung der
+Sicherheitslücke</h3>
+<p>🛠️ <strong>(Perspektive: Serveradministrator/-in)</strong></p>
+<p>Im finalen Schritt dieser Übung wechseln Sie in die Rolle eines/r
+Serveradministrator/-in.</p>
+<p>Wichtig ist es, dass die hier gezeigten Maßnahmen unvollständig sind
+um einen ausreichenden Schutz gegenüber dieser Sicherheitslücke zu
+gewähren. Die Maßnahmen sind jedoch ausreichend für den Anwendungsfall
+dieser Übung.</p>
+<ol type="1">
+<li><p><strong>Maßnahme</strong></p>
+<p>Erstellen Sie eine .htaccess Datei mit unten angeführtem Inhalt</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> /var/www/html/public/uploads/images/.htaccess</span></code></pre></div>
+<p>Inhalt der .htaccess Datei:</p>
+<pre><code>RemoveHandler .php .phtml .php3
+RemoveType .php .phtml .php3
+php_flag engine off</code></pre>
+<p>Die htaccess Datei ist eine Konfigurationsdatei für einen Apache
+Server. Sie enthält Konfigurationen und Regeln bezüglich des
+Verzeichnisses. Die htaccess Datei wird bei jeder Anfrage an den Server
+ausgewertet und angewandt.</p>
+<p>Probieren Sie die Webshell noch einmal über den Browser
+aufzurufen.</p>
+<p>Der Inhalt der Datei verhindert das Ausführen von .ph* (PHP) Dateien
+in dem Verzeichnis.</p></li>
+<li><p><strong>Maßnahme</strong></p>
+<p>Eine unkontrollierte Dateiupload Funktion kann wie Sie in den
+vorherigen Schritten gesehen haben, unkontrollierte Auswirkungen haben.
+Deshalb werden Sie in diesem Schritt eine Dateiupload Validierung
+einfügen.</p>
+<p>Lokalisieren Sie hierfür die Datei <strong>upload.php</strong> im
+Verzeichnis <strong>/var/www/html/php.</strong></p>
+<p>Bearbeiten Sie diese Datei mit <strong>nano.</strong></p>
+<p>Lokalisieren Sie die Zeilen:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>uploadUnSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">// uploadSanitized($fileStorage, $fileName, $tmpFileName);</span></span></code></pre></div>
+<p>Kommentieren Sie die Funktion</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>uploadUnSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span></code></pre></div>
+<p>aus und die Funktion</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>uploadSanitized(<span class="va">$fileStorage</span><span class="ot">,</span> <span class="va">$fileName</span><span class="ot">,</span> <span class="va">$tmpFileName</span>)<span class="ot">;</span></span></code></pre></div>
+<p>ein (<strong>“//”</strong> vor der Funktion entfernen/setzten).</p>
+<p>In der uploadSanitized()-Funktion wird der mimeType (Dateityp z.B.
+image/jpeg), welcher über die HTTP-Anfrage gesetzt wird, geprüft und
+validiert. Bei erfolgreicher Validierung (Dateityp ist ein Bildformat)
+wird der Dateiname und Dateiendung neu gesetzt und anschließend wird die
+Datei abgespeichert.</p>
+<p>Der Webserver antwortet mit einem <strong>HTTP 200 OK</strong> beim
+erfolgreichen hochladen einer validen Datei und ein <strong>HTTP 400 Bad
+Request</strong> beim Hochladen einer nicht validen Bilddatei.</p>
+<p>Löschen Sie nun die von Ihnen hochgeladene Webshell und linpeas.sh
+Skript.</p>
+<p>Die Sicherheitslücke ist für den Anwendungsfall dieser Übung
+gestoppt.</p></li>
+</ol>
+<h3 id="erneuter-angriffsversuch-1"><strong>Erneuter
+Angriffsversuch</strong></h3>
+<p>😈 <strong>(Perspektive: Angreifer/-in)</strong></p>
+<p>Probieren Sie die Webshell noch einmal über den Browser
+hochzuladen.</p>
+<p>Der Webserver sollte Ihnen das hochladen einer nicht validen Datei
+verwehren.</p>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong> 🎊</p>

