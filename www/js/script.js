@@ -30,6 +30,15 @@ function openPage(pageName, elmnt, color) {
   
     // Show the specific tab content
     document.getElementById(pageName).style.display = "block";
+    const targetElement = document.getElementById("Einleitung");
+
+    fetch("Anleitungen/webshell_einleitung.html")
+      .then(response => response.text())
+      .then(content => {
+        targetElement.innerHTML = content;
+      })
+      .catch(error => console.error(error));
+
   
     // Add the specific color to the button used to open the tab content
     elmnt.style.backgroundColor = color;
