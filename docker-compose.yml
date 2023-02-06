@@ -1,0 +1,4 @@
+webserver:
+  build:
+    context: ./
+  ports: 8080
