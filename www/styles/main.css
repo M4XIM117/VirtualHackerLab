@@ -492,37 +492,3 @@ textarea.form__input {
   #Angreifer {background-color: #365b96}
   #Sicherheitslücke {background-color: #365b96}
 
-
-
-
-  /*Test */
-  .tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.tab-btn {
-  padding: 1rem;
-  background-color: lightgray;
-  border: none;
-  cursor: pointer;
-  margin-right: 1rem;
-  border-radius: 5px 5px 0 0;
-}
-
-.tab-content {
-  display: none;
-}
-
-.tab-item {
-  padding: 1rem;
-  background-color: white;
-  border: 1px solid lightgray;
-  border-top: none;
-  border-radius: 0 0 5px 5px;
-}
-
-.show {
-  display: block;
-}
