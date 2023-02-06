@@ -448,6 +448,11 @@ textarea.form__input {
     }
 }
 
+
+
+
+
+
 .story__paragraph {
     margin: 0;
     font-size: 1rem;
@@ -457,3 +462,67 @@ textarea.form__input {
     text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
 }
 
+/* Style tab links */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+  }
+  
+  .tablink:hover {
+    background-color: #777;
+  }
+  
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+  }
+  
+  #Einleitung {background-color: #365b96}
+  #PreRequisites {background-color: #365b96}
+  #Angreifer {background-color: #365b96}
+  #Sicherheitslücke {background-color: #365b96}
+
+
+
+
+  /*Test */
+  .tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: 1rem;
+  background-color: lightgray;
+  border: none;
+  cursor: pointer;
+  margin-right: 1rem;
+  border-radius: 5px 5px 0 0;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-item {
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.show {
+  display: block;
+}

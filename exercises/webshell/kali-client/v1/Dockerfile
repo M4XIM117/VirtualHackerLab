@@ -1,5 +1,5 @@
 # Versioning, current latest
-FROM registry.gitlab.com/kalilinux/build-scripts/kali-docker/kali-rolling:2021.10.25
+FROM kalilinux/kali-rolling
 
 RUN apt-get update && apt-get install -y \
   john \
