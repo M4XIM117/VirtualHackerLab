@@ -1,6 +1,5 @@
 services:
     webserver:
-      image: apache_webserver
       build: .
       ports:
         -8080:80
