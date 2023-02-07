@@ -492,3 +492,6 @@ textarea.form__input {
   #Angreifer {background-color: #365b96}
   #Sicherheitsluecke {background-color: #365b96}
 
+  .attack_heading {
+    text-align: center;
+  }

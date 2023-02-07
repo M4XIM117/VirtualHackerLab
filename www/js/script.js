@@ -29,10 +29,15 @@ function openPage(pageName, elmnt, color) {
     }
   
     // Show the specific tab content
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+    const zwischen = page.split(".");
+
+
     document.getElementById(pageName).style.display = "block";
     const targetElement = document.getElementById(pageName);
 
-    fetch("Anleitungen/webshell_" + pageName.toLowerCase() + ".html")
+    fetch("Anleitungen/"+ zwischen[0] + "_" + pageName.toLowerCase() + ".html")
       .then(response => response.text())
       .then(content => {
         targetElement.innerHTML = content;
