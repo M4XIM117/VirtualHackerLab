@@ -1,10 +1,10 @@
 FROM ubuntu:latest
 EXPOSE 22
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install \
   netcat-openbsd \
   openssh-server \
-  sudo
+  sudo -y
 
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 COPY passwords.txt /usr/share/wordlists/passwords.txt
