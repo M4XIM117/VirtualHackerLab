@@ -4,9 +4,6 @@ RUN apt-get update && apt-get install -y \
   nano \
   netcat-openbsd \
   openssh-server \
-  kali-tools-passwords \
-  kali-tools-vulnerability
-
-RUN gunzip /usr/share/wordlists/rockyou.txt.gz
+  kali-tools-passwords
 
 RUN echo "root:root" | chpasswd
