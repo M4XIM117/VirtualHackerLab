@@ -2,8 +2,8 @@ services:
     vulnapp:
         build: 
             context: ./web-server/v2
-        ports:
-            - 8080:80
+        stdin_open: true
+        tty: true
     # kali-client:
     #     build: ./Kali
     #     stdin_open: true
