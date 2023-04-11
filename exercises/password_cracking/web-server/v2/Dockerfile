@@ -3,7 +3,7 @@ FROM kalilinux/kali-rolling
 RUN apt-get update && apt-get install -y \
   netcat-openbsd \
   openssh-server \
-  wordlists --reinstall
+  wordlists --reinstall \
 
 RUN gunzip /usr/share/wordlists/rockyou.txt.gz
 
