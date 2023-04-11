@@ -5,5 +5,7 @@ for user in $USERNAMES; do
 	password=\$(shuf -n 1 /usr/share/wordlists/fasttrack.txt); 
 	echo \$user:\$password | chpasswd; 
 	echo Creating user \"\$user\"...; 
-done
+done ;
+
+echo 'All done!'
 "
