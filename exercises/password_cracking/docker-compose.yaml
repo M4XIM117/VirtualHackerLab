@@ -1,6 +1,6 @@
 services:
     vulnapp:
-        build: ./web-server/v2
+        build: ./web-server/v1
         ports:
             - 22:22
             - 8080:80
