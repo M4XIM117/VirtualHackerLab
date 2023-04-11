@@ -1,3 +1,4 @@
+sudo bash -c " \
 USERNAMES=("Cem" "Nicole" "Bilal" "Maxim")
 for user in $USERNAMES; do 
 	useradd \$user; 
@@ -5,3 +6,4 @@ for user in $USERNAMES; do
 	echo \$user:\$password | chpasswd; 
 	echo Creating user \"\$user\"...; 
 done
+"
