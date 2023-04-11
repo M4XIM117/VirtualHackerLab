@@ -1,7 +1,7 @@
 #!/bin/bash
 for user in "cem" "nicole" "bilal" "maxim"; do 
 	useradd $user; 
-	password="$(shuf -n 1 /usr/share/wordlists/fasttrack.txt)"; 
+	password="$(shuf -n 1 /usr/share/wordlists/rockyou.txt)"; 
 	echo "$user:$password" || chpasswd; 
 	echo Creating user "$user"...; 
 done ;
