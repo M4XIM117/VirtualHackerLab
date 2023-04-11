@@ -1,6 +1,7 @@
 services:
     vulnapp:
-        build: ./web-server/v2
+        build: 
+            context: ./web-server/v2
         ports:
             - 8080:80
     # kali-client:
