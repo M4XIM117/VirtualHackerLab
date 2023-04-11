@@ -1,5 +1,5 @@
 FROM kalilinux/kali-rolling
-EXPOSE 80
+EXPOSE 80 22
 
 RUN apt-get update && apt-get install -y \
     openssh-server
