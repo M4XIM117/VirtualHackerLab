@@ -1,5 +1,0 @@
-services:
-    mrrobot:
-        build: ./vulnapp
-    kali-client:
-        build: ./Kali
