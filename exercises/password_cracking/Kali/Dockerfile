@@ -4,7 +4,6 @@ RUN apt-get update && apt-get install -y \
   nano \
   netcat-openbsd \
   openssh-server \
-  wordlists --reinstall \
   kali-tools-passwords \
   kali-tools-vulnerability
 
