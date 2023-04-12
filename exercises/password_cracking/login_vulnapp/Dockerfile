@@ -10,4 +10,4 @@ RUN docker-php-ext-install pdo pdo_mysql exif
 
 COPY config/apache2.conf /etc/apache2/
 
-CMD service ssh start && apachectl -D FOREGROUND
+CMD apachectl -D FOREGROUND
