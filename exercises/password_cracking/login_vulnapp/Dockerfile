@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     mariadb-server \
     nano 
 
-RUN docker-php-ext-install pdo pdo_mysql exif
+RUN docker-php-ext-install mysqli exif
 
 COPY config/apache2.conf /etc/apache2/
 
