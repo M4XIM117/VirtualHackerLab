@@ -1,19 +1,20 @@
-DROP DATABASE IF EXISTS users;
 CREATE DATABASE users;
 
-create table messenger.user
-(
-    id              int             auto_increment
-        primary key,
-    full_name        varchar(64)           not null,
-    password_hashed      varbinary(8000)       not null
+USE users;
+
+CREATE TABLE user (
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  password_hash CHAR(64) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY (username)
 );
 
 
-INSERT INTO messenger.contacts(id, full_name, password_hashed)
+INSERT INTO users.user(id, username, password_hash)
 VALUES
-    (1, 'maxim', HASHBYTES('SHA2_256', 'Winter2017')),
-    (2, 'cem', HASHBYTES('SHA2_256', 'Welcome123')),
-    (3, 'bilal', HASHBYTES('SHA2_256', 'Winter2017')),
-    (4, 'nicole', HASHBYTES('SHA2_256', 'Winter2017'));
+    (1, 'maxim', SHA2('Winter2017', 256)),
+    (2, 'cem', SHA2('Welcome123', 256)),
+    (3, 'bilal', SHA2('P@ssw0rd', 256)),
+    (4, 'nicole', SHA2('networking', 256));
     
