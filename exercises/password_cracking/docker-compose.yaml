@@ -4,6 +4,8 @@ services:
             context: ./web-server/v2
         stdin_open: true
         tty: true
+        ports:
+            - 22:22
     # kali-client:
     #     build: ./Kali
     #     stdin_open: true
