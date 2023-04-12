@@ -7,9 +7,6 @@ RUN apt-get update && apt-get install -y \
     nano 
 
 RUN docker-php-ext-install pdo pdo_mysql exif
-RUN docker-php-ext-enable exif
-
-RUN usermod -aG maintainance alice
 
 COPY config/apache2.conf /etc/apache2/
 

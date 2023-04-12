@@ -6,7 +6,7 @@ services:
         tty: true
         ports:
             - 22:22
-    wordpress_vulnapp:
+    login_vulnapp:
         build: 
             context: ./login_vulnapp
     database:
