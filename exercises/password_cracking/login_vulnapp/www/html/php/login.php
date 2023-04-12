@@ -3,6 +3,7 @@
     $servername = 'password_cracking_database-1';
     $username = 'root';
     $password = 'root';
+    $dbname = 'users';
     $port = 3306;
 
     // Create connection
