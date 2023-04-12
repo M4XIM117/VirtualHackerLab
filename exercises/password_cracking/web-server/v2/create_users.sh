@@ -5,6 +5,5 @@ for user in "cem" "nicole" "bilal" "maxim"; do
 	echo "$user:$password" | chpasswd; 
 	echo Creating user "$user"...; 
 done ;
-service ssh start
 
 echo 'All done!'
