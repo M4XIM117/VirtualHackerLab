@@ -7,7 +7,7 @@
     $port = 3306;
 
     // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
     // Check connection
     if (!$conn) {
@@ -26,7 +26,7 @@
     // Check if user exists
     if (mysqli_num_rows($result) > 0) {
         // User exists, redirect to homepage or dashboard
-        header("Location: success.html");
+        header("Location: ../success.html");
     } else {
         // User doesn't exist, show error message
         echo "Invalid username or password";
