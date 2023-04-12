@@ -8,7 +8,7 @@ services:
             - 22:22
     login_vulnapp:
         build: 
-            context: ./login_vulnapp
+            context: ./login_vulnapp/db_init
     database:
         build:
             context: ./db_init
