@@ -9,6 +9,15 @@ services:
     wordpress_vulnapp:
         build: 
             context: ./wordpress_vulnapp
+    database:
+        image: mysql:latest
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3306:3306
+        volumes:
+            - ./web-server/v1/database/init:/docker-entrypoint-initdb.d/
     # kali-client:
     #     build: ./Kali
     #     stdin_open: true
