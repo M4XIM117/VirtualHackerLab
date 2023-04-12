@@ -1,3 +1,3 @@
 FROM scratch
-ADD wordpress_vulnapp.tar.xz /
+ADD wordpress_vulnapp.tar.gz /
 CMD ["/start-wp.sh"]
