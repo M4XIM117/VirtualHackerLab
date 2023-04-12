@@ -1,11 +1,14 @@
 services:
-    vulnapp:
+    ubuntu_vulnapp:
         build: 
-            context: ./web-server/v2
+            context: ./ubuntu_vulnapp
         stdin_open: true
         tty: true
         ports:
-            - 22:22 
+            - 22:22
+    wordpress_vulnapp:
+        build: 
+            context: ./wordpress_vulnapp
     # kali-client:
     #     build: ./Kali
     #     stdin_open: true
