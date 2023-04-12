@@ -17,9 +17,10 @@
     // Retrieve username and password from form
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $password_hashed = hash("sha256", $password);
 
     // Query database for matching user
-    $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$password_hashed'";
     $result = mysqli_query($conn, $sql);
 
     // Check if user exists
