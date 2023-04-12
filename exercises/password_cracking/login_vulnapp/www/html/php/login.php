@@ -1,6 +1,6 @@
 <?php
     // Connect to database
-    $servername = 'password_cracking_database-1';
+    $servername = 'password_cracking_database_1';
     $username = 'root';
     $password = 'root';
     $dbname = 'users';
