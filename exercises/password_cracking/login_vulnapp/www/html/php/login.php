@@ -29,7 +29,7 @@
     // Check if user exists
     if (mysqli_num_rows($result) > 0) {
         // User exists, redirect to homepage or dashboard
-        header("Location: ../success.html");
+        header("Location: ../user_query.html");
     } else {
         // User doesn't exist, show error message
         echo "Invalid username or password";
@@ -38,4 +38,3 @@
     // Close connection
     mysqli_close($conn);
 ?>
-SELECT * FROM user WHERE username = '' OR '1'='1' AND password_hash = '' OR '1'='1''
