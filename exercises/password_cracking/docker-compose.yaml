@@ -6,9 +6,7 @@ services:
         tty: true
         ports:
             - 22:22
-    login_vulnapp:
-        build: 
-            context: ./login_vulnapp
+    
     database:
         build:
             context: ./db_init
@@ -18,6 +16,10 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - 3306:3306
+    login_vulnapp:
+        build: 
+            context: ./login_vulnapp
+    
         
     # kali-client:
     #     build: ./Kali

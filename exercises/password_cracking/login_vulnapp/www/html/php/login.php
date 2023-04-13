@@ -23,6 +23,9 @@
     $sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$password_hashed'";
     $result = mysqli_query($conn, $sql);
 
+    if ($result == false){
+        echo "Invalid Username or password";
+    }
     // Check if user exists
     if (mysqli_num_rows($result) > 0) {
         // User exists, redirect to homepage or dashboard
@@ -35,3 +38,4 @@
     // Close connection
     mysqli_close($conn);
 ?>
+SELECT * FROM user WHERE username = '' OR '1'='1' AND password_hash = '' OR '1'='1''
