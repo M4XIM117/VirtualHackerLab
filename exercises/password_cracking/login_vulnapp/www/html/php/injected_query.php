@@ -1,6 +1,11 @@
 <?php
 // Create connection to MySQLi database
-$conn = new mysqli("localhost", "username", "password", "database_name");
+$servername = 'password_cracking_database_1';
+$username = 'root';
+$password = 'root';
+$dbname = 'users';
+$port = 3306;
+$conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
 // Check connection
 if ($conn->connect_error) {
