@@ -1,7 +1,6 @@
 FROM kalilinux/kali-rolling
 
 RUN apt-get update && apt-get install -y \
-  iputils-ping \
   nano \
 # Hydra ist a brute-force password cracking tool
   hydra \ 
