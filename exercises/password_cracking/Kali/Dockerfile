@@ -7,7 +7,9 @@ RUN apt-get update && apt-get install -y \
 # snapd used  to install sqlmap
   snapd \
 # Hashcat is used to brute-force Hashed Passwords 
-  hashcat
+  hashcat \
+# SQL Map scans forms etc. for possible SQL-Injections and retrieves Data if possible
+  sqlmap
 
 COPY sqli_post_request ./sqli_post_request
 COPY passwords.txt ./passwords.txt

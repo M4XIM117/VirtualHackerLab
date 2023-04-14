@@ -17,7 +17,7 @@
     - Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login) unsichere SQL-Queries, können mit schlauen Eingabestrings die SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu testen.
     
 
-## Komponenten
+## Komponenten 
 
 - ## Angreifer
     
@@ -25,20 +25,18 @@
     
     Eine auf Debian basierte Linux Distribution. Kali Linux stellt Programme für Penetrationstest zur Verfügung. Die auf dieser Distribution installierten Programme unterstützen den/die Angreifer/-in, in dieser Übung bei dem Webshell-Angriff.
     
-    - **Netcat**
+    - **Hydra**
         
-        Netcat, kurz nc, ist ein universelles Kommandozeilenwerkzeug. Es kann im Terminal oder in Skripten für die Kommunikation über TCP- und UDP-Netzwerkverbindungen (IPv4 und 6), aber auch lokale UNIX Domain Sockets genutzt werden.
+        Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen Funkionen. 
+        Hier verwendet für den ersten einfachen online Brute-Force Angriff.
         
-    - **John The Ripper**
+    - **SQL Map**
         
-        Ist eine Software um Passwörter zu entschlüsseln.
+        Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu testen.
+    
+    - **HashCat**
         
-        ssh2john.py [**Schlüssedatei**] > [**Zieldatei**] wird in dieser Übung genutzt um die Passphrase für einen privaten Schlüssel herauszufinden.
-        
-    - **Wordlist**
-        
-        Zu dt. Passwörterliste ist eine Liste an Wörtern, die meist in Verbindung mit dem Wörterbuchangriff genutzt werden, um Passwörter zu knacken. Die hier verwendete Wörterliste ist rockyou.txt.
-        
+        Werkzeug um Brute-Force auf gehashte Werte durchzuführen.
 
 - ## Angriffsziele
 
@@ -56,9 +54,24 @@
     Eine MySQL-Datenbank. Enthält Userdaten der Webseite.
     
 
-### Hilfreiche Unix Befehle
+### 💡Hilfreiche Befehle💡
 
-??????????
+
+```
+nano <Dateiname>
+```
+- Nano ist ein Textbearbeitungsinstrument für Linux. Ist die angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei, welche als Input für die SQL-Injection verwendet wird.
+```
+docker-compose up -d --build
+```
+- -d steht für daemon: Service läuft dann im Hintergrund und blockiert nicht das Terminal
+- --build: Rebuilded die Docker-Images
+  
+```
+docker exec -it <CONTAINER-NAME> bash
+```
+- exec führt Befehl auf bestimmten container aus. In diesem Falle bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos ausführen.
+- -it: i = interactive; t = Allocate pseudo TTY
 
 
 # Start
@@ -74,56 +87,11 @@ die docker-compose.yaml ausführen. Dadurch werden die oben genannten Komponente
 
 1. **Schritt:** 😈 **(Perspektive: Angreifer/-in)**
     
-    Loggen Sie sich in den w3af Container und führen Sie das Skript **w3af_console** aus, indem Sie folgenden Befehl 
-    
-    ```bash
-    ./w3af_console
+    Loggen sich sich in den KALI-Linux container ein mit dem Befehl:
     ```
+    sudo docker exec -it <CONTAINER-NAME> bash
+    ``` 
     
-    im Terminal ausführen. 
-    
-    Mit dem Befehl 
-    
-    ```bash
-    help [Option]
-    ```
-    
-    werden Ihnen die verschiedenen Befehle und deren Beschreibung von w3af angezeigt. Die drei Befehle, die Sie in dieser Übung verwenden werden sind **Plug-Ins**, **target** und **start**.
-    
-    Geben Sie **Plug-Ins** in das Terminal ein, Sie sollten nun in der Plug-Ins Oberfläche sein. Mit einer weiteren Eingabe von **help** werden Ihnen die verschieden Scanmodule angezeigt. Aktivieren Sie die Module **web_spider** und **file_upload**, in dem Sie die Befehle 
-    
-    ```bash
-    crawl web_spider
-    ```
-    
-    und 
-    
-    ```bash
-    grep file_upload
-    ```
-    
-    nacheinander ausführen.
-    
-    Mit **back** gelangen Sie wieder in die vorherige Oberfläche.
-    
-    Finden Sie Ihre lokale IP-Adresse heraus und setzten sie diese als Ihr Ziel. 
-    
-    Dafür müssen Sie den Befehl **target** eingeben, gefolgt von dem Befehl
-    
-    ```bash
-    set target http://<local_ip_adresse>:8080
-    ```
-    
-    Mit der Eingabe von **view** lassen sich die Ziele einsehen.
-    
-    Kehren Sie wieder in die ursprüngliche Oberfläche zurück (**back**) und starten Sie den Scan über den Befehl **start.**
-    
-    Das Ergebnis des Scans sollte Ihnen die folgenden zwei Fragen: 
-    
-    - Existiert eine Dateiupload-Funktion auf der Ziel-Webanwendung;
-    - Welche URLs existieren für die Ziel Webanwendung und wo werden eventuell von dem/der Benutzer/-in hochgeladene Dateien abgespeichert
-    
-    beantworten.
     
 2. **Schritt:** 😈 **(Perspektive: Angreifer/-in)**
     
