@@ -1,6 +1,7 @@
 FROM kalilinux/kali-rolling
 
 RUN apt-get update && apt-get install -y \
+  iputils-ping \
   nano \
 # Hydra ist a brute-force password cracking tool
   hydra \ 
@@ -9,7 +10,9 @@ RUN apt-get update && apt-get install -y \
 # Hashcat is used to brute-force Hashed Passwords 
   hashcat \
 # SQL Map scans forms etc. for possible SQL-Injections and retrieves Data if possible
-  sqlmap
+  sqlmap \
+# NMap is used for network discovery
+  nmap
 
 COPY sqli_post_request ./sqli_post_request
 COPY passwords.txt ./passwords.txt
