@@ -10,6 +10,6 @@ RUN apt-get update && apt-get install -y \
   hashcat
 
 COPY sqli_post_request ./sqli_post_request
-COPY passwords.txt ./passwords.txt
+COPY ../passwords.txt ./passwords.txt
 
 RUN echo "root:root" | chpasswd
