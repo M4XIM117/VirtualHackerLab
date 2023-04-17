@@ -23,7 +23,7 @@
     $sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$password_hashed'";
     $result = mysqli_query($conn, $sql);
 
-    if ($result == false){
+    if (!$result){
         echo "Invalid Username or password";
     }
     // Check if user exists
