@@ -134,9 +134,14 @@ _password\_cracking\_\<Komponente>\_\<x>_ <br>
 - <h3 style="color:lightblue">Schritt 1.2</h3>
   Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.
   
-  Sie sollten im aktuellen Verzeichnis mit dem Befehl _ls_ die Datei passwords.txt sehen. Mit dem _nano_-Befehl können Sie die Datei öffnen und mal anschauen.
-  Die Datei beinhaltet die 200 gängigsten Passwörter. Diese Datei verwenden wir als Input für unseren Angriffsversuch mit _Hydra_.
-  
+  Sie sollten im aktuellen Verzeichnis mit dem Befehl _ls_ die Dateien _passwords.txt_ und _users.txt_ sehen. Mit dem _nano_-Befehl können Sie die Dateien öffnen und mal anschauen.
+  Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt, zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien verwenden wir als Input für unseren Angriffsversuch mit _Hydra_.
+
+  Der Befehl um Hydra zu starten lautet wie folgt:
+  ```
+  hydra -L
+  ```
+
   
     
     
