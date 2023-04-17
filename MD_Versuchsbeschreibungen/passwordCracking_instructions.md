@@ -145,7 +145,7 @@ _password\_cracking\_\<Komponente>\_\<x>_ <br>
   - auf -P folgt die Listeneingabe der möglichen Passwörter
   - -V loggt die Versuche & -f bricht hydra ab, sobald ein Passwort gefunden wurde.
 
-hydra zeigt einem dann abschließend Username und Passwort wenn der Versuch erfolgreich abgeschlossen wurde.
+Hydra zeigt einem dann abschließend Username und Passwort wenn der Versuch erfolgreich abgeschlossen wurde.
 Um dies zu bestätigen können Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den Ubuntu Server herzustellen:
 ```
 ssh <Username>@<IP des Ubuntu Containers>
@@ -153,11 +153,44 @@ ssh <Username>@<IP des Ubuntu Containers>
 
 <h2 style="color:red">  2. Part: SQL-Injection </h2>
 
+Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite anwenden, um an vertrauliche Daten zu kommen. Die Internetseite, welche als Angriffsziel des Versuchs dient, ist der "password_cracking_login_vulnapp" Container.
+- <h3 style="color:lightblue">Schritt 2.0</h3>
+
+  Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples Loginformular sehen.
 - <h3 style="color:lightblue">Schritt 2.1</h3>
+  Wie bereits beschrieben werden bei SLQ-Injections die Eingaben bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert werden können.
+  Das DBMS in diesem Beispiel basiert auf MySQL. Das Backend-Query für das Login-Formular sieht wie folgt aus:
 
   ```
-  sqlmap -r sqli_post_request -p "username"
+  SELECT * FROM user WHERE username = '<Input Username>' AND password_hash = '<Input PW>'
   ```
+  Probieren Sie, ohne valide Einloggdaten zu kennen, einen erfolgreichen Login vorzutäuschen.
+  ___
+  :bulb: _**Hinweis**_
+
+  - In MySQL beginnen Kommentare mit einem #
+  - Die Eingabevariablen \<Input Username> & \<Input PW> sind von Hochkommata (') eingeschlossen.
+  - '1'='1' ist eine immer wahre WHERE Bedingung
+  ___
+
+- <h3 style="color:lightblue">Schritt 2.2</h3>
+  Wenn Sie sich erfolgreich "angemeldet" haben sehen Sie erneut eine Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections auf einen Service anzuwenden, um sich so anhand der Responses Informationen über das DBMS zusammenzustellen. 
+
+  Sie finden im Kali-Client eine Datei namens _sqli\_post\_request_. Die Datei beinhaltet den Post-Request, welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen _\<IP Adresse>_ mit der IP des password_cracking_login_vulnapp Containers ersetzen, die selbe IP, welche Sie in der Browser eingegeben haben (ohne :Port!).
+
+- <h3 style="color:lightblue">Schritt 2.3</h3>
+  Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel SQLMAP auf den HTTP-Request starten:
+
+  ```
+  sqlmap -r sqli_post_request -p "username" --dump
+  ```
+  - _username_ wird als _testable parameter_ übergeben
+  - -- dump bringt sqlmap dazu, sämtliche Informationen auszugeben, welches es abgreifen kann
+  - :bulb:Es werden zuerst grundlegende Informationen ausgegeben, anschließend tatsächliche Einträge. Sobald ein Username und ein Passwordhash vollständig augegeben wurden, können Sie sqlmap mit Strg+c beenden
+  
+  Kopieren Sie sich ein gehashtes Passwort und speichern Sie es in einer Datei zwischen.
+
+  
 
 <h2 style="color:red">  3. Part: OFFLINE Passwort-Cracking </h2>
 
