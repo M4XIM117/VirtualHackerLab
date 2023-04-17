@@ -15,5 +15,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY sqli_post_request ./sqli_post_request
 COPY passwords.txt ./passwords.txt
+COPY users.txt ./users.txt
 
 RUN echo "root:root" | chpasswd

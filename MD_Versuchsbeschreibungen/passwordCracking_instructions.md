@@ -131,8 +131,11 @@ _password\_cracking\_\<Komponente>\_\<x>_ <br>
   - Der bekannte Port der einzelnen IP-Adressen<br> (999 & 998 sind uninteressant, nur die tabellarische Ausgabe beachten)
   - Der jeweilige Service hinter einem Port (Sie sollten ssh, http und mysql finden)
   
-  Es sollten Port die
 - <h3 style="color:lightblue">Schritt 1.2</h3>
+  Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.
+  
+  Sie sollten im aktuellen Verzeichnis mit dem Befehl _ls_ die Datei passwords.txt sehen. Mit dem _nano_-Befehl können Sie die Datei öffnen und mal anschauen.
+  Die Datei beinhaltet die 200 gängigsten Passwörter. Diese Datei verwenden wir als Input für unseren Angriffsversuch mit _Hydra_.
   
   
     
