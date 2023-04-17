@@ -16,15 +16,14 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 
 // Build and execute MySQLi query
-$sql = "SELECT * FROM users WHERE name='$name'";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$password_hashed'";
+$result = mysqli_query($conn, $sql);
 
 // Display the result
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["name"]. "<br>";
-        echo "Email: " . $row["email"]. "<br>";
-        echo "Phone: " . $row["phone"]. "<br>";
+        echo "Name: " . $row["username"]. "<br>";
+        echo "PW Hashed: " . $row["password_hash"]. "<br>";
     }
 } else {
     echo "0 results";
