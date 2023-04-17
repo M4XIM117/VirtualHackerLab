@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 
 // Build and execute MySQLi query
-$sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$password_hashed'";
+$sql = "SELECT * FROM user WHERE username = '$username' AND password_hash = '$name'";
 $result = mysqli_query($conn, $sql);
 
 // Display the result
