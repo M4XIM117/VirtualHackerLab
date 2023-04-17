@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 # SQL Map scans forms etc. for possible SQL-Injections and retrieves Data if possible
   sqlmap \
 # NMap is used for network discovery
-  nmap
+  iproute2
 
 COPY sqli_post_request ./sqli_post_request
 COPY passwords.txt ./passwords.txt

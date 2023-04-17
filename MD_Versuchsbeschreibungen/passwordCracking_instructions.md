@@ -17,9 +17,9 @@
     - Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login) unsichere SQL-Queries, können mit schlauen Eingabestrings die SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu testen.
     
 
-## Komponenten 
+### Komponenten 
 
-- ## Angreifer
+- ### Angreifer
     
   - **Kali Linux**
     
@@ -42,7 +42,7 @@
 
         Werkzeug für Network Discovery, um Hosts zu entdecken.
 
-- ## Angriffsziele
+- ### Angriffsziele
 
   - **Ubuntu Rechner**
     
@@ -64,17 +64,22 @@
 ```
 sudo <eigentlicher Befehl>
 ```
-- Je nach Rechtestruktur und Betriebssystem muss man Kommandos das Schlüsselwort 'sudo' davorstellen, um Adminrechte zu verwenden. 
+- Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos das Schlüsselwort 'sudo' davorstellen, um den Befehl als "Superuser" auszuführen. 
+  
+
 ```
 nano <Dateiname>
 ```
 - Nano ist ein Textbearbeitungsinstrument für Linux. Ist die angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei, welche als Input für die SQL-Injection verwendet wird.
+
+
 ```
 docker-compose up -d --build
 ```
 - -d steht für daemon: Service läuft dann im Hintergrund und blockiert nicht das Terminal
 - --build: Rebuilded die Docker-Images
   
+
 ```
 docker exec -it <CONTAINER-NAME> bash
 ```
@@ -84,62 +89,69 @@ docker exec -it <CONTAINER-NAME> bash
 
 # :star: Start
 
-Starten sie die Virualisierungsumgebung indem sich mit dem Befehl
+Starten sie die Virtualisierungsumgebung indem sie mit dem Befehl
 ```
 sudo docker-compose up -d --build
 ```
-die docker-compose.yaml ausführen. Dadurch werden die oben genannten Komponenten hochgefahren.
+die docker-compose.yaml ausführen. Dadurch werden die oben genannten Komponenten hochgefahren. <br>
+Als letzte Ausgabe sieht man die unterschiedlichen Containernamen:
+_password\_cracking\_\<Komponente>\_\<x>_ <br>
+:exclamation: Die konkreten Namen benötigen wir für den Versuch.
 
-
-<h2 style="color:red">  1. Part: ONLINE Passwort-Cracking </h2>
+<h2 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
  
-- <h3 style="color:lightblue">1.0 Schritt:😈 (Perspektive: Angreifer/-in)</h3>
-    
-    Nachdem die Container hochgefahren sind benötigen für den Versuch die IP-Range der Container. 
-    In unserer Beispielumgebung führen wir den Befehl
-    ```
-    ip address
-    ```
-    aus, welches uns einige Informationen gibt.
-    Für uns ist interessant, welche IPv4 unter "br-...... <BROADCAST, MULTICAST, UP, LOWER_UP>" steht. 
+- <h3 style="color:lightblue">Schritt 1.0</h3>
+  Loggen sich sich in den KALI-Linux container ein mit dem Befehl:
 
-    ___
-    **_HINWEIS_**:bulb:
-    Dies ist nämlich die "Bridge", welche unsere Container verbindet. <br>
-    Diese IP endet mit einer .1, da es das Gateway darstellt. <br>
-    Bsp: 172.18.0.1
-    ___
-    
-    Haben wir nun die IP-Range, in welche sich unsere Docker-Container befinden, können wir den Versuch beginnen.
+  ```
+  sudo docker exec -it <Name des Kali-Containers> bash
+  ``` 
+  Hier stehen Ihnen nun die oben gelisteten Tools zur Verfügung.
 
-- <h3 style="color:lightblue">1.1 Schritt:😈 (Perspektive: Angreifer/-in)</h3>
 
+- <h3 style="color:lightblue">Schritt 1.1</h3>
+
+  Nachdem Sie sich auf den Kali-Container geschalten haben wollen wir erstmal ein Netzwerk nach bekannten Hosts scannen. Zuerst wollen wir aber die IP-Range herausfinden. In diesem Versuch ist es die IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der IP-Adresse ableiten, welche der Kali-Container hat.
+  Hierzu führen wir folgenden Befehl aus:
+  ```
+   ip address show eth0
+  ```
+  In der Ausgabe sehen wir nun einen Eintrag nach _inet_ die IP-Adresse des Containers.
+
+  Bspw. 172.18.0.5/16
+  
+  Diese Information setzen wir in den nächsten Befehl _nmap_, welcher oben bereits beschrieben wurde.
+  ```
+  nmap 172.18.0.0-16
+  ```
+  :exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz _172.18.0_ über eine Range von 16 Host-IDs anzeigen.
+
+  Nun benötigen wir für den restlichen Versuch folgende Informationen aus der Ausgabe: _(Kopieren Sie sich diese in einen Texteditor!)_
+  - IP-Adresse, wo Host gefunden wurde
+  - Der bekannte Port der einzelnen IP-Adressen<br> (999 & 998 sind uninteressant, nur die tabellarische Ausgabe beachten)
+  - Der jeweilige Service hinter einem Port (Sie sollten ssh, http und mysql finden)
+  
+  Es sollten Port die
+- <h3 style="color:lightblue">Schritt 1.2</h3>
+  
+  
     
-    Loggen sich sich in den KALI-Linux container ein mit dem Befehl:
-    ```
-    sudo docker exec -it <CONTAINER-NAME> bash
-    ``` 
-    Hier stehen Ihnen nun die oben gelisteten Tools zur Verfügung.
     
-- <h3 style="color:lightblue">1.2 Schritt:😈 (Perspektive: Angreifer/-in) </h3>
-    
-    
-    
-- <h3 style="color:lightblue">1.3 Schritt:😈 (Perspektive: Angreifer/-in) </h3>
+- <h3 style="color:lightblue">Schritt 1.3</h3>
     
    
     
-- <h3 style="color:lightblue">1.4 Schritt:😈 (Perspektive: Angreifer/-in) </h3>
+- <h3 style="color:lightblue">Schritt 1.4</h3>
     
     
 
 <h2 style="color:red">  2. Part: SQL-Injection </h2>
 
-- <h3 style="color:lightblue">2.1 Schritt:😈 (Perspektive: Angreifer/-in) </h3>
+- <h3 style="color:lightblue">Schritt 2.1</h3>
 
 
 <h2 style="color:red">  3. Part: OFFLINE Passwort-Cracking </h2>
 
-- <h3 style="color:lightblue">3.1 Schritt:😈 (Perspektive: Angreifer/-in) </h3>
+- <h3 style="color:lightblue">Schritt 3.1</h3>
 
 
