@@ -26,8 +26,25 @@
 	  }
 	}
 </style>
+<script>
+$(document).ready(function() {
+  $('#userQuery').on('submit', function(e) {
+    e.preventDefault(); // Prevents the form from submitting normally
+    var formData = $(this).serialize(); // Serializes the form data
+    $.ajax({
+      type: 'POST',
+      url: './php/injected_query.php', // Replace this with the URL of your PHP file
+      data: formData,
+      success: function(response) {
+        $('#result-container').html(response); // Inserts the PHP response into the results div
+      }
+    });
+  });
+});
+
+</script>
 <body>
-	<form method="post" action="./php/injected_query.php">
+	<form id="userQuery" method="post" action="./php/injected_query.php">
 		<label for="name">Enter a name:</label>
 		<input type="text" name="name" id="name">
 		<input type="submit" name="submit" value="Submit">
