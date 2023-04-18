@@ -1,6 +1,6 @@
 <?php
 // Create connection to MySQLi database
-$servername = 'password_cracking_database_1';
+$servername = 'localhost';
 $username = 'root';
 $password = 'root';
 $dbname = 'users';
