@@ -182,7 +182,7 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel SQLMAP auf den HTTP-Request starten:
 
   ```
-  sqlmap -r sqli_post_request -p "username" --dump
+  sqlmap -r sqli_post_request -p "name" --dump
   ```
   - _username_ wird als _testable parameter_ übergeben
   - -- dump bringt sqlmap dazu, sämtliche Informationen auszugeben, welches es abgreifen kann
