@@ -3,12 +3,37 @@
 <head>
 	<title>Beispielabfrage</title>
 </head>
+<style>
+	.results-container {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  margin-top: 20px;
+	}
+	
+	.result-item {
+	  background-color: #f2f2f2;
+	  padding: 10px;
+	  margin: 5px;
+	  border-radius: 5px;
+	  width: 100%;
+	  max-width: 600px;
+	}
+	
+	@media only screen and (max-width: 600px) {
+	  .result-item {
+		width: 90%;
+	  }
+	}
+</style>
 <body>
 	<form method="post" action="./php/injected_query.php">
 		<label for="name">Enter a name:</label>
 		<input type="text" name="name" id="name">
 		<input type="submit" name="submit" value="Submit">
 	</form>
-	<div id="result"></div>
+	<div id="results-container">
+
+	</div>
 </body>
 </html>

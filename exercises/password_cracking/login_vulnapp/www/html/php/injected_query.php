@@ -21,13 +21,13 @@ $result = mysqli_query($conn, $sql);
 
 // Display the result
 if ($result->num_rows > 0) {
+    // Output each row of data
     while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["username"]. "<br>";
-        echo "PW Hashed: " . $row["password_hash"]. "<br>";
+      echo "<div class='result-item'>" . $row["column"] . "</div>";
     }
-} else {
-    echo "0 results";
-}
+  } else {
+    echo "<div class='result-item'>No results found.</div>";
+  }
 
 // Close MySQLi connection
 $conn->close();
