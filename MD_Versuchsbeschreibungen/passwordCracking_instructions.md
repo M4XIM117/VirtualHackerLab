@@ -186,14 +186,10 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   ```
   - _username_ wird als _testable parameter_ übergeben
   - -- dump bringt sqlmap dazu, sämtliche Informationen auszugeben, welches es abgreifen kann
-  - :bulb:Es werden zuerst grundlegende Informationen ausgegeben, anschließend tatsächliche Einträge. Sobald ein Username und ein Passwordhash vollständig augegeben wurden, können Sie sqlmap mit Strg+c beenden
+  - :bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs.  Lesen Sie die Hinweise und antworten Sie dementsprechend.
   
-  Kopieren Sie sich ein gehashtes Passwort und speichern Sie es in einer Datei zwischen.
-
-  
-
-<h2 style="color:red">  3. Part: OFFLINE Passwort-Cracking </h2>
-
-- <h3 style="color:lightblue">Schritt 3.1</h3>
+  :exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an, einen Dictionary-Attack zu starten. Tippen Sie _"y"_ ein. Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary mitgeben möchten. Dies bestätigen Sie indem Sie _"2"_ eintippen (Sie können auch den Default verwenden). Die Datei liegt im aktuellen Verzeichnis und heißt _"passwords.txt"_. Tippen Sie den Pfad zu der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten anzeigen.
+___
+# :star: Sie haben das Ende der Übung erreicht 
 
 
