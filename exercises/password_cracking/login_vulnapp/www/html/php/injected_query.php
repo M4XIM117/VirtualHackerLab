@@ -16,14 +16,14 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 
 // Build and execute MySQLi query
-$sql = "SELECT * FROM user WHERE username = '$name'";
+$sql = "SELECT username FROM user WHERE username = '$name'";
 $result = mysqli_query($conn, $sql);
 
 // Display the result
 if ($result->num_rows > 0) {
     // Output each row of data
     while($row = $result->fetch_assoc()) {
-      echo "<div class='result-item'>" . $row["column"] . "</div>";
+      echo "<div class='result-item'>" . $row["username"] . "</div>";
     }
   } else {
     echo "<div class='result-item'>No results found.</div>";
