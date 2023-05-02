@@ -9,6 +9,8 @@ console.log("Socket is up and running...")
 var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
 var ptyProcess = pty.spawn(shell, [], {
     name: 'xterm-color',
+    uid: 1000,
+    gid: 1000,
     //   cwd: process.env.HOME,
     env: process.env,
 });

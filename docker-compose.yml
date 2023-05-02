@@ -2,4 +2,3 @@ web-server:
     build: .
     ports:
         - 8080:80
-        - 6060:6060
