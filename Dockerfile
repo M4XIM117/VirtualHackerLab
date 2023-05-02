@@ -1,6 +1,5 @@
 FROM httpd
 COPY ./www/ /usr/local/apache2/htdocs/
-EXPOSE 8080
 
 RUN apt-get update && apt-get install -y \
   nodejs \
@@ -20,6 +19,6 @@ COPY ./exercises/ /home/student/versuche/
 
 
 RUN npm install /usr/local/apache2/htdocs/js/
-CMD node /usr/local/apache2/htdocs/js/backend.js
+EXPOSE 8080 6060
 
 
