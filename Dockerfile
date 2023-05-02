@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install -y \
   npm
 
 RUN npm install /usr/local/apache2/htdocs/js/
-EXPOSE 8080
+EXPOSE 8080 6060
