@@ -66,8 +66,16 @@ socket.onmessage = (event) => {
 function runCommand(term, command) {
     if (command.length > 0) {
         clearInput(command);
-        socket.send(command + '\n');
-        return;
+
+        // Liste verbotener Befehle
+        const forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"];
+
+        // Check if the entered command is forbidden
+        if (forbiddenCommands.includes(command)) {
+            term.write(`Command "${command}" is not allowed.\r\n`);
+        } else {
+            socket.send(command + '\n');
+        }
     }
 }
 
