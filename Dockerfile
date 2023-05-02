@@ -1,7 +1,7 @@
 FROM httpd
 COPY ./www/ /usr/local/apache2/htdocs/
 
-RUN apt update && apt install \
+RUN apt-get update && apt-get install \
   nodejs
 
 EXPOSE 8080
