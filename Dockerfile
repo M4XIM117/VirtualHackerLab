@@ -19,6 +19,6 @@ COPY ./exercises/ /home/student/versuche/
 
 
 RUN npm install /usr/local/apache2/htdocs/js/
-RUN node /usr/local/apache2/htdocs/js/backend.js
+CMD node /usr/local/apache2/htdocs/js/backend.js
 EXPOSE 8080
 
