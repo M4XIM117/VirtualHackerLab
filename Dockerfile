@@ -4,11 +4,7 @@ COPY ./www/ /usr/local/apache2/htdocs/
 RUN apt-get update && apt-get install -y \
   nodejs \
   npm \
-  docker-ce \
-  docker-ce-cli \
-  containerd.io \
-  docker-buildx-plugin \
-  docker-compose-plugin
+  docker.io
 
 # User anlegen für Terminal
 RUN groupadd -g 1000 student \
