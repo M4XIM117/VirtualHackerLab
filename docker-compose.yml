@@ -1,8 +1,9 @@
 version: '3'
-web-server:
-    build: .
-    ports:
-        - 8080:80
-        - 6060:6060
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # NUR ZU TESTZWECKEN AUF MEINER VM
+services:
+    web-server:
+        build: .
+        ports:
+            - 8080:80
+            - 6060:6060
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock # NUR ZU TESTZWECKEN AUF MEINER VM
