@@ -3,4 +3,5 @@ web-server:
     ports:
         - 8080:80
         - 6060:6060
-    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # NUR ZU TESTZWECKEN AUF MEINER VM
