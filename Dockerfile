@@ -11,11 +11,9 @@ RUN groupadd -g 1000 student \
     && useradd -u 1000 -g 1000 -m -s /bin/bash student
 
 # Ordner anlegen für die Versuche
-RUN mkdir /home/student/versuche
-RUN chown -R student:student /home/student/versuche
-RUN chmod 700 /home/student/versuche
+RUN mkdir /home/student
 # Versuche rüberkopieren
-COPY ./exercises/ /home/student/versuche/
+COPY ./exercises/ /home/student/
 
 
 RUN npm install /usr/local/apache2/htdocs/js/

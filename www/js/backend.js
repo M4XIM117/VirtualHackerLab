@@ -11,7 +11,6 @@ var ptyProcess = pty.spawn(shell, [], {
     name: 'xterm-color',
     uid: 1000,
     gid: 1000,
-    cwd: '/home/student/versuche',
     env: process.env,
 });
 wss.on('connection', ws => {
