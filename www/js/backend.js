@@ -11,11 +11,12 @@ var ptyProcess = pty.spawn(shell, [], {
     name: 'xterm-color',
     uid: 1000,
     gid: 1000,
+    cwd: "/home/student/",
     env: process.env,
 });
 wss.on('connection', ws => {
     console.log("new session")
-    ptyProcess.write('docker exec -it password_cracking_kali-client_1\r');
+    ptyProcess.write('docker exec -it password_cracking_kali-client_1 bash\r');
     ws.on('message', command => {
         ptyProcess.write(command);
     })
