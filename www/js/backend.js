@@ -17,6 +17,7 @@ var ptyProcess = pty.spawn(shell, [], {
 wss.on('connection', ws => {
     console.log("new session")
     ptyProcess.write('docker exec -it password_cracking_kali-client_1 bash\r');
+    ptyProcess.write('clear')
     ws.on('message', command => {
         ptyProcess.write(command);
     })
