@@ -4,7 +4,8 @@ COPY ./www/ /usr/local/apache2/htdocs/
 RUN apt-get update && apt-get install -y \
   nodejs \
   npm \
-  docker.io
+  docker.io \
+  docker-compose
 
 # User anlegen für Terminal
 RUN useradd -u 1000 -g docker -m -s /bin/bash student
