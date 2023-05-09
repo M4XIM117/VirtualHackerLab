@@ -9,8 +9,6 @@ RUN apt-get update && apt-get install -y \
 # User anlegen für Terminal
 RUN useradd -u 1000 -g docker -m -s /bin/bash student
 
-# Ordner anlegen für die Versuche
-RUN mkdir /home/student
 # Versuche rüberkopieren
 COPY ./exercises/ /home/student/
 
