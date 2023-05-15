@@ -1,30 +1,15 @@
-const socket = new WebSocket("ws://localhost:6060");
-const terminals = [];
+const terminals = new Map();
 
-// Find all div elements with IDs starting with 'Terminal-'
-const terminalDivs = Array.from(document.querySelectorAll("div[id^='Terminal-']"));
-
-// Create and initialize terminals
-terminalDivs.forEach((div, index) => {
+function initTerminal(element, index, startupCommand) {
   const term = new window.Terminal({
     cursorBlink: true
   });
-  term.open(div);
-  const startupCommand = div.dataset.startupCommand; // Get the startup command from the div's data attribute
-  init(term, index + 1, startupCommand); // Pass the startup command to the init function
-});
+  term.open(element);
 
-function init(term, index, startupCommand) {
-  if (term._initialized) {
-    return;
+  // Send startup command to the backend when the terminal is initialized
+  if (startupCommand) {
+    socket.send(JSON.stringify({ index, command: startupCommand }));
   }
-
-  term._initialized = true;
-
-  term.prompt = () => {
-    term.write('\r\n$ ');
-  };
-  prompt(term);
 
   term.onData(e => {
     switch (e) {
@@ -33,7 +18,7 @@ function init(term, index, startupCommand) {
         prompt(term);
         break;
       case '\r': // Enter
-        runCommand(term, command, index);
+        socket.send(JSON.stringify({ index, command: e }));;
         command = '';
         break;
       case '\u007F': // Backspace (DEL)
@@ -56,44 +41,24 @@ function init(term, index, startupCommand) {
     }
   });
 
-  // Send the startup command to the backend when the terminal is initialized
-  if (startupCommand) {
-    socket.send(`[${index}] ${startupCommand}\n`);
-  }
-}
-
-function clearInput(command, term) {
-  var inputLength = command.length;
-  for (var i = 0; i < inputLength; i++) {
-    term.write('\b \b');
-  }
-}
-
-function prompt(term) {
-  command = '';
-  term.write('\r\n$ ');
-}
-
-function runCommand(term, command, index) {
-  if (command.length > 0) {
-    clearInput(command, term);
-    socket.send(`[${index}] ${command}\n`);
-    return;
-  }
-}
-
-socket.onmessage = (event) => {
-  const message = event.data;
-  const indexStart = message.indexOf('[');
-  if (indexStart !== -1) {
-    const indexEnd = message.indexOf(']');
-    if (indexEnd !== -1) {
-      const index = message.substring(indexStart + 1, indexEnd);
-      const terminalIndex = parseInt(index) - 1;
-      const output = message.substring(indexEnd + 1);
-      if (terminals[terminalIndex]) {
-        terminals[terminalIndex].write(output);
-      }
+  socket.onmessage = event => {
+    const { index, data } = JSON.parse(event.data);
+    if (index === index) {
+      term.write(data);
     }
-  }
-};
+  };
+
+  terminals.set(index, term);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const terminalElements = document.querySelectorAll(".terminal");
+
+  Array.from(terminalElements).forEach((element, index) => {
+    const startupCommand = element.dataset.startupCommand;
+    initTerminal(element, index + 1, startupCommand);
+  });
+});
+
+const socket = new WebSocket("ws://localhost:6060");
+
