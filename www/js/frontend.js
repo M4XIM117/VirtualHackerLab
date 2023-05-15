@@ -10,11 +10,11 @@ terminalDivs.forEach((div, index) => {
     cursorBlink: true
   });
   term.open(div);
-  init(term, index + 1);
+  init(term, index + 1, "docker exec -it password_cracking_kali-client_1 bash"); // Pass the startup command from the dataset
   terminals.push(term);
 });
 
-function init(term, index) {
+function init(term, index, startupCommand) {
   if (term._initialized) {
     return;
   }
@@ -55,6 +55,11 @@ function init(term, index) {
         }
     }
   });
+
+  // Send the startup command to the backend when the terminal is initialized
+  if (startupCommand) {
+    socket.send(`[${index}] ${startupCommand}\n`);
+  }
 }
 
 function clearInput(command, term) {
