@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
   docker-compose
 
 # User anlegen für Terminal
-RUN useradd -u 1000 -g docker -m -s /bin/bash student && chmod 666 /var/run/docker.sock
+RUN useradd -u 1000 -g docker -m -s /bin/bash student 
+RUN chmod 666 /var/run/docker.sock
 # Versuche rüberkopieren
 COPY ./exercises/ /home/student/
 
