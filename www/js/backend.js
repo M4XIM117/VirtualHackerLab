@@ -29,7 +29,7 @@ wss.on('connection', ws => {
   terminals.set(ws, ptyProcess);
 
   ptyProcess.on('data', data => {
-    ws.send(JSON.stringify({ index, data }));
+    ws.send(JSON.stringify({ index: ws, data }));
     console.log(data);
   });
 
