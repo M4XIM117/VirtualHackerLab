@@ -28,8 +28,18 @@ wss.on('connection', ws => {
 
   // Handle WebSocket messages from the client
   ws.on('message', command => {
-    const ptyProcess = terminals.get(ws);
-    ptyProcess.write(command);
+    // Check if it's a startup command
+    if (command.startsWith('[') && command.includes(']')) {
+      const indexEnd = command.indexOf(']');
+      const index = command.substring(1, indexEnd);
+      const actualCommand = command.substring(indexEnd + 1).trim();
+
+      // Execute the startup command in the terminal process
+      ptyProcess.write(actualCommand + '\n');
+    } else {
+      // It's a regular command, send it to the terminal process
+      ptyProcess.write(command);
+    }
   });
 
   // Handle WebSocket closure

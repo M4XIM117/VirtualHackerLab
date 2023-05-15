@@ -10,8 +10,8 @@ terminalDivs.forEach((div, index) => {
     cursorBlink: true
   });
   term.open(div);
-  init(term, index + 1, "docker exec -it password_cracking_kali-client_1 bash"); // Pass the startup command from the dataset
-  terminals.push(term);
+  const startupCommand = div.dataset.startupCommand; // Get the startup command from the div's data attribute
+  init(term, index + 1, startupCommand); // Pass the startup command to the init function
 });
 
 function init(term, index, startupCommand) {
