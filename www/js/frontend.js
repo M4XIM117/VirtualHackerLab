@@ -54,7 +54,7 @@ function initTerminal(element, index, startupCommand) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const terminalElements = document.querySelectorAll("[id^='terminal-']");
+  const terminalElements = document.getElementsByClassName("terminal");
 
   Array.from(terminalElements).forEach((element, index) => {
     const startupCommand = element.dataset.startupCommand;
