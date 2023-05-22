@@ -4,7 +4,6 @@ const socket = new WebSocket("ws://localhost:6060");
 var term = new window.Terminal({
     cursorBlink: true
 });
-term.open(document.getElementById('terminal-1'));
 
 function init() {
     if (term._initialized) {
