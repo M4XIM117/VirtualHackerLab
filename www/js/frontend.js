@@ -5,7 +5,7 @@ function initTerminal(element, index, startupCommand) {
     cursorBlink: true
   });
   term.open(element);
-  terminals.set(index, term);
+  
 
   const socket = new WebSocket("ws://localhost:6060");
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const terminalElements = document.getElementsByClassName("terminal");
 
   Array.from(terminalElements).forEach((element, index) => {
-    const startupCommand = element.dataset.startupCommand;
+    const startupCommand = element.getElementsByClassName("terminal");
     initTerminal(element, index + 1, startupCommand);
   });
 });
