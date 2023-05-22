@@ -49,8 +49,8 @@ function initTerminal(element, index, startupCommand) {
 
 
   socket.addEventListener('message', event => {
-    const { index, data } = JSON.parse(event.data);
-    terminals.get(index).write(data);
+    const jsonMessage = JSON.parse(event.data);
+    terminals.get(jsonMessage.index).write(jsonMessage.data);
   });
 }
 
