@@ -97,7 +97,7 @@ function runCommand(term, command) {
 
 // Initialize all terminals
 document.addEventListener('DOMContentLoaded', () => {
-  const terminalElements = document.getElementsByClassName('terminal');
+  const terminalElements = document.getElementsByClassName('vhlterminal');
   for (let i = 0; i < terminalElements.length; i++) {
     const element = terminalElements[i];
     const startupCommand = element.getAttribute('data-startup-command');
