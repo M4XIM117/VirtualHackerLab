@@ -1,10 +1,10 @@
 const socket = new WebSocket("ws://localhost:6060");
 
 // Array to hold all terminal instances
-const terminals = [];
+const terminals = new Map();
 
 // Function to initialize a terminal
-function initializeTerminal(element, startupCommand) {
+function initializeTerminal(element, startupCommand, terminalId) {
   const term = new window.Terminal({
     cursorBlink: true,
   });
@@ -45,17 +45,20 @@ function initializeTerminal(element, startupCommand) {
     }
   });
 
-  // Store the terminal instance in the array
-  terminals.push({ term, startupCommand });
+  terminals.set(terminalId, term);
+
+  socket.send(JSON.stringify({ terminalId, startupCommand }));
 }
 
 // Function to clear input
-function clearInput(command) {
-  var inputLength = command.length;
-  for (var i = 0; i < inputLength; i++) {
+function clearInput(term, command) {
+  const inputLength = command.length;
+  for (let i = 0; i < inputLength; i++) {
     term.write('\b \b');
   }
+  term.prompt();
 }
+
 
 // Function to prompt
 function prompt(term) {
@@ -67,16 +70,17 @@ function prompt(term) {
 socket.onmessage = event => {
   const data = JSON.parse(event.data);
   const { terminalId, message } = data;
-  const terminal = terminals.find(term => term.term._container.id === `terminal-${terminalId}`);
-  if (terminal) {
-    terminal.term.write(message);
+  const term = terminals.get(terminalId);
+  if (term) {
+    term.write(message);
+    term.prompt();
   }
 };
 
 // Function to run a command
 function runCommand(term, command) {
   if (command.length > 0) {
-    clearInput(command);
+    clearInput(term, command);
 
     // List of forbidden commands
     const forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"];
@@ -93,10 +97,11 @@ function runCommand(term, command) {
 
 // Initialize all terminals
 document.addEventListener('DOMContentLoaded', () => {
-  const terminalElements = document.getElementsByClassName('vhlterminal');
+  const terminalElements = document.getElementsByClassName('terminal');
   for (let i = 0; i < terminalElements.length; i++) {
     const element = terminalElements[i];
     const startupCommand = element.getAttribute('data-startup-command');
-    initializeTerminal(element, startupCommand);
+    const terminalId = i; // Use the index as the terminal ID
+    initializeTerminal(element, startupCommand, terminalId);
   }
 });
