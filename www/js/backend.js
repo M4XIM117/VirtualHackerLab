@@ -26,15 +26,15 @@ wss.on('connection', ws => {
     env: process.env,
   });
 
-  terminals.set(ws, ptyProcess);
+  terminals.set(index, ptyProcess);
 
   ptyProcess.on('data', data => {
-    ws.send(JSON.stringify({ index: ws, data }));
+    ws.send(JSON.stringify({ index, data }));
     console.log(data);
   });
 
   ws.on('close', () => {
-    const ptyProcess = terminals.get(ws);
+    const ptyProcess = terminals.get(index);
     if (ptyProcess) {
       ptyProcess.kill();
       terminals.delete(ws);

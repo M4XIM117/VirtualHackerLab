@@ -13,7 +13,7 @@ function initTerminal(element, index, startupCommand) {
   // Send startup command to the backend when the terminal is initialized
   if (startupCommand) {
     socket.addEventListener('open', () => {
-      socket.send(JSON.stringify({ index, command: startupCommand }));
+      socket.send(JSON.stringify({ index, startupCommand }));
     });
   }
 
@@ -24,7 +24,7 @@ function initTerminal(element, index, startupCommand) {
         prompt(term);
         break;
       case '\r': // Enter
-        socket.send(JSON.stringify({ index, command: e }));;
+        socket.send(JSON.stringify({ index, e }));;
         command = '';
         break;
       case '\u007F': // Backspace (DEL)
