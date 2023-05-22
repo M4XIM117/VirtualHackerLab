@@ -6,9 +6,14 @@ function initTerminal(element, index, startupCommand) {
   });
   term.open(element);
   terminals.set(index, term);
+
+  const socket = new WebSocket("ws://localhost:6060");
+
   // Send startup command to the backend when the terminal is initialized
   if (startupCommand) {
-    socket.send(JSON.stringify({ index, command: startupCommand }));
+    socket.addEventListener('open', () => {
+      socket.send(JSON.stringify({ index, command: startupCommand }));
+    });
   }
 
   term.onData(e => {
@@ -41,11 +46,11 @@ function initTerminal(element, index, startupCommand) {
     }
   });
 
-  socket.onmessage = event => {
+
+  socket.addEventListener('message', event => {
     const { index, data } = JSON.parse(event.data);
     terminals.get(index).write(data);
-  };
-
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,6 +61,3 @@ document.addEventListener("DOMContentLoaded", () => {
     initTerminal(element, index + 1, startupCommand);
   });
 });
-
-const socket = new WebSocket("ws://localhost:6060");
-
