@@ -5,7 +5,7 @@ function initTerminal(element, index, startupCommand) {
     cursorBlink: true
   });
   term.open(element);
-
+  terminals.set(index, term);
   // Send startup command to the backend when the terminal is initialized
   if (startupCommand) {
     socket.send(JSON.stringify({ index, command: startupCommand }));
@@ -43,10 +43,9 @@ function initTerminal(element, index, startupCommand) {
 
   socket.onmessage = event => {
     const { index, data } = JSON.parse(event.data);
-    terminals.get(index).write(data)
+    terminals.get(index).write(data);
   };
 
-  terminals.set(index, term);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
