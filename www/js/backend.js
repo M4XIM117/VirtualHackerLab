@@ -41,25 +41,30 @@ class Terminal {
 const terminals = new Map();
 
 wss.on('connection', ws => {
-  ws.on('message', data => {
-    const { terminalId, startupCommand } = JSON.parse(data);
-    const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
-    const cwd = "/home/student/";
-    const env = process.env;
-
-    const terminal = new Terminal(terminalId, shell, cwd, env);
-    terminals.set(terminalId, terminal);
-
-    terminal.start(ws);
-
-    if (startupCommand) {
-      terminal.ptyProcess.write(startupCommand + '\r');
-    }
-  });
-
-  ws.on('close', () => {
-    terminals.forEach(terminal => {
-      terminal.stop();
+    ws.on('message', data => {
+        const { terminalId, command } = JSON.parse(data);
+        if (!(terminals.has(terminalId))) {
+            const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+            const cwd = "/home/student/";
+            const env = process.env;
+        
+            const terminal = new Terminal(terminalId, shell, cwd, env);
+            terminals.set(terminalId, terminal);
+        
+            terminal.start(ws);
+            terminal.ptyProcess.write(command + '\r');
+            terminal.ptyProcess.write("clear\r")
+        } else {
+            const terminal = terminals.get(terminalId); 
+            if (command) {
+                terminal.ptyProcess.write(command + '\r');
+            }
+        }      
     });
-  });
+
+    ws.on('close', () => {
+        terminals.forEach(terminal => {
+            terminal.stop();
+        });
+    });
 });
