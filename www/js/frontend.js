@@ -4,6 +4,7 @@ function initTerminal(element, index, startupCommand) {
   const term = new window.Terminal({
     cursorBlink: true
   });
+  terminals.set(index, term);
   term.open(element);
   
 
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const terminalElements = document.getElementsByClassName("terminal");
 
   Array.from(terminalElements).forEach((element, index) => {
-    const startupCommand = element.getElementsByClassName("terminal");
+    const startupCommand = element.getAttribute("data-startup-command");
     initTerminal(element, index + 1, startupCommand);
   });
 });
