@@ -8,7 +8,7 @@ function initTerminal(element, index, startupCommand) {
   term.open(element);
   
 
-  const socket = new WebSocket("ws://localhost:6060");
+  const socket = new WebSocket(`ws://localhost:6060?index=${index}`);
 
   // Send startup command to the backend when the terminal is initialized
   if (startupCommand) {
