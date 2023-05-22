@@ -7,8 +7,9 @@ const terminals = new Map();
 
 console.log("Socket is up and running...");
 
-wss.on('connection', ws => {
-  console.log("New session");
+wss.on('connection', (ws, req) => {
+  const index = new URL(req.url, 'http://localhost').searchParams.get('index');
+  console.log(`New session with index: ${index}`);
 
   ws.on('message', message => {
     const { index, command } = JSON.parse(message);
