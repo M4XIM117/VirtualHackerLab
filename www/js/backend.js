@@ -3,42 +3,35 @@ const os = require('os');
 const pty = require('node-pty');
 
 const wss = new WebSocket.Server({ port: 6060 });
-const terminals = new Map();
 
 console.log("Socket is up and running...");
 
-wss.on('connection', (ws, req) => {
-  const index = new URL(req.url, 'http://localhost').searchParams.get('index');
-  console.log(`New session with index: ${index}`);
+const shells = [];
 
-  ws.on('message', message => {
-    const { index, command } = JSON.parse(message);
-
-    const ptyProcess = terminals.get(index);
-
-    if (ptyProcess) {
-      ptyProcess.write(command);
-    }
-  });
+wss.on('connection', ws => {
+  console.log("New session");
 
   const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
   const ptyProcess = pty.spawn(shell, [], {
     name: 'xterm-color',
+    uid: 1000,
+    gid: 1000,
+    cwd: "/home/student/",
     env: process.env,
   });
 
-  terminals.set(index, ptyProcess);
+  const terminalId = shells.length;
+  shells.push(ptyProcess);
 
-  ptyProcess.on('data', data => {
-    ws.send(JSON.stringify({ index, data }));
-    console.log(data);
+  ws.on('message', message => {
+    const data = JSON.parse(message);
+    const { terminalId, command } = data;
+    const ptyProcess = shells[terminalId];
+    ptyProcess.write(command);
   });
 
-  ws.on('close', () => {
-    const ptyProcess = terminals.get(index);
-    if (ptyProcess) {
-      ptyProcess.kill();
-      terminals.delete(ws);
-    }
+  ptyProcess.on('data', data => {
+    ws.send(JSON.stringify({ terminalId, message: data }));
+    console.log(data);
   });
 });

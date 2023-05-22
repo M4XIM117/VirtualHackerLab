@@ -1,21 +1,19 @@
-const terminals = new Map();
+const socket = new WebSocket("ws://localhost:6060");
 
-function initTerminal(element, index, startupCommand) {
+// Array to hold all terminal instances
+const terminals = [];
+
+// Function to initialize a terminal
+function initializeTerminal(element, startupCommand) {
   const term = new window.Terminal({
-    cursorBlink: true
+    cursorBlink: true,
   });
-  terminals.set(index, term);
   term.open(element);
-  
 
-  const socket = new WebSocket(`ws://localhost:6060?index=${index}`);
-
-  // Send startup command to the backend when the terminal is initialized
-  if (startupCommand) {
-    socket.addEventListener('open', () => {
-      socket.send(JSON.stringify({ index, startupCommand }));
-    });
-  }
+  term.prompt = () => {
+    term.write('\r\n$ ');
+  };
+  prompt(term);
 
   term.onData(e => {
     switch (e) {
@@ -24,7 +22,7 @@ function initTerminal(element, index, startupCommand) {
         prompt(term);
         break;
       case '\r': // Enter
-        socket.send(JSON.stringify({ index, e }));;
+        runCommand(term, command);
         command = '';
         break;
       case '\u007F': // Backspace (DEL)
@@ -47,18 +45,58 @@ function initTerminal(element, index, startupCommand) {
     }
   });
 
-
-  socket.addEventListener('message', event => {
-    const jsonMessage = JSON.parse(event.data);
-    terminals.get(jsonMessage.index).write(jsonMessage.data);
-  });
+  // Store the terminal instance in the array
+  terminals.push({ term, startupCommand });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const terminalElements = document.getElementsByClassName("terminal");
+// Function to clear input
+function clearInput(command) {
+  var inputLength = command.length;
+  for (var i = 0; i < inputLength; i++) {
+    term.write('\b \b');
+  }
+}
 
-  Array.from(terminalElements).forEach((element, index) => {
-    const startupCommand = element.getAttribute("data-startup-command");
-    initTerminal(element, index + 1, startupCommand);
-  });
+// Function to prompt
+function prompt(term) {
+  command = '';
+  term.write('\r\n$ ');
+}
+
+// WebSocket message event handler
+socket.onmessage = event => {
+  const data = JSON.parse(event.data);
+  const { terminalId, message } = data;
+  const terminal = terminals.find(term => term.term._container.id === `terminal-${terminalId}`);
+  if (terminal) {
+    terminal.term.write(message);
+  }
+};
+
+// Function to run a command
+function runCommand(term, command) {
+  if (command.length > 0) {
+    clearInput(command);
+
+    // List of forbidden commands
+    const forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"];
+
+    // Check if the entered command is forbidden
+    if (forbiddenCommands.includes(command)) {
+      term.write(`Command "${command}" is not allowed.\r\n`);
+    } else {
+      const terminalId = terminals.findIndex(term => term.term === term);
+      socket.send(JSON.stringify({ terminalId, command }));
+    }
+  }
+}
+
+// Initialize all terminals
+document.addEventListener('DOMContentLoaded', () => {
+  const terminalElements = document.getElementsByClassName('terminal');
+  for (let i = 0; i < terminalElements.length; i++) {
+    const element = terminalElements[i];
+    const startupCommand = element.getAttribute('data-startup-command');
+    initializeTerminal(element, startupCommand);
+  }
 });
