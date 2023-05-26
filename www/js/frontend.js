@@ -25,13 +25,17 @@ class Terminal {
           this.term.prompt();
           break;
         case '\r': // Enter
-          this.runCommand();
+          this.runCommand(this.term, );
+          command = ''
           break;
         case '\u007F': // Backspace (DEL)
           // Do not delete the prompt
-          if (this.term._core.buffer.x > 2) {
-            this.term.write('\b \b');
-          }
+          if (term._core.buffer.x > 2) {
+            term.write('\b \b');
+            if (command.length > 0) {
+                command = command.substr(0, command.length - 1);
+            }
+        }
           break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
@@ -61,10 +65,10 @@ class Terminal {
   }
 
   sendTerminalId() {
-    this.socket.send(JSON.stringify({ terminalId: this.terminalId, startupCommand: this.startupCommand }));
+    this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.startupCommand }));
   }
 
-  runCommand() {
+  runCommand() { 
     const line = this.term._core.buffer.active.getLine(this.term._core.buffer.ybase + this.term._core.buffer.y);
     const command = line.translateToString().trim();
   
