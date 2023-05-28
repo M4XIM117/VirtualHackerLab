@@ -25,9 +25,6 @@ class Terminal {
       ws.send(JSON.stringify({ terminalId: this.id, message: data }));
     });
 
-    ws.on('message', command => {
-      this.ptyProcess.write(command);
-    });
   }
 
   stop() {

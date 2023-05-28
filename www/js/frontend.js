@@ -79,6 +79,7 @@ class Terminal {
       this.term.prompt();
       this.term.write('\r\n');
       this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.command }));
+      this.command = '';
     }
   }
 }
