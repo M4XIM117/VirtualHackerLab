@@ -69,8 +69,9 @@ class Terminal {
   }
 
   runCommand() { 
-    const line = this.term._core.buffer.active.getLine(this.term._core.buffer.ybase + this.term._core.buffer.y);
-    const command = line.translateToString().trim();
+    // const line = this.term._core.buffer.active.getLine(this.term._core.buffer.ybase + this.term._core.buffer.y);
+    // const command = line.translateToString().trim();
+    const command = this.command.trim();
   
     if (command.length > 0) {
       this.term.prompt();
