@@ -4,6 +4,7 @@ class Terminal {
     this.startupCommand = startupCommand;
     this.term = null;
     this.terminalId = null;
+    this.command = ''
   }
 
   initialize() {
