@@ -40,6 +40,7 @@ class Terminal {
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
             this.term.write(e);
+            this.command += e;
           }
       }
     });
