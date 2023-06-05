@@ -5,6 +5,7 @@ class Terminal {
     this.term = null;
     this.terminalId = null;
     this.command = ''
+    this.forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"];
   }
   
 
@@ -13,7 +14,7 @@ class Terminal {
       cursorBlink: true
     });
     this.term.open(this.element);
-    const forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"];
+
 
     this.term.prompt = () => {
       this.term.write('\r\n$ ');

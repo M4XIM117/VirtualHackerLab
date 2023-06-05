@@ -76,12 +76,6 @@ nav ul li a {
   color: #fff;
 }
 
-.terminal {
-  display: none;
-  padding: 20px;
-  white-space: pre-wrap;
-}
-
 .terminal.active {
   display: block;
 }
