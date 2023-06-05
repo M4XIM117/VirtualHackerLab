@@ -79,7 +79,7 @@ class Terminal {
     const command = this.command.trim();
   
     if (this.command.length > 0) {
-      if (forbiddenCommands.includes(this.command)) {
+      if (this.forbiddenCommands.includes(this.command)) {
         this.term.write(`Command "${this.command}" is not allowed.\r\n`);
             this.command = '';
       } else {
