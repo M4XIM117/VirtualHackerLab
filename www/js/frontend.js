@@ -33,18 +33,22 @@ class Terminal {
           this.command = ''
           break;
         case '\u007F': // Backspace (DEL)
-          // Do not delete the prompt
-          if (this.term._core.buffer.x > 2) {
-            this.term.write('\b \b');
-            if (this.command.length > 0) {
-                this.command = this.command.substr(0, this.command.length - 1);
-            }
-          } else if (this.term._core.buffer.y > 0) {
-            this.term.write('\b \b'); // Delete the remaining character
-            const prevLineLength = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1).length;
-            this.command = this.command.slice(0, -prevLineLength - 1);
-            this.term.write('\x1B[1A\x1B[0G'); // Move cursor to the end of the previous line
+          if (this.command.length > 0) {
+            this.command = this.command.slice(0, -1);
+            this.term.write("\b \b");
           }
+          // Do not delete the prompt
+          // if (this.term._core.buffer.x > 2) {
+          //   this.term.write('\b \b');
+          //   if (this.command.length > 0) {
+          //       this.command = this.command.substr(0, this.command.length - 1);
+          //   }
+          // } else if (this.term._core.buffer.y > 0) {
+          //   this.term.write('\b \b'); // Delete the remaining character
+          //   const prevLineLength = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1).length;
+          //   this.command = this.command.slice(0, -prevLineLength - 1);
+          //   this.term.write('\x1B[1A\x1B[0G'); // Move cursor to the end of the previous line
+          // }
           break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
