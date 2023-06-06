@@ -36,6 +36,16 @@ class Terminal {
           if (this.command.length > 0) {
             this.command = this.command.slice(0, -1);
             this.term.write("\b \b");
+          } else if (this.term._core.buffer.y > this.term._core.buffer.ybase) {
+            // Move cursor to the end of the previous line
+            const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
+            const prevLineLength = previousLine ? previousLine.length : 0;
+            const cursorDiff = this.term._core.buffer.x - (prevLineLength + 2);
+            if (cursorDiff > 0) {
+              this.term.write("\033[1A\033[" + cursorDiff + "C");
+            } else {
+              this.term.write("\033[1A\033[1000C");
+            }
           }
           // Do not delete the prompt
           // if (this.term._core.buffer.x > 2) {
