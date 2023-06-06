@@ -34,19 +34,16 @@ class Terminal {
           break;
         case '\u007F': // Backspace (DEL)
           if (this.command.length > 0) {
-            const currentLine = this.term._core.buffer.lines.get(this.term._core.buffer.ybase + this.term._core.buffer.y);
-            if (currentLine.isWrapped) {
-              this.command = this.command.slice(0, -1);
-              this.term.write("\b \b");
-            } else {
-              const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.ybase + this.term._core.buffer.y - 1);
-              if (previousLine) {
-                this.command = previousLine.translateToString().trim();
-                this.term.write("\x1b[1A\x1b[K"); // Move up one line and clear the line
-                this.term.write(this.command);
-                this.term.write("\n$ ");
-                this.term.scrollToBottom();
-              }
+            this.command = this.command.slice(0, -1);
+            this.term.write("\b \b");
+          } else if (this.term._core.buffer.y > this.term._core.buffer.ybase) {
+            const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
+            if (previousLine) {
+              const prevLineContent = previousLine.translateToString().trim();
+              this.term.write("\x1b[1A\x1b[K"); // Move up one line and clear the line
+              this.term.write(prevLineContent);
+              this.term.write("\n$ ");
+              this.term.scrollToBottom();
             }
           }
           break;
