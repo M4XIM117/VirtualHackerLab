@@ -33,18 +33,25 @@ class Terminal {
           this.command = ''
           break;
         case '\u007F': // Backspace (DEL)
-          if (this.command.length > 0) {
-            this.command = this.command.slice(0, -1);
-            this.term.write("\b \b");
-          } else if (this.term._core.buffer.y > this.term._core.buffer.ybase) {
-            const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
-            if (previousLine) {
-              const prevLineContent = previousLine.translateToString().trim();
-              this.term.write("\x1b[1A\x1b[1000C"); // Move up one line and to the end
-              this.term.write(prevLineContent);
-              this.term.write("\x1b[1B\x1b[1000D"); // Move down one line and to the beginning
+          // if (this.command.length > 0) {
+          //   this.command = this.command.slice(0, -1);
+          //   this.term.write("\b \b");
+          // } else if (this.term._core.buffer.y > this.term._core.buffer.ybase) {
+          //   const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
+          //   if (previousLine) {
+          //     const prevLineContent = previousLine.translateToString().trim();
+          //     this.term.write("\x1b[1A\x1b[1000C"); // Move up one line and to the end
+          //     this.term.write(prevLineContent);
+          //     this.term.write("\x1b[1B\x1b[1000D"); // Move down one line and to the beginning
+          //   }
+          // }
+          // Do not delete the prompt
+          if (term._core.buffer.x > 2) {
+            term.write('\b \b');
+            if (command.length > 0) {
+                command = command.substr(0, command.length - 1);
             }
-          }
+        }
           break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
