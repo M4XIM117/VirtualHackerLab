@@ -46,10 +46,10 @@ class Terminal {
           //   }
           // }
           // Do not delete the prompt
-          if (term._core.buffer.x > 2) {
-            term.write('\b \b');
-            if (command.length > 0) {
-                command = command.substr(0, command.length - 1);
+          if (this.term._core.buffer.x > 2) {
+            this.term.write('\b \b');
+            if (this.command.length > 0) {
+                this.command = this.command.substr(0, this.command.length - 1);
             }
         }
           break;
