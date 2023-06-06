@@ -40,10 +40,9 @@ class Terminal {
             const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
             if (previousLine) {
               const prevLineContent = previousLine.translateToString().trim();
-              this.term.write("\x1b[1A\x1b[K"); // Move up one line and clear the line
+              this.term.write("\033[1A\033[1000C"); // Move up one line and to the end
               this.term.write(prevLineContent);
-              this.term.write("\n$ ");
-              this.term.scrollToBottom();
+              this.term.write("\033[1B\033[1000D"); // Move down one line and to the beginning
             }
           }
           break;
