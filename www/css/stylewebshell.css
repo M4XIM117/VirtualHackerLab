@@ -76,7 +76,13 @@ nav ul li a {
   color: #fff;
 }
 
-.terminal.active {
+.vhlterminal{
+  display: none;
+  padding: 20px;
+  white-space: pre-wrap;
+}
+
+.vhlterminal.active {
   display: block;
 }
 
