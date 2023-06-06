@@ -42,9 +42,9 @@ class Terminal {
             const prevLineLength = previousLine ? previousLine.length : 0;
             const cursorDiff = this.term._core.buffer.x - (prevLineLength + 2);
             if (cursorDiff > 0) {
-              this.term.write("\033[1A\033[" + cursorDiff + "C");
+              this.term.write("\x1B[1A\x1B[" + cursorDiff + "C");
             } else {
-              this.term.write("\033[1A\033[1000C");
+              this.term.write("\x1B[1A\x1B[1000C");
             }
           }
           // Do not delete the prompt
