@@ -32,20 +32,7 @@ class Terminal {
           this.runCommand(this.term, );
           this.command = ''
           break;
-        case '\u007F': // Backspace (DEL)
-          // if (this.command.length > 0) {
-          //   this.command = this.command.slice(0, -1);
-          //   this.term.write("\b \b");
-          // } else if (this.term._core.buffer.y > this.term._core.buffer.ybase) {
-          //   const previousLine = this.term._core.buffer.lines.get(this.term._core.buffer.y - 1);
-          //   if (previousLine) {
-          //     const prevLineContent = previousLine.translateToString().trim();
-          //     this.term.write("\x1b[1A\x1b[1000C"); // Move up one line and to the end
-          //     this.term.write(prevLineContent);
-          //     this.term.write("\x1b[1B\x1b[1000D"); // Move down one line and to the beginning
-          //   }
-          // }
-          // Do not delete the prompt
+        case '\u007F': // Backspace
           if (this.term._core.buffer.x === 0 && this.command.length > 0) {
             this.term.write('\x1b[1A\x1b[1000C\x1b[K');
             this.command = this.command.substring(0, this.command.length - 1);
@@ -57,12 +44,15 @@ class Terminal {
               this.command = this.command.substring(0, this.command.length - 1);
           } 
           break;
-        case '\x1b[D': // Left arrow key
-          this.term.write('\x1b[1D')
-          break;
-        case '\x1b[C': // Right arrow key
-          this.term.write('\x1b[1C')
-          break;
+        // case '\x1b[D': // Left arrow key
+        //   if (!this.command.length == 0 && this.term._core.buffer.x > 2) {
+        //     this.term.write('\x1b[1D');
+        //   }
+            
+        //   break;
+        // case '\x1b[C': // Right arrow key
+        //   this.term.write('\x1b[1C')
+        //   break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
             this.term.write(e);
@@ -96,11 +86,7 @@ class Terminal {
   }
 
   runCommand() { 
-    // const line = this.term._core.buffer.active.getLine(this.term._core.buffer.ybase + this.term._core.buffer.y);
-    // const command = line.translateToString().trim();
-    const command = this.command.trim();
-  
-    if (this.command.length > 0) {
+    if (this.command.trim().length > 0) {
       if (this.forbiddenCommands.includes(this.command)) {
         this.term.write(`Command "${this.command}" is not allowed.\r\n`);
             this.command = '';
