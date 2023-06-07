@@ -53,7 +53,7 @@ class Terminal {
               this.term.write('\b \b');
               this.command = this.command.substring(0, this.command.length - 1);
           } else if (this.term._core.buffer.x <= 2 && this.command.length > 0) {
-              this.term.write('\x1b[0x08 \b');
+              this.term.write('\b \b');
               this.command = this.command.substring(0, this.command.length - 1);
           } 
           break;
