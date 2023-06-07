@@ -47,7 +47,7 @@ class Terminal {
           // }
           // Do not delete the prompt
           if (this.term._core.buffer.x === 0 && this.command.length > 0) {
-            this.term.write('\x1b[1A\x1b[1000C\x1b[0x7F');
+            this.term.write('\x1b[1A\x1b[1000C\x1b[3~');
             this.command = this.command.substring(0, this.command.length - 1);
           } else if (this.term._core.buffer.x > 2 && this.command.length > 0) {
               this.term.write('\b \b');
