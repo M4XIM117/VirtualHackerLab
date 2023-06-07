@@ -60,8 +60,9 @@ wss.on('connection', ws => {
     });
 
     ws.on('close', () => {
-        terminals.forEach(terminal => {
+        terminals.forEach((terminalId, terminal) => {
             terminal.stop();
+            terminals.deletete(terminalId)
         });
     });
 });
