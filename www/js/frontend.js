@@ -46,12 +46,15 @@ class Terminal {
           //   }
           // }
           // Do not delete the prompt
-          if (this.term._core.buffer.x > 2) {
-            this.term.write('\b \b');
+          if (this.term._core.buffer.x > 2 || this.term._core.buffer.y > 0) {
             if (this.command.length > 0) {
-                this.command = this.command.substr(0, this.command.length - 1);
+              this.command = this.command.substr(0, this.command.length - 1);
+            } else if (this.term._core.buffer.x === 2 && this.term._core.buffer.y > 0) {
+              // Move the cursor to the end of the previous line
+              this.term.write('\x1b[A\x1b[9999C');
             }
-        }
+            this.term.write('\b \b');
+          }
           break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
