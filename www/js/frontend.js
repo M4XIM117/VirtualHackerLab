@@ -48,13 +48,12 @@ class Terminal {
           // Do not delete the prompt
           if (this.term._core.buffer.x === 1 && this.command.length > 0) {
             this.term.write('\b \b');
-            this.term.write("\x1b[1A\x1b[1000C");
             this.command = this.command.substring(0, this.command.length - 1);
           } else if (this.term._core.buffer.x > 2 && this.command.length > 0) {
               this.term.write('\b \b');
               this.command = this.command.substring(0, this.command.length - 1);
           } else if (this.term._core.buffer.x <= 2 && this.command.length > 0) {
-              this.term.write('\b \b');
+              this.term.write('\x1b[0x08 \b');
               this.command = this.command.substring(0, this.command.length - 1);
           } 
           break;
