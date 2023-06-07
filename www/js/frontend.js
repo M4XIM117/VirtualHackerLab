@@ -57,6 +57,12 @@ class Terminal {
               this.command = this.command.substring(0, this.command.length - 1);
           } 
           break;
+        case '\x1b[D': // Left arrow key
+          this.term.write('\x1b[1D')
+          break;
+        case '\x1b[C': // Right arrow key
+          this.term.write('\x1b[1C')
+          break;
         default:
           if (e >= String.fromCharCode(0x20) && e <= String.fromCharCode(0x7E) || e >= '\u00a0') {
             this.term.write(e);
