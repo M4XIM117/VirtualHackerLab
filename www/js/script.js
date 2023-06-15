@@ -1,3 +1,4 @@
+// Only handles the switchTab for Terminals
 function switchTab(evt, tabName) {
   var i, tabs, terminals;
 
