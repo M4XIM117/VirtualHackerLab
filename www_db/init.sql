@@ -1,0 +1,14 @@
+DROP DATABASE IF EXISTS vhl;
+CREATE DATABASE vhl;
+
+USE vhl;
+
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  hashed_password CHAR(64) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY (username)
+);
+    

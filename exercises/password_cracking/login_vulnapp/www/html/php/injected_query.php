@@ -4,7 +4,7 @@ $servername = 'password_cracking_database_1';
 $username = 'root';
 $password = 'root';
 $dbname = 'users';
-$port = 3306;
+$port = 3308;
 $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
 // Check connection
