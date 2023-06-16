@@ -8,7 +8,13 @@ class Terminal {
     this.term = null;
     this.terminalId = null;
     this.command = ''
-    this.forbiddenCommands = ["exit", "sudo shutdown", /^rm(\s.*)?$/i, "reboot"]; // List of forbidden commands
+    // List of forbidden commands
+    this.forbiddenCommands = [
+      /exit/i,
+      /sudo shutdown/i,
+      /^rm(\s.*)?$/i,
+      /reboot/i
+    ]; 
   }
   
 
@@ -91,15 +97,16 @@ class Terminal {
   // Default function being executed upon hitting Enter
   runCommand() { 
     if (this.command.trim().length > 0) {
-      if (this.forbiddenCommands.includes(this.command)) {
-        this.term.write(`Command "${this.command}" is not allowed.\r\n`);
-            this.command = '';
+      const forbidden = this.forbiddenCommands.some(pattern => pattern.test(this.command));
+      if (forbidden) {
+        this.term.write(`\nCommand "${this.command}" is not allowed.\r\n`);
+        this.command = '';
       } else {
-          this.term.prompt();
-          this.term.write('\r\n');
-          this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.command }));
-          this.command = '';
-        }
+        this.term.prompt();
+        this.term.write('\r\n');
+        this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.command }));
+        this.command = '';
+      }
     }
   }
 }
