@@ -1,15 +1,21 @@
 FROM httpd
+
+# Copy your PHP files to the Apache default directory
 COPY ./www/ /usr/local/apache2/htdocs/
 
-RUN apt-get update && apt-get install -y \
-    mariadb-server \
-    nano 
+# Install PHP and necessary extensions
+RUN apt-get update && \
+    apt-get install -y php libapache2-mod-php php-mysql
 
-RUN docker-php-ext-install mysqli exif
+# Modify the Apache configuration to handle PHP files
+RUN echo "AddType application/x-httpd-php .php" >> /usr/local/apache2/conf/httpd.conf
 
-COPY config/apache2.conf /etc/apache2/
-
-CMD apachectl -D FOREGROUND
+EXPOSE 8080 6060
+#RUN apt-get update && apt-get install -y \
+  #nodejs \
+  #npm \
+  #docker.io \
+  #docker-compose
 # User anlegen für Terminal
 #RUN useradd -u 1000 -g docker -m -s /bin/bash student 
 
@@ -18,6 +24,4 @@ CMD apachectl -D FOREGROUND
 
 
 #RUN npm install /usr/local/apache2/htdocs/js/
-EXPOSE 8080 6060
-
 
