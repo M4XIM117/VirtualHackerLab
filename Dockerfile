@@ -1,7 +1,7 @@
-FROM httpd
-EXPOSE 8080 6060
+FROM php:8.2-apache
+WORKDIR /var/www/html
 
-COPY ./www/ /usr/local/apache2/htdocs/
+COPY ./www/ src
 
 RUN apt-get update && apt-get install -y \
   nodejs \
@@ -19,8 +19,5 @@ COPY ./exercises/ /home/student/
 
 RUN npm install /usr/local/apache2/htdocs/js/
 
-# PHP Modul zu Apache config hinzufügen und neustarten
-RUN echo "LoadModule php_module modules/libphp.so" >> /usr/local/apache2/conf/httpd.conf
-RUN httpd -k restart
-
+EXPOSE 8080 6060
 
