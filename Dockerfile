@@ -16,7 +16,7 @@ RUN useradd -u 1000 -g docker -m -s /bin/bash student
 COPY ./exercises/ /home/student/
 
 RUN npm install -g npm
-RUN npm install /var/www/html/src/js/
+#RUN npm install /var/www/html/src/js/
 
 EXPOSE 8080 6060
 
