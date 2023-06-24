@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
   npm \
   docker.io \
   docker-compose \
+  phph \
   lipapache2-mod-php
 
 # User anlegen für Terminal
