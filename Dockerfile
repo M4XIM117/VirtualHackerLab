@@ -19,4 +19,4 @@ WORKDIR /var/www/html/src/js/
 RUN npm install
 
 #Start Socket
-CMD ["node", "backend.js"]
+CMD ["exec", "apache2-foreground"]

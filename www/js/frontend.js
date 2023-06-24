@@ -1,7 +1,7 @@
 // This Script handles the Frontend a client sees when testing a Hacking Experiment
 // IMPORTANT: The Frontend has a loop in the end, creating Terminals for EVERY DIV with the class "vhlterminal"
 // The Class Terminal has the necessary constructor and functions, which are described in detail
-class Terminal {
+class VHLTerminal {
   constructor(element, startupCommand) { // Currently Constructor expects a startup command defined in the div tag of the html
     this.element = element;
     this.startupCommand = startupCommand;
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < terminalElements.length; i++) {
     const element = terminalElements[i];
     const startupCommand = element.getAttribute('data-startup-command');
-    const terminal = new Terminal(element, startupCommand);
+    const terminal = new VHLTerminal(element, startupCommand);
     terminal.terminalId = i;
     terminal.initialize();
   }
