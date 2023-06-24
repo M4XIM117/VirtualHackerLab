@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
   docker.io \
   docker-compose \
   php \
-  lipapache2-mod-php
+  libapache2-mod-php
 
 # User anlegen für Terminal
 RUN useradd -u 1000 -g docker -m -s /bin/bash student 
