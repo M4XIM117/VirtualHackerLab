@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>Virtual Hacker's Lab</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <!-- für SEO: muss noch ausgefüllt werden -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="images/x-icon">
+</head>
+
+<body data-spy="scroll" data-target="#navbarNav" data-offset="50">
+
+    <!-- MENU BAR -->
+    <!-- MENU BAR -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-lg-auto">
+                    <li class="nav-item">
+                        <a href="index.php" class="nav-link">Über uns</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="labore.php" class="nav-link">Labore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i
+                                class="fas fa-sign-in-alt"></i> Anmelden</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Button zum Öffnen des Modals -->
+    <a href="#" class="nav-link smoothScroll" data-toggle="modal" data-target="#loginModal"></a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Login-Formular -->
+                    <form>
+                        <div class="form-group">
+                            <label for="email">E-Mail</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter E-Mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Passwort</label>
+                            <input type="password" class="form-control" id="password" placeholder="Passwort">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Einloggen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="panel-container">
+        <div class="panel panel-left">
+            <h2>Log4J</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
+                nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt
+                tempus. Donec nec
+                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
+                neque
+                commodo sed.</p>
+        </div>
+        <div class="panel panel-right">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(event, 'terminal1')">Terminal 1</button>
+                <button class="tab" onclick="switchTab(event, 'terminal2')">Terminal 2</button>
+            </div>
+            <div id="terminal1" class="terminal active">
+                <h3>Terminal 1</h3>
+                <pre><!--Terminal 1 hier einbinden-->
+                                        $ docker run -it ubuntu /bin/bash
+                                        root@container:/# ls
+                                        bin  boot  dev  etc  home  lib  ...
+                                    </pre>
+            </div>
+            <div id="terminal2" class="terminal">
+                <h3>Terminal 2</h3>
+                <pre><!--Terminal 2 hier einbinden-->
+                                        $ docker build -t my-image .
+                                        Successfully built 1234567890
+                                    </pre>
+            </div>
+        </div>
+    </section>
+    <br>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="ml-auto col-lg-4 col-md-5">
+                    <p class="copyright-text">Copyright &copy; 2023 Jahresprojekt
+                        <br>Projekt: VHL</a>
+                    </p>
+                </div>
+                <div class="d-flex justify-content-center mx-auto col-lg-5 col-md-7 col-12">
+                    <p class="mr-4">
+                        <i class="fa fa-envelope-o mr-1"></i>
+                        <a href="#">test@vhl.de</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/custom.js"></script>
+</body>
+
+</html>

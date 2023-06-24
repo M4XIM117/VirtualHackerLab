@@ -64,7 +64,7 @@
 ```
 sudo <eigentlicher Befehl>
 ```
-- Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos das Schlüsselwort 'sudo' davorstellen, um den Befehl als "Superuser" auszuführen. 
+- Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos das Schlüsselwort 'sudo' davorstellen, um den Befehl auszuführen. 
   
 
 ```
@@ -89,29 +89,13 @@ docker exec -it <CONTAINER-NAME> bash
 
 # :star: Start
 
-Starten sie die Virtualisierungsumgebung indem sie mit dem Befehl
-```
-sudo docker-compose up -d --build
-```
-die docker-compose.yaml ausführen. Dadurch werden die oben genannten Komponenten hochgefahren. <br>
-Als letzte Ausgabe sieht man die unterschiedlichen Containernamen:
-_password\_cracking\_\<Komponente>\_\<x>_ <br>
-:exclamation: Die konkreten Namen benötigen wir für den Versuch.
+
 
 <h2 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
- 
-- <h3 style="color:lightblue">Schritt 1.0</h3>
-  Loggen sich sich in den KALI-Linux container ein mit dem Befehl:
-
-  ```
-  sudo docker exec -it <Name des Kali-Containers> bash
-  ``` 
-  Hier stehen Ihnen nun die oben gelisteten Tools zur Verfügung.
-
 
 - <h3 style="color:lightblue">Schritt 1.1</h3>
 
-  Nachdem Sie sich auf den Kali-Container geschalten haben wollen wir erstmal ein Netzwerk nach bekannten Hosts scannen. Zuerst wollen wir aber die IP-Range herausfinden. In diesem Versuch ist es die IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der IP-Adresse ableiten, welche der Kali-Container hat.
+  Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der IP-Adresse ableiten, welche der Kali-Container hat.
   Hierzu führen wir folgenden Befehl aus:
   ```
    ip address show eth0
@@ -174,7 +158,7 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   ___
 
 - <h3 style="color:lightblue">Schritt 2.2</h3>
-  Wenn Sie sich erfolgreich "angemeldet" haben sehen Sie erneut eine Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections auf einen Service anzuwenden, um sich so anhand der Responses Informationen über das DBMS zusammenzustellen. 
+  Wenn Sie sich erfolgreich "angemeldet" haben, sehen Sie erneut eine Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections auf einen Service anzuwenden, um sich so anhand der Responses Informationen über das DBMS zusammenzustellen. 
 
   Sie finden im Kali-Client eine Datei namens _sqli\_post\_request_. Die Datei beinhaltet den Post-Request, welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen _\<IP Adresse>_ mit der IP des password_cracking_login_vulnapp Containers ersetzen, die selbe IP, welche Sie in der Browser eingegeben haben (ohne :Port!).
 
@@ -189,6 +173,15 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   - :bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs.  Lesen Sie die Hinweise und antworten Sie dementsprechend.
   
   :exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an, einen Dictionary-Attack zu starten. Tippen Sie _"y"_ ein. Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary mitgeben möchten. Dies bestätigen Sie indem Sie _"2"_ eintippen (Sie können auch den Default verwenden). Die Datei liegt im aktuellen Verzeichnis und heißt _"passwords.txt"_. Tippen Sie den Pfad zu der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten anzeigen.
+
+___
+
+🛠️<br> 
+Um die Sicherheitslücke für SQL-Injection zu schließen können die Eingaben vorab validiert werden sowie in Parameter für _Prepared Statements_ einfließen. _Prepared Statements_ sind ein Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und funktionieren:
+https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br>
+Bei Passwort-Agriffen sollten man Betreiber einer Webseite oder eines Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert. Außerdem konnte man in diesem Versuch gut sehen, dass der Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2 benötigen deutlich mehr Zeit und machen Brute-Force noch ineffizienter.<br>
+🛠️
+
 ___
 # :star: Sie haben das Ende der Übung erreicht 
 

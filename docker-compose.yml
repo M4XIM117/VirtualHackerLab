@@ -7,3 +7,12 @@ services:
             - 6060:6060
         volumes:
         - /var/run/docker.sock:/var/run/docker.sock # NUR ZU TESTZWECKEN AUF MEINER VM
+    database:
+        build:
+            context: ./db_init
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: users
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 1201:1201
