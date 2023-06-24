@@ -15,9 +15,8 @@ RUN useradd -u 1000 -g docker -m -s /bin/bash student
 
 # Versuche rüberkopieren
 COPY ./exercises/ /home/student/
-
-RUN npm install -g npm
-#RUN npm install /var/www/html/src/js/
+WORKDIR /var/www/html/src/js/
+RUN npm install
 
 #Start Socket
-#CMD ["node", "./src/js/backend.js"]
+CMD ["node", "./src/js/backend.js"]
