@@ -940,12 +940,15 @@ nav ul li a {
 }
 
 .vhlterminal {
+  display: none;
+  padding: 20px;
+  white-space: pre-wrap;
   width: 920px;
   height: 400px;
   margin-bottom: 10px;
 }
 
-.terminal.active {
+.vhlterminal.active {
   display: block;
 }
 
