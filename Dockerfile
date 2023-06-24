@@ -19,9 +19,8 @@ COPY ./exercises/ /home/student/
 
 RUN npm install /usr/local/apache2/htdocs/js/
 
-# PHP Starten
-RUN a2enmod php
-RUN service apache2 restart
-
+# PHP Modul zu Apache config hinzufügen und neustarten
+RUN echo "LoadModule php_module modules/libphp.so" >> /usr/local/apache2/conf/httpd.conf
+RUN httpd -k restart
 
 
