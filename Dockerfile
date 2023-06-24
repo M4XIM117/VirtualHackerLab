@@ -1,5 +1,6 @@
 FROM php:8.2-apache
 WORKDIR /var/www/html
+EXPOSE 8080 6060
 
 COPY ./www/ src
 
@@ -18,7 +19,5 @@ COPY ./exercises/ /home/student/
 RUN npm install -g npm
 #RUN npm install /var/www/html/src/js/
 
-EXPOSE 8080 6060
-
 #Start Socket
-CMD ["node", "./src/js/backend.js"]
+#CMD ["node", "./src/js/backend.js"]
