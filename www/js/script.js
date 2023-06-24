@@ -6,7 +6,7 @@ function switchTab(evt, tabName) {
       tabs[i].className = tabs[i].className.replace(" active", "");
     }
   
-    terminals = document.getElementsByClassName("terminal");
+    terminals = document.getElementsByClassName("vhlterminal");
     for (i = 0; i < terminals.length; i++) {
       terminals[i].style.display = "none";
     }
