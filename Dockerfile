@@ -18,5 +18,6 @@ COPY ./exercises/ /home/student/
 WORKDIR /var/www/html/src/js/
 RUN npm install
 
-#Start Socket
-CMD ["apache2-foreground"]
+COPY startup.sh /usr/local/bin/startup.sh
+#execute startup script
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
