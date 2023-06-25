@@ -63,6 +63,7 @@
     </div>
   </nav>
 
+
   <!-- Modal für Registrierung -->
   <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel"
     aria-hidden="true">

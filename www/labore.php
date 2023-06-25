@@ -178,10 +178,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 <div class="class-thumb">
                     <img src="images/labs/lab-hard.jpg" class="img-fluid" alt="Class">
                     <div class="class-info">
-                        <h3 class="mb-1">Log4J</h3>
+                        <h3 class="mb-1">Password-Cracking & SQL Injection</h3>
                         <span><strong>Level</strong> - hard</span>
                         <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
-                        <button class="custom-button log4j" onclick="window.location.href = 'log4j.html'">Labor starten</button>
+                        <button class="custom-button log4j" onclick="window.location.href = 'pwcracking.html'">Labor starten</button>
                     </div>
                 </div>
             </div>

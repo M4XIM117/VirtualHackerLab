@@ -21,6 +21,8 @@
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="favicon.ico" type="images/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.19.0/css/xterm.css" />
+
 </head>
 
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
@@ -90,7 +92,7 @@
 
     <section class="panel-container">
         <div class="panel panel-left">
-            <h2>Log4J</h2>
+            <h2>Versuch: Password-Cracking & SQL-Injection</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
                 nec
                 sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
@@ -188,30 +190,18 @@
         </div>
         <div class="panel panel-right">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab(event, 'terminal1')">Terminal 1</button>
-                <button class="tab" onclick="switchTab(event, 'terminal2')">Terminal 2</button>
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">KALI Client</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">Ubuntu Vulnapp</button>
             </div>
-            <div id="terminal1" class="terminal active">
-                <h3>Terminal 1</h3>
-                <pre><!--Terminal 1 hier einbinden-->
-                                        $ docker run -it ubuntu /bin/bash
-                                        root@container:/# ls
-                                        bin  boot  dev  etc  home  lib  ...
-                                    </pre>
+            <div id="terminal-1" class="vhlterminal active" data-startup-command="docker exec -it password_cracking_kali-client_1 bash">
             </div>
-            <div id="terminal2" class="terminal">
-                <h3>Terminal 2</h3>
-                <pre><!--Terminal 2 hier einbinden-->
-                                        $ docker build -t my-image .
-                                        Successfully built 1234567890
-                                    </pre>
+            <div id="terminal-2" class="vhlterminal" data-startup-command="docker exec -it password_cracking_ubuntu_vulnapp_1 bash"> 
             </div>
         </div>
     </section>
-    <br>
 
     <!-- FOOTER -->
-    <footer class="site-footer">
+    <footer class="site-footer" style="bottom: 0;">
         <div class="container">
             <div class="row">
                 <div class="ml-auto col-lg-4 col-md-5">
@@ -230,9 +220,11 @@
     </footer>
 
     <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.19.0/lib/xterm.js"></script>
     <script src="js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="js/frontend.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/aos.js"></script>

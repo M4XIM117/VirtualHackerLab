@@ -5,22 +5,29 @@
     <title>Virtual Hacker's Lab</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
     <!-- für SEO: muss noch ausgefüllt werden -->
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="favicon.ico" type="images/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.19.0/css/xterm.css" />
+
 </head>
 
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
+
+    <!-- MENU BAR -->
     <!-- MENU BAR -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -49,47 +56,11 @@
             </div>
         </div>
     </nav>
-    <!-- Modal für Registrierung -->
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Registrieren</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- Registrierungsformular -->
-                <div class="modal-body">
-                    <form action="registration.php" method="POST">
-                        <div class="form-group">
-                            <label for="username">Benutzername</label>
-                            <input class="form-control" type="name" name="username" placeholder="Benutzername"
-                                autocomplete="off" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">E-Mail</label>
-                            <input class="form-control" type="email" name="email" placeholder="E-Mail"
-                                autocomplete="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Passwort</label>
-                            <input class="form-control" type="password" name="password" placeholder="Passwort"
-                                autocomplete="off" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Passwort bestätigen</label>
-                            <input class="form-control" type="password" name="confirmPassword"
-                                placeholder="Passwort bestätigen" autocomplete="off" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Registrieren</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Login-Modal -->
+
+    <!-- Button zum Öffnen des Modals -->
+    <a href="#" class="nav-link smoothScroll" data-toggle="modal" data-target="#loginModal"></a>
+
+    <!-- Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -101,31 +72,28 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Login-Formular hier einfügen -->
-                    <form action="login.php" method="POST">
+
+                    <!-- Login-Formular -->
+                    <form>
                         <div class="form-group">
                             <label for="email">E-Mail</label>
-                            <input class="form-control" type="email" name="email" placeholder="E-Mail eingeben"
-                                required>
+                            <input type="email" class="form-control" id="email" placeholder="Enter E-Mail">
                         </div>
                         <div class="form-group">
                             <label for="password">Passwort</label>
-                            <input class="form-control" type="password" name="password" placeholder="Passwort" required>
+                            <input type="password" class="form-control" id="password" placeholder="Passwort">
                         </div>
-                        <button type="submit" class="btn btn-primary">Anmelden</button>
+                        <button type="submit" class="btn btn-primary">Einloggen</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     <section class="panel-container">
         <div class="panel panel-left">
-            <h2>Log4Shell</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
-                nec
-                sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
-                neque
-                commodo sed.</p>
+            <h2>Versuch: Log4Shell</h2>
+            <p>Versuchsbeschreibung ...</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nunc eu mauris tincidunt tempus. Donec
                 nec
                 sapien id lectus ullamcorper efficitur nec at lectus. Suspendisse vestibulum rhoncus arcu, sed volutpat
@@ -218,29 +186,18 @@
         </div>
         <div class="panel panel-right">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab(event, 'terminal1')">Terminal 1</button>
-                <button class="tab" onclick="switchTab(event, 'terminal2')">Terminal 2</button>
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">KALI Client</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">Ubuntu Vulnapp</button>
             </div>
-            <div id="terminal1" class="terminal active">
-                <h3>Terminal 1</h3>
-                <pre><!--Terminal 1 hier einbinden-->
-                                        $ docker run -it ubuntu /bin/bash
-                                        root@container:/# ls
-                                        bin  boot  dev  etc  home  lib  ...
-                                    </pre>
+            <div id="terminal-1" class="vhlterminal active" data-startup-command=""> <!-- data-startup-command = log4shell -->
             </div>
-            <div id="terminal2" class="terminal">
-                <h3>Terminal 2</h3>
-                <pre><!--Terminal 2 hier einbinden-->
-                                        $ docker build -t my-image .
-                                        Successfully built 1234567890
-                                    </pre>
+            <div id="terminal-2" class="vhlterminal" data-startup-command=""> <!-- data-startup-command = log4shell -->
             </div>
         </div>
     </section>
-    <br>
+
     <!-- FOOTER -->
-    <footer class="site-footer">
+    <footer class="site-footer" style="bottom: 0;">
         <div class="container">
             <div class="row">
                 <div class="ml-auto col-lg-4 col-md-5">
@@ -257,10 +214,13 @@
             </div>
         </div>
     </footer>
+
     <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.19.0/lib/xterm.js"></script>
     <script src="js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="js/frontend.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/aos.js"></script>
