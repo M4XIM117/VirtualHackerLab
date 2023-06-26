@@ -14,6 +14,16 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
     </li>';
 }
 ?>
+<script>
+        // Überprüfen, ob der Benutzer eingeloggt ist
+  <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+      // Weiterleitung zur labore.php-Seite, wenn der Benutzer eingeloggt ist
+      window.location.href = "labore.php";
+  <?php } else { ?>
+      // Anzeigen des Overlays, wenn der Benutzer nicht eingeloggt ist
+      document.getElementById("overlay").style.display = "block";
+  <?php } ?>
+</script>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -331,18 +341,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   <script src="js/aos.js"></script>
   <script src="js/smoothscroll.js"></script>
   <script src="js/custom.js"></script>
-
-
-  <script>
-        // Überprüfen, ob der Benutzer eingeloggt ist
-        <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-            // Weiterleitung zur labore.php-Seite, wenn der Benutzer eingeloggt ist
-            window.location.href = "labore.php";
-        <?php } else { ?>
-            // Anzeigen des Overlays, wenn der Benutzer nicht eingeloggt ist
-            document.getElementById("overlay").style.display = "block";
-        <?php } ?>
-    </script>
 </body>
 
 </html>
