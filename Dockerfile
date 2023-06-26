@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
   docker.io \
   docker-compose 
 
+# Install mysqli
+RUN docker-php-ext-install mysqli exif
+
 # User anlegen für Terminal
 RUN useradd -u 1000 -g docker -m -s /bin/bash student 
 
