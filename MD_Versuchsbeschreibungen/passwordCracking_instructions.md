@@ -181,7 +181,6 @@ Um die Sicherheitslücke für SQL-Injection zu schließen können die Eingaben v
 https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br>
 Bei Passwort-Agriffen sollten man Betreiber einer Webseite oder eines Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert. Außerdem konnte man in diesem Versuch gut sehen, dass der Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2 benötigen deutlich mehr Zeit und machen Brute-Force noch ineffizienter.<br>
 🛠️
-
 ___
 # :star: Sie haben das Ende der Übung erreicht 
 

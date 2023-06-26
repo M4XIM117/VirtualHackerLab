@@ -139,19 +139,6 @@
     </div>
   </div>
 
-  <?php session_start(); ?>
-    <?php if (isset($_SESSION["error"])) { ?>
-        <div id="overlay">
-            <div id="overlay-content">
-                <h2><?php echo $_SESSION["error"]; ?></h2>
-                <p>Um Zugriff auf diese Seite zu erhalten, müssen Sie sich erst registrieren oder anmelden.</p>
-                <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
-                <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal">Anmelden</a>
-            </div>
-        </div>
-        <?php unset($_SESSION["error"]); ?>
-    <?php } ?>
-
   <!-- HERO -->
   <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
     <div class="bg-overlay"></div>
