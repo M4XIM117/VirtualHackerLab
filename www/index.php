@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    // Benutzer ist eingeloggt
+    echo '
+    <li class="nav-item">
+        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-out"></i> Abmelden</a>
+    </li>';
+} else {
+    // Benutzer ist nicht eingeloggt
+    echo '
+    <li class="nav-item">
+        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
+    </li>';
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -42,22 +58,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
           </li>
-          <?php
-            session_start();
-            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-                // Benutzer ist eingeloggt
-                echo '
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-out"></i> Abmelden</a>
-                </li>';
-            } else {
-                // Benutzer ist nicht eingeloggt
-                echo '
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
-                </li>';
-            }
-            ?>
+          
         </ul>
       </div>
     </div>
