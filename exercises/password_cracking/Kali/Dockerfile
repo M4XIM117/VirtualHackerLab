@@ -1,5 +1,9 @@
 FROM kalilinux/kali-rolling
 
+# Kali keyrings
+RUN wget http://http.kali.org/kali/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
+RUN dpkg -i kali-archive-keyring_2022.1_all.deb
+
 RUN apt-get update && apt-get install -y \
   nano \
 # Hydra ist a brute-force password cracking tool
