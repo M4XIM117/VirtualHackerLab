@@ -14,14 +14,14 @@ COPY ./www/ src
 # RUN docker-php-ext-install mysqli exif
 
 # User anlegen für Terminal
-RUN useradd -u 1000 -g docker -m -s /bin/bash student 
+# RUN useradd -u 1000 -g docker -m -s /bin/bash student 
 
-# Versuche rüberkopieren
-COPY ./exercises/ /home/student/
-WORKDIR /var/www/html/src/js/
-RUN npm install
+# # Versuche rüberkopieren
+# COPY ./exercises/ /home/student/
+# WORKDIR /var/www/html/src/js/
+# RUN npm install
 
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
-#execute startup script
-ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# COPY startup.sh /usr/local/bin/startup.sh
+# RUN chmod +x /usr/local/bin/startup.sh
+# #execute startup script
+# ENTRYPOINT ["/usr/local/bin/startup.sh"]
