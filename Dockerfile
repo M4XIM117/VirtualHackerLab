@@ -4,7 +4,7 @@ EXPOSE 8080 6060
 
 COPY ./www/ src
 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
   nodejs \
   npm \
   docker.io \
