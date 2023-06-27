@@ -1,4 +1,4 @@
-FROM polinux/httpd-php:latest
+FROM php:apache
 WORKDIR /var/www/html
 EXPOSE 8080 6060
 
