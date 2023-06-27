@@ -1,6 +1,6 @@
 FROM kalilinux/kali-rolling
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt -y install \
   nano \
 # Hydra ist a brute-force password cracking tool
   hydra \ 
