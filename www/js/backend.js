@@ -60,9 +60,9 @@ wss.on('connection', ws => {
         }      
     });
     // Event Listener for clients closing page
-    ws.on('close', () => {
-        terminals.forEach((terminalId) => {
-            terminals.delete(terminalId)
-        });
-    });
+    // ws.on('close', () => {
+    //     terminals.forEach((terminalId) => {     BRAUCHT MAN DAS?
+    //         terminals.delete(terminalId)  
+    //     });
+    // });
 });
