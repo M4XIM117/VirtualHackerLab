@@ -76,14 +76,13 @@ class VHLTerminal {
   // Socket on Port defined in Backend.js is used to connect to Websocket; EACH TERMINAL NEEDS A WEBSOCKET
   initializeWebSocket() {
     const socket = new WebSocket("ws://localhost:6060");
-    this.socket.onopen = () => {
-      this.sendStartup();
-    };
+    this.socket = socket;
+    sendStartup();
     // Socket event handling incoming "answers" of backend
     this.socket.onmessage = (event) => {
       this.term.write(event.data);
   }
-    this.socket = socket;
+    
   }
   // Function to send startup command and ID to backend when being spawned
   sendStartup() {
