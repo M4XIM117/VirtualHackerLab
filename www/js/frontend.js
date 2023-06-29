@@ -83,7 +83,7 @@ class VHLTerminal {
     socket.onmessage = (event) => {
       term.write(event.data);
   }
-    // this.socket = socket; WAS SUCHT DAS HIER?
+    this.socket = socket;
   }
   // Function to send startup command and ID to backend when being spawned
   sendStartup() {
