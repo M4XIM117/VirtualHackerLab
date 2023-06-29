@@ -19,17 +19,20 @@ class VHLTerminal {
   
 
   initialize() {
+    if (this.term._initialized) {
+      return;
+    }
     this.term = new window.Terminal({ // Here it is possible to define configurations of the terminal
       cursorBlink: true
     });
     this.term.open(this.element);
 
 
-    this.term.prompt = () => {
-      this.term.write('\r\n$ ');
-    };
+    // this.term.prompt = () => {
+    //   this.term.write('\r\n$ ');      BRAUCHT MAN DAS?!?!?!?!?
+    // };
 
-    this.term._initialized = false;
+    this.term._initialized = true;
 
     // XTERMJS Event, handling keystrokes of the user with switch cases
     // New cases can be added for specific Keystrokes; e.g. Arrow-Keys are currently missing

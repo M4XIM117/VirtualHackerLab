@@ -7,7 +7,6 @@ const pty = require('node-pty');
 
 const wss = new WebSocket.Server({ port: 6060 });
 console.log("Socket is up and running...");
-
 class Terminal {
   constructor(id, shell, cwd, env) {
     this.id = id;
@@ -29,13 +28,6 @@ class Terminal {
       ws.send(JSON.stringify({ terminalId: this.id, message: data }));
     });
 
-  }
-  // CURRENTLY NOT USED
-  stop() {
-    if (this.ptyProcess) {
-      this.ptyProcess.kill();
-      this.ptyProcess = null;
-    }
   }
 }
 // Map to store active terminals
