@@ -50,7 +50,7 @@ wss.on('connection', ws => {
             terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
             terminal.ptyProcess.write(command + '\r');
-            terminal.ptyProcess.write("clear\r")
+            terminal.ptyProcess.write("clear\r");
         } else { // If Terminal already exists, just execute incoming command on the terminal
             const terminal = terminals.get(terminalId); 
             if (command) {
@@ -61,7 +61,8 @@ wss.on('connection', ws => {
     // Event Listener for clients closing page
     ws.on('close', () => {
         terminals.forEach((terminalId) => {
-            terminals.delete(terminalId)  
+          terminals.get(terminalId).ptyProcess.kill(9);
+          terminals.delete(terminalId)
         });
         ws.close();
     });
