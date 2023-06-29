@@ -26,9 +26,9 @@ class VHLTerminal {
     if (this.term._initialized) {
       return;
     }
-    // this.term.prompt = () => {
-    //   this.term.write('\r\n$ ');      BRAUCHT MAN DAS?!?!?!?!?
-    // };
+    this.term.prompt = () => {
+      this.term.write('\r\n$ ');
+    };
     this.term._initialized = true;
 
     // XTERMJS Event, handling keystrokes of the user with switch cases
