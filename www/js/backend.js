@@ -23,6 +23,7 @@ class Terminal {
       cwd: this.cwd,
       env: this.env
     });
+    console.log("Terminal spawned!");
     // XTERM Event to handle output of a executed command
     this.ptyProcess.on('data', data => {
       ws.send(JSON.stringify({ terminalId: this.id, message: data }));
@@ -60,12 +61,11 @@ wss.on('connection', ws => {
     });
     // Event Listener for clients closing page
     ws.on('close', () => {
-        terminals.forEach((terminalId, terminal) => {
-          if (terminal.ptyProcess) {
-            terminal.ptyProcess.kill();
-          }
+        terminals.forEach((terminalId) => {
+          // if (terminal.ptyProcess) {
+          //   terminal.ptyProcess.kill();
+          // }
           terminals.delete(terminalId)
         });
-        ws.close();
     });
 });
