@@ -65,6 +65,7 @@ wss.on('connection', ws => {
           // if (terminal.ptyProcess) {
           //   terminal.ptyProcess.kill();
           // }
+          console.log("Terminal killed");
           terminals.delete(terminalId)
         });
     });
