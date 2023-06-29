@@ -61,7 +61,8 @@ wss.on('connection', ws => {
     // Event Listener for clients closing page
     ws.on('close', () => {
         terminals.forEach((terminalId) => {
-          terminals.get(terminalId).ptyProcess.kill(9);
+          const terminal = terminals.get(terminalId);
+          terminal.ptyProcess.kill(9);
           terminals.delete(terminalId)
         });
         ws.close();
