@@ -6,7 +6,6 @@ class VHLTerminal {
     this.element = element;
     this.startupCommand = startupCommand;
     this.term = null;
-    this.terminalId = null;
     this.command = ''
     // List of forbidden commands
     this.forbiddenCommands = [
@@ -78,21 +77,17 @@ class VHLTerminal {
   initializeWebSocket() {
     const socket = new WebSocket("ws://localhost:6060");
     socket.onopen = () => {
-      this.sendTerminalId();
+      this.sendStartup();
     };
     // Socket event handling incoming "answers" of backend
-    socket.onmessage = event => {
-      const data = JSON.parse(event.data);
-      if (data.terminalId === this.terminalId) {
-        this.term.write(data.message);
-        this.term.prompt();
-      }
-    }
-    this.socket = socket;
+    socket.onmessage = (event) => {
+      term.write(event.data);
+  }
+    // this.socket = socket; WAS SUCHT DAS HIER?
   }
   // Function to send startup command and ID to backend when being spawned
-  sendTerminalId() {
-    this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.startupCommand }));
+  sendStartup() {
+    this.socket.send(this.startupCommand);
   }
   // Default function being executed upon hitting Enter
   runCommand() { 
@@ -104,7 +99,7 @@ class VHLTerminal {
       } else {
         this.term.prompt();
         this.term.write('\r\n');
-        this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.command }));
+        this.socket.send(this.command);
         this.command = '';
       }
     }
@@ -117,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const element = terminalElements[i];
     const startupCommand = element.getAttribute('data-startup-command');
     const terminal = new VHLTerminal(element, startupCommand);
-    terminal.terminalId = i;
     terminal.initialize();
   }
 });
