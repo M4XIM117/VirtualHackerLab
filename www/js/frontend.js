@@ -1,5 +1,17 @@
 // This Script handles the Frontend a client sees when testing a Hacking Experiment
 // IMPORTANT: The Frontend has a loop in the end, creating Terminals for EVERY DIV with the class "vhlterminal"
+
+// Event listener for new connections; If all Elements are loaded, Terminals can be spawned.
+document.addEventListener('DOMContentLoaded', () => {
+  const terminalElements = document.getElementsByClassName('vhlterminal'); // Get all Elements with class "vhlterminal"
+  for (let i = 0; i < terminalElements.length; i++) {
+    const element = terminalElements[i];
+    const startupCommand = element.getAttribute('data-startup-command');
+    const terminal = new VHLTerminal(element, startupCommand);
+    terminal.initialize();
+  }
+});
+
 // The Class Terminal has the necessary constructor and functions, which are described in detail
 class VHLTerminal {
   constructor(element, startupCommand) { // Currently Constructor expects a startup command defined in the div tag of the html
@@ -16,7 +28,6 @@ class VHLTerminal {
     ]; 
   }
   
-
   initialize() {
     this.term = new window.Terminal({ // Here it is possible to define configurations of the terminal
       cursorBlink: true
@@ -77,17 +88,14 @@ class VHLTerminal {
   initializeWebSocket() {
     const socket = new WebSocket("ws://localhost:6060");
     this.socket = socket;
-    sendStartup();
+    this.socket.send(this.startupCommand);
     // Socket event handling incoming "answers" of backend
     this.socket.onmessage = (event) => {
       this.term.write(event.data);
+    }
   }
+
     
-  }
-  // Function to send startup command and ID to backend when being spawned
-  sendStartup() {
-    this.socket.send(this.startupCommand);
-  }
   // Default function being executed upon hitting Enter
   runCommand() { 
     if (this.command.trim().length > 0) {
@@ -104,13 +112,3 @@ class VHLTerminal {
     }
   }
 }
-// Event listener for new connections; If all Elements are loaded, Terminals can be spawned.
-document.addEventListener('DOMContentLoaded', () => {
-  const terminalElements = document.getElementsByClassName('vhlterminal'); // Get all Elements with class "vhlterminal"
-  for (let i = 0; i < terminalElements.length; i++) {
-    const element = terminalElements[i];
-    const startupCommand = element.getAttribute('data-startup-command');
-    const terminal = new VHLTerminal(element, startupCommand);
-    terminal.initialize();
-  }
-});
