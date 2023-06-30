@@ -37,21 +37,20 @@ const terminals = new Map();
 // Event Listener: Triggered when Client connects
 wss.on('connection', ws => {
   // Event Listener: Triggered when message is sent to Backend
-  const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
-  const cwd = "/home/student/";
-  const env = process.env;
-
-  const terminal = new Terminal(terminalId, shell, cwd, env);
-  terminals.set(terminalId, terminal);
-  console.log("New Terminal " + terminalId);
-  terminal.start(ws);
   console.log("Incoming Connection...");
     ws.on('message', data => {
       // Split incoming JSON from Frontend to terminalID and command
         const { terminalId, command } = JSON.parse(data);
         // If Terminal does not yet exist, add to list
         if (!(terminals.has(terminalId))) {
-
+            const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+            const cwd = "/home/student/";
+            const env = process.env;
+        
+            const terminal = new Terminal(terminalId, shell, cwd, env);
+            terminals.set(terminalId, terminal);
+            console.log("New Terminal " + terminalId);
+            terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
             if (command.split("_").includes("translatorapp")) {
                 terminal.ptyProcess.write(command + '\r'); // If startup command includes "translatorapp" no "clear" command is needed
