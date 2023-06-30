@@ -16,7 +16,7 @@ services:
     image: log4shell-httpserver
     hostname: hackerslabhttp
     ports:
-      - '8080:8080'
+      - '8081:8081'
     networks:
       - log4shell
   
