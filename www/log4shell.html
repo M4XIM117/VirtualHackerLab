@@ -186,12 +186,16 @@
         </div>
         <div class="panel panel-right">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab(event, 'terminal-1')">KALI Client</button>
-                <button class="tab" onclick="switchTab(event, 'terminal-2')">Ubuntu Vulnapp</button>
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">Translator App</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">HTTP Server</button>
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">Translator App PATCHED</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">HTTP Server PATCHED</button>
             </div>
-            <div id="terminal-1" class="vhlterminal active" data-startup-command=""> <!-- data-startup-command = log4shell -->
+            <div id="terminal-1" class="vhlterminal active"
+                data-startup-command="docker exec -it src-translatorapp-1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
-            <div id="terminal-2" class="vhlterminal" data-startup-command=""> <!-- data-startup-command = log4shell -->
+            <div id="terminal-2" class="vhlterminal"
+                data-startup-command="docker exec -it src-translatorapp_patched-1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
         </div>
     </section>
