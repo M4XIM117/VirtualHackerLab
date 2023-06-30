@@ -15,7 +15,6 @@ class VHLTerminal {
       /reboot/i
     ]; 
   }
-  
 
   initialize() {
     this.term = new window.Terminal({ // Here it is possible to define configurations of the terminal
@@ -25,7 +24,6 @@ class VHLTerminal {
       return;
     }
     this.term.open(this.element);
-
 
     this.term.prompt = () => {
       this.term.write('\r\n$ ');
@@ -79,7 +77,8 @@ class VHLTerminal {
   // Socket on Port defined in Backend.js is used to connect to Websocket; EACH TERMINAL NEEDS A WEBSOCKET
   initializeWebSocket() {
     const socket = new WebSocket("ws://localhost:6060");
-    socket.onopen = () => {
+    this.socket = socket;
+    this.socket.onopen = () => {
       this.sendTerminalId();
     };
     // Socket event handling incoming "answers" of backend
@@ -90,10 +89,10 @@ class VHLTerminal {
         this.term.prompt();
       }
     }
-    this.socket = socket;
+    
   }
   // Function to send startup command and ID to backend when being spawned
-  sendTerminalId() {
+  sendStartupCommand() {
     this.socket.send(JSON.stringify({ terminalId: this.terminalId, command: this.startupCommand }));
   }
   // Default function being executed upon hitting Enter
@@ -115,11 +114,11 @@ class VHLTerminal {
 // Event listener for new connections; If all Elements are loaded, Terminals can be spawned.
 document.addEventListener('DOMContentLoaded', () => {
   const terminalElements = document.getElementsByClassName('vhlterminal'); // Get all Elements with class "vhlterminal"
-  for (let i = 0; i < terminalElements.length; i++) {
+  for (let i = 1; i < terminalElements.length+1; i++) {
     const element = terminalElements[i];
+    const terminalId = i;
     const startupCommand = element.getAttribute('data-startup-command');
-    const terminal = new VHLTerminal(element, startupCommand);
-    terminal.terminalId = i;
+    const terminal = new VHLTerminal(element, terminalId ,startupCommand);
     terminal.initialize();
-  }
+  } 
 });
