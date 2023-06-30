@@ -1,0 +1,34 @@
+version: '3'
+services:
+  translatorapp_patched:
+    build:
+      context: TranslatorApp
+    image: log4shell-translatorapp
+    stdin_open: true
+    tty: true
+    command: ["tail", "-f", "/dev/null"]
+    networks:
+      - log4shell
+  
+  httpserver_patched:
+    build:
+      context: HttpServer
+    image: log4shell-httpserver
+    hostname: hackerslabhttp
+    ports:
+      - '8080:8080'
+    networks:
+      - log4shell
+  
+  ldapserver_patched:
+    build:
+      context: LDAPServer
+    image: log4shell-ldapserver
+    hostname: hackerslabldap
+    ports:
+      - '1389:1389'
+    networks:
+      - log4shell
+
+networks:
+  log4shell:
