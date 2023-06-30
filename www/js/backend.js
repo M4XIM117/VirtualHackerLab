@@ -67,7 +67,7 @@ wss.on('connection', ws => {
     });
     // Event Listener for clients closing page
     ws.on('close', () => {
-      console.log("Delete terminal " + terminalId);
+      console.log("Delete terminal " + this.terminalId);
       terminals.delete(this.terminalId)
     });
 });
