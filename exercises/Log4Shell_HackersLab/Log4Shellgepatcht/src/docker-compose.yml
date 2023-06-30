@@ -31,4 +31,4 @@ services:
       - log4shell
 
 networks:
-  log4shell:
+  log4shell_patched:

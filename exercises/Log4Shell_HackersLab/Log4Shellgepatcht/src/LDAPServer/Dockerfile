@@ -1,5 +1,5 @@
 FROM openjdk:8u181-jdk-alpine
-EXPOSE 1390
+EXPOSE 10389
 WORKDIR /root
 COPY . /root
 COPY dependencies/ /root/dependencies
