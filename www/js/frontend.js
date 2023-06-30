@@ -28,9 +28,9 @@ class VHLTerminal {
     this.term.open(this.element);
 
 
-    // this.term.prompt = () => {
-    //   this.term.write('\r\n$ ');      BRAUCHT MAN DAS?!?!?!?!?
-    // };
+    this.term.prompt = () => {
+      this.term.write('\r\n$ ');
+    };
 
     this.term._initialized = true;
 
