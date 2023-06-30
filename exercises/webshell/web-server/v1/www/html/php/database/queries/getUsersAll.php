@@ -38,7 +38,7 @@
     $servername = 'webshell-database-1';
     $username = 'root';
     $password = 'root';
-    $port = 3306;
+    $port = 3307;
 
     try {
         $conn = new PDO("mysql:host=$servername;port=$port;dbname=messenger", $username, $password);

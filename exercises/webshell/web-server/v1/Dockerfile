@@ -1,6 +1,6 @@
 FROM php:8.0.11-apache
 COPY www/html /var/www/html
-EXPOSE 80 22
+EXPOSE 82 22
 
 RUN apt-get update && apt-get install -y \
     mariadb-server \
