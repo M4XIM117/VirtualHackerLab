@@ -185,14 +185,14 @@
         </div>
         <div class="panel panel-right">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab(event, 'terminal-1')">KALI Client</button>
-                <button class="tab" onclick="switchTab(event, 'terminal-2')">Ubuntu Vulnapp</button>
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">KALI Client 1</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">KALI Client 2</button>
             </div>
             <div id="terminal-1" class="vhlterminal active"
-                data-startup-command="docker exec -it password_cracking_kali-client_1 bash">
+                data-startup-command="docker exec -it webshell_kali-client_1 bash">
             </div>
             <div id="terminal-2" class="vhlterminal"
-                data-startup-command="docker exec -it password_cracking_ubuntu_vulnapp_1 bash">
+                data-startup-command="docker exec -it webshell_kali-client_1 bash">
             </div>
         </div>
     </section>
