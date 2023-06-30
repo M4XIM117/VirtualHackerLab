@@ -10,7 +10,6 @@ class VHLTerminal {
     this.command = ''
     // List of forbidden commands
     this.forbiddenCommands = [
-      /exit/i,
       /sudo shutdown/i,
       /^rm(\s.*)?$/i,
       /reboot/i
