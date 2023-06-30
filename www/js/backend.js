@@ -24,6 +24,7 @@ class Terminal {
       env: this.env
     });
     // XTERM Event to handle output of a executed command
+    console.log("ws started");
     this.ptyProcess.on('data', data => {
       ws.send(JSON.stringify({ terminalId: this.id, message: data }));
     });
@@ -36,6 +37,7 @@ const terminals = new Map();
 // Event Listener: Triggered when Client connects
 wss.on('connection', ws => {
   // Event Listener: Triggered when message is sent to Backend
+  console.log("Incoming Connection...");
     ws.on('message', data => {
       // Split incoming JSON from Frontend to terminalID and command
         const { terminalId, command } = JSON.parse(data);
@@ -47,7 +49,7 @@ wss.on('connection', ws => {
         
             const terminal = new Terminal(terminalId, shell, cwd, env);
             terminals.set(terminalId, terminal);
-        
+            console.log("New Terminal " + terminalId);
             terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
             if (command.split("_").includes("translatorapp")) {

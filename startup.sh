@@ -4,4 +4,4 @@
 exec apache2-foreground &
 
 # Start Node.js server
-node backend.js
+# node backend.js
