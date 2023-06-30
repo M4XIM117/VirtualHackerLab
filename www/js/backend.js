@@ -51,7 +51,7 @@ wss.on('connection', ws => {
             terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
             if (command.split("_").includes("translatorapp")) {
-                terminal.ptyProcess.write(command + '\r'); // If startup command includes "translatorapp" no clear command is needed
+                terminal.ptyProcess.write(command + '\r'); // If startup command includes "translatorapp" no "clear" command is needed
             } else {
                 terminal.ptyProcess.write(command + '\r');
                 terminal.ptyProcess.write("clear\r")
@@ -65,8 +65,6 @@ wss.on('connection', ws => {
     });
     // Event Listener for clients closing page
     ws.on('close', () => {
-        terminals.forEach((terminalId) => {
-            terminals.delete(terminalId)
-        });
+      terminals.delete(this.terminalId)
     });
 });
