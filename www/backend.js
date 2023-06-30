@@ -61,12 +61,6 @@ wss.on('connection', ws => {
     });
     // Event Listener for clients closing page
     ws.on('close', () => {
-        terminals.forEach((terminalId) => {
-          // if (terminal.ptyProcess) {
-          //   terminal.ptyProcess.kill();
-          // }
-          console.log("Terminal killed");
-          terminals.delete(terminalId)
-        });
+        terminals.clear();
     });
 });
