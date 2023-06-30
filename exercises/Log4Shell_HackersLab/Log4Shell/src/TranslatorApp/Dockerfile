@@ -1,4 +1,5 @@
 FROM openjdk:8u181-jdk-alpine
+
 WORKDIR /root
 COPY . /root
 COPY dependencies/ /root/dependencies
