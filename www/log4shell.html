@@ -187,9 +187,8 @@
         <div class="panel panel-right">
             <div class="tabs">
                 <button class="tab active" onclick="switchTab(event, 'terminal-1')">Translator App</button>
-                <button class="tab" onclick="switchTab(event, 'terminal-2')">HTTP Server</button>
-                <button class="tab active" onclick="switchTab(event, 'terminal-1')">Translator App PATCHED</button>
-                <button class="tab" onclick="switchTab(event, 'terminal-2')">HTTP Server PATCHED</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">Translator App PATCHED</button>
+
             </div>
             <div id="terminal-1" class="vhlterminal active"
                 data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">

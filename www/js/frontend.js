@@ -39,7 +39,7 @@ class VHLTerminal {
     this.term.prompt = () => {
       this.term.write('\r\n$ ');
     };
-    this.term._initialized = true;
+    this.term._initialized = false;
 
     // XTERMJS Event, handling keystrokes of the user with switch cases
     // New cases can be added for specific Keystrokes; e.g. Arrow-Keys are currently missing
