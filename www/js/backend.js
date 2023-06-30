@@ -50,8 +50,12 @@ wss.on('connection', ws => {
         
             terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
-            terminal.ptyProcess.write(command + '\r');
-            terminal.ptyProcess.write("clear\r")
+            if (command.split("_").includes("translatorapp")) {
+                terminal.ptyProcess.write(command + '\r'); // If startup command includes "translatorapp" no clear command is needed
+            } else {
+                terminal.ptyProcess.write(command + '\r');
+                terminal.ptyProcess.write("clear\r")
+            }           
         } else { // If Terminal already exists, just execute incoming command on the terminal
             const terminal = terminals.get(terminalId); 
             if (command) {
