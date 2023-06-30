@@ -19,12 +19,12 @@ class VHLTerminal {
   
 
   initialize() {
-    if (this.term._initialized) {
-      return;
-    }
     this.term = new window.Terminal({ // Here it is possible to define configurations of the terminal
       cursorBlink: true
     });
+    if (this.term._initialized) {
+      return;
+    }
     this.term.open(this.element);
 
 
