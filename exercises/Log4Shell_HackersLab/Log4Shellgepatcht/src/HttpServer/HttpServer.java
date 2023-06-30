@@ -9,7 +9,7 @@ import java.util.Date;
 public class HttpServer {
 
     public static void main(String[] args) {
-        int port = 8080;
+        int port = 8082;
         
         try {
             SimpleHTTPServer server = new SimpleHTTPServer(port);
