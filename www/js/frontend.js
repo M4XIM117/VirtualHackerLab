@@ -1,4 +1,3 @@
-import { FitAddon } from 'xterm-addon-fit';
 // This Script handles the Frontend a client sees when testing a Hacking Experiment
 // IMPORTANT: The Frontend has a loop in the end, creating Terminals for EVERY DIV with the class "vhlterminal"
 // The Class Terminal has the necessary constructor and functions, which are described in detail
@@ -26,12 +25,7 @@ class VHLTerminal {
       return;
     }
     this.term.open(this.element);
-
-    // Fit Terminal Size to screen
-    const fitAddon = new FitAddon();
-    this.terminal.loadAddon(fitAddon);
-    fitAddon.fit();
-
+    this.term.fit();
     this.term.prompt = () => {
       this.term.write('\r\n$ ');
     };
