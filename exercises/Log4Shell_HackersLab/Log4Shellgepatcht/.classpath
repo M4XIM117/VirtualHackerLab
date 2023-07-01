@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="HttpServer"/>
+	<classpathentry kind="src" path="LDAPServer"/>
+	<classpathentry kind="src" path="TranslatorApp"/>
+	<classpathentry kind="lib" path="unboundid-ldapsdk-3.1.1.jar"/>
+	<classpathentry kind="lib" path="log4j-api-2.14.1.jar"/>
+	<classpathentry kind="lib" path="log4j-core-2.14.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

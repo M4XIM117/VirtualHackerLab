@@ -1,9 +1,9 @@
 version: '3'
 services:
-  translatorapp_patched:
+  login_patched:
     build:
-      context: TranslatorApp
-    image: log4shell-translatorapp
+      context: Login
+    image: log4shell-login
     stdin_open: true
     tty: true
     command: ["tail", "-f", "/dev/null"]

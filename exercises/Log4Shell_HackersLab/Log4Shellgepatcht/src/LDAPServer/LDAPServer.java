@@ -52,7 +52,7 @@ public class LDAPServer {
 
 
             ds.startListening();
-	    System.out.println("LDAP is listening on port 1389");
+	    System.out.println("LDAP is listening on port 10389");
 
 
 
