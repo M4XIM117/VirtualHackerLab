@@ -3,7 +3,7 @@
 $servername = "localhost";
 $dbname = "jahresprojekt";
 
-$conn = new mysqli($servername, 'root', 'root', $dbname, 1201);
+$conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
 // Überprüfen, ob die Verbindung erfolgreich war
 if ($conn->connect_error) {
