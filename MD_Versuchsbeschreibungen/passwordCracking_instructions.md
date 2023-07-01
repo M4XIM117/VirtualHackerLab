@@ -93,7 +93,7 @@ docker exec -it <CONTAINER-NAME> bash
 
 <h2 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
 
-- <h3 style="color:lightblue">Schritt 1.1</h3>
+<h3 style="color:lightblue">Schritt 1.1 Offene Ports scannen</h3>
 
   Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der IP-Adresse ableiten, welche der Kali-Container hat.
   Hierzu führen wir folgenden Befehl aus:
@@ -115,7 +115,7 @@ docker exec -it <CONTAINER-NAME> bash
   - Der bekannte Port der einzelnen IP-Adressen<br> (999 & 998 sind uninteressant, nur die tabellarische Ausgabe beachten)
   - Der jeweilige Service hinter einem Port (Sie sollten ssh, http und mysql finden)
   
-- <h3 style="color:lightblue">Schritt 1.2</h3>
+<h3 style="color:lightblue">Schritt 1.2</h3>
   Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.
   
   Sie sollten im aktuellen Verzeichnis mit dem Befehl _ls_ die Dateien _passwords.txt_ und _users.txt_ sehen. Mit dem _nano_-Befehl können Sie die Dateien öffnen und mal anschauen.
@@ -138,10 +138,10 @@ ssh <Username>@<IP des Ubuntu Containers>
 <h2 style="color:red">  2. Part: SQL-Injection </h2>
 
 Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite anwenden, um an vertrauliche Daten zu kommen. Die Internetseite, welche als Angriffsziel des Versuchs dient, ist der "password_cracking_login_vulnapp" Container.
-- <h3 style="color:lightblue">Schritt 2.0</h3>
+<h3 style="color:lightblue">Schritt 2.0</h3>
 
   Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples Loginformular sehen.
-- <h3 style="color:lightblue">Schritt 2.1</h3>
+<h3 style="color:lightblue">Schritt 2.1</h3>
   Wie bereits beschrieben werden bei SLQ-Injections die Eingaben bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert werden können.
   Das DBMS in diesem Beispiel basiert auf MySQL. Das Backend-Query für das Login-Formular sieht wie folgt aus:
 
@@ -157,12 +157,12 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   - '1'='1' ist eine immer wahre WHERE Bedingung
   ___
 
-- <h3 style="color:lightblue">Schritt 2.2</h3>
+<h3 style="color:lightblue">Schritt 2.2 </h3>
   Wenn Sie sich erfolgreich "angemeldet" haben, sehen Sie erneut eine Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections auf einen Service anzuwenden, um sich so anhand der Responses Informationen über das DBMS zusammenzustellen. 
 
   Sie finden im Kali-Client eine Datei namens _sqli\_post\_request_. Die Datei beinhaltet den Post-Request, welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen _\<IP Adresse>_ mit der IP des password_cracking_login_vulnapp Containers ersetzen, die selbe IP, welche Sie in der Browser eingegeben haben (ohne :Port!).
 
-- <h3 style="color:lightblue">Schritt 2.3</h3>
+<h3 style="color:lightblue">Schritt 2.3</h3>
   Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel SQLMAP auf den HTTP-Request starten:
 
   ```

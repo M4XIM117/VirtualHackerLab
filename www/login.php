@@ -3,7 +3,7 @@
 $servername = "localhost";
 $dbname = "jahresprojekt";
 
-$conn = new mysqli($servername, 'root', '', $dbname, 1201);
+$conn = new mysqli($servername, 'root', 'root', $dbname, 1201);
 
 session_start();
 

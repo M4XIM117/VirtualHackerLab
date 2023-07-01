@@ -186,15 +186,30 @@
         </div>
         <div class="panel panel-right">
             <div class="tabs">
-                <button class="tab active" onclick="switchTab(event, 'terminal-4')">Translator App</button>
-                <button class="tab" onclick="switchTab(event, 'terminal-5')">Translator App PATCHED</button>
-
+                <button class="tab active" onclick="switchTab(event, 'terminal-1')">Login App</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-2')">HTTP Server</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-3')">Logfile auslesen</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-4')">PATCHED Login App</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-5')">PATCHED HTTP Server</button>
+                <button class="tab" onclick="switchTab(event, 'terminal-6')">PATCHED Logfile auslesen</button>
             </div>
-            <div id="terminal-4" class="vhlterminal active"
+            <div id="terminal-1" class="vhlterminal active"
                 data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
-            <div id="terminal-5" class="vhlterminal"
+            <div id="terminal-2" class="vhlterminal"
+                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+            </div>
+            <div id="terminal-3" class="vhlterminal"
+                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+            </div>
+            <div id="terminal-4" class="vhlterminal"
                 data-startup-command="docker exec -it src_translatorapp_patched_1 java -cp /root/dependencies/*:/root TranslatorApp">
+            </div>
+            <div id="terminal-5" class="vhlterminal"
+                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+            </div>
+            <div id="terminal-6" class="vhlterminal"
+                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
         </div>
     </section>
