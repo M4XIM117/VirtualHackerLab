@@ -25,7 +25,7 @@ class VHLTerminal {
       return;
     }
     this.term.open(this.element);
-    this.term.fit();
+
     this.term.prompt = () => {
       this.term.write('\r\n$ ');
     };

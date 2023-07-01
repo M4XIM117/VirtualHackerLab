@@ -194,22 +194,22 @@
                 <button class="tab" onclick="switchTab(event, 'terminal-6')">PATCHED Logfile auslesen</button>
             </div>
             <div id="terminal-1" class="vhlterminal active"
-                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker exec -it src_login_1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
             <div id="terminal-2" class="vhlterminal"
-                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker logs -f src_httpserver_1">
             </div>
             <div id="terminal-3" class="vhlterminal"
-                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker exec -it src_login_1 sh">
             </div>
             <div id="terminal-4" class="vhlterminal"
-                data-startup-command="docker exec -it src_translatorapp_patched_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker exec -it src_login_patched_1 java -cp /root/dependencies/*:/root TranslatorApp">
             </div>
             <div id="terminal-5" class="vhlterminal"
-                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker logs -f src_httpserver_patched_1">
             </div>
             <div id="terminal-6" class="vhlterminal"
-                data-startup-command="docker exec -it src_translatorapp_1 java -cp /root/dependencies/*:/root TranslatorApp">
+                data-startup-command="docker exec -it src_login_patched_1 sh">
             </div>
         </div>
     </section>
