@@ -582,7 +582,6 @@ a:focus {
   text-align: center;
 }
 
-
 /*---------------------------------------
      SCHEDULE             
   -----------------------------------------*/
@@ -863,11 +862,11 @@ button#submit-button:hover {
   box-sizing: border-box;
 }
 
-body {
+/*body {
   font-family: Arial, sans-serif;
   height: 100vh;
   overflow: hidden;
-}
+}*/
 
 header {
   background-color: #333;
@@ -925,6 +924,9 @@ nav ul li a {
   position: relative;
 }
 
+.img-lab1, .img-lab2, .img-lab3 {
+max-width: 350px;
+}
 
 .panel-right::after {
   content: '';
@@ -937,6 +939,9 @@ nav ul li a {
   pointer-events: none;
 }
 
+#img.schloss {
+  margin-left: 50px !important;
+}
 
 .tabs {
   margin-bottom: 10px;
@@ -973,8 +978,6 @@ footer {
   text-align: center;
 }
 
-
-
 .custom-button {
   align-self: center;
   padding: 10px 20px;
@@ -987,17 +990,16 @@ footer {
   cursor: pointer;
 }
 
-
-
 .custom-button.webshell {
   background-color: #4CAF50;
   color: #fff;
 }
 
-.custom-button.jog4shell {
-  background-color: #FFC107;
-  color: #000;
+.custom-button.log4shell {
+  background-color: rgba(226, 173, 26, 0.986);
+  color: #fff;
 }
+
 
 .custom-button.log4j {
   background-color: #F44336;
@@ -1007,8 +1009,6 @@ footer {
 .custom-button:hover {
   opacity: 0.8;
 }
-
-
 
 /* CSS-Code für das Overlay */
 #registrierungsOverlay {
