@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // SQL-Befehl zur Einfügung des Benutzers in die Tabelle "users"
-    $sql = "INSERT INTO users (username, email, user_Password)
+    $sql = "INSERT INTO users (username, email, hashedPassword)
             VALUES ('$username', '$email', '$hashedPassword')";
 
     if ($conn->query($sql) === TRUE) {

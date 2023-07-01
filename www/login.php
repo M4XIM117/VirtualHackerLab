@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
-        $storedPassword = $row["user_Password"];
+        $storedPassword = $row["hashedPassword"];
 
         // Passwortüberprüfung
         if (password_verify($password, $storedPassword)) {
