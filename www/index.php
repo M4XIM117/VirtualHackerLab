@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -135,8 +136,6 @@
       </div>
     </div>
   </div>
-
-  <?php session_start(); ?>
     <?php if (isset($_SESSION["error"])) { ?>
         <div id="overlay">
             <div id="overlay-content">
