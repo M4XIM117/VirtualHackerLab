@@ -1,7 +1,10 @@
 <?php
 // MySQL-Verbindung herstellen
-$servername = "localhost";
+$servername = "virtualhackerlab_database_1";
 $dbname = "jahresprojekt";
+$username = 'root';
+$password = 'root';
+$port = 1201;
 
 $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
