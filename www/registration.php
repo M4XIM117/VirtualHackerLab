@@ -4,7 +4,7 @@ $servername = "virtualhackerlab_database_1";
 $dbname = "jahresprojekt";
 $username = 'root';
 $password = 'root';
-$port = 1201;
+$port = 3306;
 
 $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
