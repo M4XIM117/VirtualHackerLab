@@ -16,7 +16,7 @@ services:
             MYSQL_DATABASE: users
             MYSQL_ROOT_PASSWORD: root
         ports:
-            - 3306:3306
+            - 3307:3306
     login_vulnapp:
         build: 
             context: ./login_vulnapp 
