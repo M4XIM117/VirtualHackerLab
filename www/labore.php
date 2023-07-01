@@ -1,13 +1,11 @@
 <?php
-session_start();
+// labore.php
 
-// Überprüfen, ob der Benutzer eingeloggt ist
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    // Benutzer ist nicht eingeloggt, Weiterleitung zur index.php-Seite mit Fehlermeldung
-    $_SESSION["error"] = "Bitte registrieren oder anmelden, um Zugriff auf diese Seite zu erhalten.";
-    header("Location: index.php");
-    exit;
-}
+session_start(); // Starte die Sitzung, um auf die Sitzungsvariablen zugreifen zu können
+
+// Überprüfe, ob der Benutzer angemeldet ist
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+
 ?>
 
 
@@ -39,6 +37,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
 
     <!-- MENU BAR -->
+    <!-- MENU BAR -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -55,13 +54,19 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     <li class="nav-item">
                         <a href="labore.php" class="nav-link">Labore</a>
                     </li>
+                    <?php if($loggedIn): ?>
                     <li class="nav-item">
-                        <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
+                        <a href="logout.php" class="nav-link">Abmelden</a>
+                    </li>
+                    <?php else: ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#registerModal">Registrieren</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i
                                 class="fas fa-sign-in-alt"></i> Anmelden</a>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -147,14 +152,14 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <!-- LABORE -->
 <section class="class section" id="class">
     <div class="container">
-        <div class="row">
+        <div class="row d-flex align-items-stretch justify-content-stretch">
             <div class="col-lg-12 col-12 text-center mb-5">
                 <h6>Erreiche deine Ziele</h6>
                 <h2>Unsere Labore</h2>
             </div>
             <div class="col-lg-4 col-md-6 col-12">
                 <div class="class-thumb">
-                    <img src="images/labs/lab-easy.jpg" class="img-fluid" alt="Class">
+                    <img src="images/labs/lab-easy.jpg" class="img-lab1" alt="Labor-1">
                     <div class="class-info">
                         <h3 class="mb-1">Webshell</h3>
                         <span><strong>Level</strong> - easy</span>
@@ -165,7 +170,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             </div>
             <div class="mt-5 mt-lg-0 mt-md-0 col-lg-4 col-md-6 col-12">
                 <div class="class-thumb">
-                    <img src="images/labs/lab-middle.jpg" class="img-fluid" alt="Class">
+                    <img src="images/labs/lab-middle.jpg" class="img-lab2" alt="Labor-2">
                     <div class="class-info">
                         <h3 class="mb-1">Jog4Shell</h3>
                         <span><strong>Level</strong> - middle</span>
@@ -176,7 +181,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             </div>
             <div class="mt-5 mt-lg-0 col-lg-4 col-md-6 col-12">
                 <div class="class-thumb">
-                    <img src="images/labs/lab-hard.jpg" class="img-fluid" alt="Class">
+                    <img src="images/labs/lab-hard.jpg" class="img-lab3" alt="Class">
                     <div class="class-info">
                         <h3 class="mb-1">Password-Cracking & SQL Injection</h3>
                         <span><strong>Level</strong> - hard</span>
@@ -188,25 +193,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         </div>
     </div>
 </section>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
 
     <!-- FOOTER -->
     <footer class="site-footer">

@@ -1,29 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    // Benutzer ist eingeloggt
-    echo '
-    <li class="nav-item">
-        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-out"></i> Abmelden</a>
-    </li>';
-} else {
-    // Benutzer ist nicht eingeloggt
-    echo '
-    <li class="nav-item">
-        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
-    </li>';
-}
-?>
-<script>
-        // Überprüfen, ob der Benutzer eingeloggt ist
-  <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
-      // Weiterleitung zur labore.php-Seite, wenn der Benutzer eingeloggt ist
-      window.location.href = "labore.php";
-  <?php } else { ?>
-      // Anzeigen des Overlays, wenn der Benutzer nicht eingeloggt ist
-      document.getElementById("overlay").style.display = "block";
-  <?php } ?>
-</script>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -60,7 +34,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-lg-auto">
           <li class="nav-item">
-            <a href="index.php" class="nav-link">Über uns</a>
+            <a href="aboutproject.html" class="nav-link">Über uns</a>
           </li>
           <li class="nav-item">
             <a href="labore.php" class="nav-link">Labore</a>
@@ -68,7 +42,22 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
           <li class="nav-item">
             <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
           </li>
-          
+          <?php
+            session_start();
+            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                // Benutzer ist eingeloggt
+                echo '
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-out"></i> Abmelden</a>
+                </li>';
+            } else {
+                // Benutzer ist nicht eingeloggt
+                echo '
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i> Anmelden</a>
+                </li>';
+            }
+            ?>
         </ul>
       </div>
     </div>
@@ -118,8 +107,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
   <div id="success-message" class="popup"></div>
 
-
-
   <!-- Login-Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
     aria-hidden="true">
@@ -149,6 +136,19 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
       </div>
     </div>
   </div>
+
+  <?php session_start(); ?>
+    <?php if (isset($_SESSION["error"])) { ?>
+        <div id="overlay">
+            <div id="overlay-content">
+                <h2><?php echo $_SESSION["error"]; ?></h2>
+                <p>Um Zugriff auf diese Seite zu erhalten, müssen Sie sich erst registrieren oder anmelden.</p>
+                <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
+                <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal">Anmelden</a>
+            </div>
+        </div>
+        <?php unset($_SESSION["error"]); ?>
+    <?php } ?>
 
   <!-- HERO -->
   <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
@@ -259,9 +259,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
               style="color: var(--primary-color);">Cybersicherheit</strong> und <strong
               style="color: var(--primary-color);">Ethical Hacking</strong> zu vermitteln.</p>
         </div>
-        <div class="ml-lg-auto col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
+        <div class="ml-lg-auto col-lg-3 col-md-6 col-12" id="img-schloss" data-aos="fade-up" data-aos-delay="700">
           <div class="home-thumb">
-            <img src="images/home/who-we-are.jpg" class="img-fluid" alt="Schloss">
+            <img src="images/home/who-we-are.jpg" class="img-fluid" alt="Cybersecurity Schloss">
           </div>
         </div>
       </div>
@@ -341,6 +341,18 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   <script src="js/aos.js"></script>
   <script src="js/smoothscroll.js"></script>
   <script src="js/custom.js"></script>
+
+
+  <script>
+        // Überprüfen, ob der Benutzer eingeloggt ist
+        <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+            // Weiterleitung zur labore.php-Seite, wenn der Benutzer eingeloggt ist
+            window.location.href = "labore.php";
+        <?php } else { ?>
+            // Anzeigen des Overlays, wenn der Benutzer nicht eingeloggt ist
+            document.getElementById("overlay").style.display = "block";
+        <?php } ?>
+    </script>
 </body>
 
 </html>

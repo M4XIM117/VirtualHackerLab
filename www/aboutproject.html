@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>Virtual Hacker's Lab</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <!-- SEO: muss noch ausgefüllt werden -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="images/x-icon">
+</head>
+
+<body data-spy="scroll" data-target="#navbarNav" data-offset="50">
+    <!-- MENU BAR -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-lg-auto">
+                    <li class="nav-item">
+                        <a href="aboutproject.html" class="nav-link">Über uns</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="labore.php" class="nav-link">Labore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i
+                                class="fas fa-sign-in-alt"></i> Anmelden</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal für Registrierung -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Registrieren</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Registrierungsformular -->
+                <div class="modal-body">
+                    <form action="registration.php" method="POST">
+                        <div class="form-group">
+                            <label for="username">Benutzername</label>
+                            <input class="form-control" type="name" name="username" placeholder="Benutzername"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-Mail</label>
+                            <input class="form-control" type="email" name="email" placeholder="E-Mail"
+                                autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Passwort</label>
+                            <input class="form-control" type="password" name="password" placeholder="Passwort"
+                                autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Passwort bestätigen</label>
+                            <input class="form-control" type="password" name="confirmPassword"
+                                placeholder="Passwort bestätigen" autocomplete="off" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrieren</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="success-message" class="popup"></div>
+
+    <!-- Login-Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Login-Formular hier einfügen -->
+                    <form action="login.php" method="POST">
+                        <div class="form-group">
+                            <label for="email">E-Mail</label>
+                            <input class="form-control" type="email" name="email" placeholder="E-Mail eingeben"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Passwort</label>
+                            <input class="form-control" type="password" name="password" placeholder="Passwort" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Anmelden</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto col-12">
+                    <div class="hero-text mt-5 text-center">
+                        <h6 data-aos="fade-up" data-aos-delay="300">Stärke deine Cyberabwehr, schütze deine digitale
+                            Welt.</h6>
+                        <h1 class="text-white" data-aos="fade-up" data-aos-delay="500">Lerne, verteidige und erhebe dich
+                            in der Welt
+                            der Cybersicherheit mit VHL!</h1>
+                        <a href="#feature" class="btn custom-btn mt-3" data-aos="fade-up" data-aos-delay="600">Lege
+                            los</a>
+                        <a href="#about" class="btn custom-btn bordered mt-3" data-aos="fade-up"
+                            data-aos-delay="700">Erfahre
+                            mehr</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE -->
+    <section class="feature" id="feature">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex flex-column justify-content-center ml-lg-auto mr-lg-5 col-lg-5 col-md-6 col-12">
+                    <h2 class="mb-3 text-white" data-aos="fade-up">Neu bei uns?</h2>
+                    <h6 class="mb-4 text-white" data-aos="fade-up">Schütze deine Daten und Systeme mit VHL! Werde ein
+                        ethischer
+                        Hacker und verteidige dich gegen mögliche Angriffe. Melde dich noch heute an und tauche in die
+                        spannende
+                        Welt der Cybersicherheit ein.</h6>
+                    <p data-aos="fade-up" data-aos-delay="200"><strong>Hinweis: </strong>Ethical Hacking sollte immer in
+                        Übereinstimmung mit den geltenden Gesetzen und Vorschriften durchgeführt werden. VHL fördert
+                        ausschließlich
+                        ethisches Hacking zu Lernzwecken und ermutigt nicht zu illegalen Aktivitäten.</p>
+                    <a href="#" class="btn custom-btn bg-color mt-3" data-aos="fade-up" data-aos-delay="300"
+                        data-toggle="modal" data-target="#membershipForm">Heute noch Mitglied werden</a>
+                </div>
+                <div class="mr-lg-auto mt-3 col-lg-4 col-md-6 col-12">
+                    <div class="about-working-hours">
+                        <div>
+                            <h2 class="mb-4 text-white" data-aos="fade-up" data-aos-delay="500">Unser Versprechen an
+                                dich</h2>
+                            <strong class="d-block" data-aos="fade-up" data-aos-delay="600">Experimentiere in einer
+                                sicheren Umgebung
+                                mit realistischen Szenarien</strong>
+                            <strong class="mt-3 d-block" data-aos="fade-up" data-aos-delay="700">Lerne, wie Hacker
+                                vorgehen und welche
+                                Schwachstellen sie ausnutzen</strong>
+                            <strong class="mt-3 d-block" data-aos="fade-up" data-aos-delay="700">Lerne entsprechende
+                                Abwehrmaßnahmen
+                                und Gegenstrategien kennenm, um dich effektiv zu schützen</strong>
+                            <strong class="mt-3 d-block" data-aos="fade-up" data-aos-delay="700">Halte dich durch unsere
+                                regelmäßig
+                                aktualisierten Inhalte auf dem neusten Stand</strong>
+                            <strong class="mt-3 d-block" data-aos="fade-up" data-aos-delay="700">Bekomme ein umfassendes
+                                Verständnis
+                                für Cybersicherheit und Ethical Hacking vermittelt</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="mt-lg-5 mb-lg-0 mb-4 col-lg-5 col-md-10 mx-auto col-12">
+                    <h2 class="mb-4" data-aos="fade-up" data-aos-delay="300">Hi, wir sind VHL</h2>
+                    <p data-aos="fade-up" data-aos-delay="400">Bei VHL geht es darum, dir die notwendigen Fähigkeiten
+                        beizubringen, um sich gegen Hackereingriffe zu schützen.</p>
+                    <p data-aos="fade-up" data-aos-delay="500">Unser interaktives Lernprogramm bietet eine Kombination
+                        aus
+                        theoretischem Wissen und praktischen Labors, um dir ein umfassendes Verständnis für <strong
+                            style="color: var(--primary-color);">Cybersicherheit</strong> und <strong
+                            style="color: var(--primary-color);">Ethical Hacking</strong> zu vermitteln.</p>
+                </div>
+                <div class="ml-lg-auto col-lg-3 col-md-6 col-12" data-aos="fade-up" data-aos-delay="700">
+                    <div class="home-thumb">
+                        <img src="images/home/who-we-are.jpg" class="img-fluid" alt="Schloss">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="ml-lg-auto">
+                    <h2 class="mb-4" data-aos="fade-up" data-aos-delay="300">Unser Projekt - Virtual Hacking Labs</h2>
+                    <p data-aos="fade-up" data-aos-delay="500">Willkommen bei Virtual Hacking Labs! Unser Projekt bietet
+                        eine innovative Plattform,
+                        ie speziell für das Training und die Entwicklung von Cybersicherheitsfähigkeiten entwickelt
+                        wurde.
+                        Hier sind einige Gründe, warum unser Virtual Hacking Labs-Projekt eine hervorragende Wahl ist:
+                    <ol data-aos="fade-up" data-aos-delay="400">
+                        <strong style="color: var(--primary-color);">Praktische Erfahrung</strong>: Bei Virtual Hacking
+                        Labs geht es um praktisches Lernen. Unsere Plattform ermöglicht
+                        es den Teilnehmern, in einer sicheren und simulierten Umgebung reale Hacking-Szenarien
+                        nachzustellen.
+                        Sie erhalten die Möglichkeit, Schwachstellen zu entdecken, Exploits zu entwickeln und
+                        Sicherheitslücken
+                        zu beheben - alles unter kontrollierten Bedingungen.
+                    </ol>
+                    <ol data-aos="fade-up" data-aos-delay="500">
+                        <strong style="color: var(--primary-color);">Sicherheitsbewusstsein schaffen</strong>: Wir
+                        verstehen die Bedeutung eines starken Sicherheitsbewusstseins.
+                        Unsere Virtual Hacking Labs helfen den Teilnehmern, ein tiefgreifendes Verständnis für
+                        Sicherheitsrisiken und -bedrohungen zu entwickeln. Durch die praktische Erfahrung des Hackens
+                        lernen
+                        sie, wie Angreifer vorgehen, und gewinnen wertvolle Einblicke, wie sie ihre Systeme schützen
+                        können
+                    </ol>
+                    <ol data-aos="fade-up" data-aos-delay="500">
+                        <strong style="color: var(--primary-color);">Prüfung und Validierung</strong>: Virtual Hacking
+                        Labs bieten eine Möglichkeit, die Kenntnisse und Fähigkeiten von
+                        Sicherheitsexperten zu prüfen und zu validieren. Unternehmen und Organisationen können unsere
+                        Plattform
+                        nutzen, um ihre Sicherheitsteams zu testen und sicherzustellen, dass sie über die erforderlichen
+                        Fähigkeiten
+                        verfügen, um mit aktuellen Bedrohungen umzugehen.
+                    </ol>
+                    <ol data-aos="fade-up" data-aos-delay="500">
+                        <strong style="color: var(--primary-color);">Flexibilität und Skalierbarkeit</strong>: Wir
+                        bieten Ihnen maximale Flexibilität und Skalierbarkeit. Unsere
+                        Virtual Hacking Labs sind online zugänglich, was bedeutet, dass Sie von überall und zu jeder
+                        Zeit
+                        daran teilnehmen können. Außerdem können wir die Anzahl der Teilnehmer mühelos skalieren, ohne
+                        dass
+                        physische Ressourcen wie Hardware oder Räume benötigt werden.
+                    </ol>
+                    <ol data-aos="fade-up" data-aos-delay="500">
+                        <strong style="color: var(--primary-color);">Kostenersparnis</strong>: Wir wissen, dass Budgets
+                        eine wichtige Rolle spielen. Mit unseren Virtual Hacking
+                        Labs bieten wir eine kostengünstige Lösung im Vergleich zu physischen Labs. Sie benötigen keine
+                        teure Infrastruktur, da alles auf virtuellen Maschinen oder Cloud-Umgebungen gehostet wird.
+                    </ol>
+                    <ol data-aos="fade-up" data-aos-delay="500">
+                        <strong style="color: var(--primary-color);">Experimentieren und Innovation</strong>: Wir
+                        fördern Kreativität und Innovation. In unseren Virtual Hacking
+                        Labs können Teilnehmer verschiedene Szenarien simulieren, neue Tools und Technologien
+                        ausprobieren
+                        und innovative Lösungen entwickeln, um Sicherheitslücken zu schließen. Es ist der ideale Ort, um
+                        Ihre Fähigkeiten zu erweitern und neue Ansätze zu erforschen.
+                    </ol>
+                    </p>
+                    <p data-aos="fade-up" data-aos-delay="500">Tauchen Sie ein in die Welt der Cybersicherheit mit
+                        Virtual
+                        Hacking Labs. Wir bieten Ihnen die Möglichkeit, praktische Erfahrungen zu sammeln, Ihr
+                        Sicherheitsbewusstsein zu stärken und Ihre Fähigkeiten zu entwickeln. Werden Sie Teil unseres
+                        Projekts und bereiten Sie sich auf die Herausforderungen der digitalen Welt vor!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="ml-auto col-lg-4 col-md-5">
+                    <p class="copyright-text">Copyright &copy; 2023 Jahresprojekt
+                </div>
+
+                <div class="d-flex justify-content-center mx-auto col-lg-5 col-md-7 col-12">
+                    <p class="mr-4">
+                        <i class="fa fa-envelope-o mr-1"></i>
+                        <a href="#">info@vhl.de</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="send_email.php"></script>
+</body>
+
+</html>
