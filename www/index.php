@@ -43,7 +43,6 @@
             <a href="#" class="nav-link " data-toggle="modal" data-target="#registerModal">Registrieren</a>
           </li>
           <?php
-            session_start();
             if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                 // Benutzer ist eingeloggt
                 echo '
