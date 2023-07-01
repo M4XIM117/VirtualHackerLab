@@ -115,7 +115,7 @@ docker exec -it <CONTAINER-NAME> bash
   - Der bekannte Port der einzelnen IP-Adressen<br> (999 & 998 sind uninteressant, nur die tabellarische Ausgabe beachten)
   - Der jeweilige Service hinter einem Port (Sie sollten ssh, http und mysql finden)
   
-<h3 style="color:lightblue">Schritt 1.2</h3>
+<h3 style="color:lightblue">Schritt 1.2 </h3>
   Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.
   
   Sie sollten im aktuellen Verzeichnis mit dem Befehl _ls_ die Dateien _passwords.txt_ und _users.txt_ sehen. Mit dem _nano_-Befehl können Sie die Dateien öffnen und mal anschauen.
