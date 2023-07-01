@@ -52,7 +52,7 @@ wss.on('connection', ws => {
             console.log("New Terminal " + terminalId);
             terminal.start(ws);
             // Execute Startup command defined in html DIV TAG of terminals
-            if (command.split("_").includes("translatorapp")) {
+            if (command.split("_").includes("login")) {
                 terminal.ptyProcess.write(command + '\r'); // If startup command includes "translatorapp" no "clear" command is needed
             } else {
                 terminal.ptyProcess.write(command + '\r');
