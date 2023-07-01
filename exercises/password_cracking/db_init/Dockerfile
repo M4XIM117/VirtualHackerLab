@@ -5,4 +5,4 @@ ENV MYSQL_DATABASE=users \
 
 ADD init.sql /docker-entrypoint-initdb.d/
 
-EXPOSE 3306
+EXPOSE 1201
