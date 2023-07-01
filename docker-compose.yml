@@ -15,4 +15,4 @@ services:
             MYSQL_DATABASE: users
             MYSQL_ROOT_PASSWORD: root
         ports:
-            - 1201:1201
+            - 1201:3306
