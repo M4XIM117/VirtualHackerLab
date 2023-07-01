@@ -1,6 +1,6 @@
+import { FitAddon } from 'xterm-addon-fit';
 // This Script handles the Frontend a client sees when testing a Hacking Experiment
 // IMPORTANT: The Frontend has a loop in the end, creating Terminals for EVERY DIV with the class "vhlterminal"
-import { FitAddon } from 'xterm-addon-fit';
 // The Class Terminal has the necessary constructor and functions, which are described in detail
 class VHLTerminal {
   constructor(element, startupCommand) { // Currently Constructor expects a startup command defined in the div tag of the html
