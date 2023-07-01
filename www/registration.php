@@ -33,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$username', '$email', '$hashedPassword')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Registrierung erfolgreich";
         // Wenn die Registrierung erfolgreich ist, weiterleiten zur index.php
         header("Location: index.php");
+        exit();
     } else {
         echo "Fehler bei der Registrierung: " . $conn->error;
     }
