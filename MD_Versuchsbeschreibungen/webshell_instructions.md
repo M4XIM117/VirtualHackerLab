@@ -122,7 +122,7 @@ In dieser Übung werden Sie verschiedene Perspektiven einnehmen. Die "normalen" 
 
 ### Einführung
 
-Öffnen Sie die Webseite "localhost:8080" in einem Browser Ihrer Wahl, in dem Sie die genannte URL in die Suchleiste eingeben. Machen Sie sich mit der Webseite und deren Funktionen vertraut. 
+Öffnen Sie die Webseite "localhost:8082" in einem Browser Ihrer Wahl, in dem Sie die genannte URL in die Suchleiste eingeben. Machen Sie sich mit der Webseite und deren Funktionen vertraut. 
 
 ```bash
 💡 Mit Hilfe der Netzwerkanalyse aus den eingebauten Entwicklerwerkzeugen des Browsers können HTTP Anfragen und Antworten der Webseite verfolgt werden.
@@ -173,7 +173,7 @@ Laden Sie vorerst einmal eine normale Bilddatei hoch, in dem Sie unten links in 
     Dafür müssen Sie den Befehl **target** eingeben, gefolgt von dem Befehl
     
     ```bash
-    set target http://<local_ip_adresse>:8080
+    set target http://<local_ip_adresse>:8082
     ```
     
     Mit der Eingabe von **view** lassen sich die Ziele einsehen.
@@ -192,7 +192,7 @@ Laden Sie vorerst einmal eine normale Bilddatei hoch, in dem Sie unten links in 
     Laden Sie die Webshell (webshell.php) über die Upload Funktion der Webseite auf den Webserver und öffnen Sie das Skript über den Browser, indem Sie in der Suchleiste die URL 
     
     ```
-    [localhost:8080](http://localhost:8080)/[storage_path]/[file_name] 
+    [localhost:8082](http://localhost:8082)/[storage_path]/[file_name] 
     ```
     
     eingeben. Das Passwort um für die Autorisierung der Webshell ist: "**j~82BQC\;3N<`HK~**".
