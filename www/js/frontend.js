@@ -39,6 +39,9 @@ class VHLTerminal {
         case '\u0003': // Ctrl+C
           this.term.write('^C');
           this.term.prompt();
+          this.command = '\u0003'
+          this.runCommand();
+          this.command = ''
           break;
         case '\r': // Enter
           this.runCommand(this.term, );
