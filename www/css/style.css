@@ -917,6 +917,7 @@ nav ul li a {
 
 
 .panel-right {
+  flex: 47;
   background-color: #ddd;
   overflow-x: hidden;
   overflow-y: hidden;
