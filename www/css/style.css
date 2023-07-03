@@ -904,7 +904,6 @@ nav ul li a {
 
 .panel {
   flex: 1;
-  overflow-y: auto;
   padding: 80px;
 }
 
@@ -921,6 +920,7 @@ nav ul li a {
   flex: 47;
   background-color: #ddd;
   overflow-x: hidden;
+  overflow-y: hidden;
   position: relative;
 }
 
