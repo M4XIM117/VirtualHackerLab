@@ -117,6 +117,13 @@ p {
   line-height: 1.5em;
 }
 
+li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-light);
+  line-height: 1.5em;
+}
+
 b,
 strong {
   font-weight: var(--font-weight-bold);
