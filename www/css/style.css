@@ -910,7 +910,7 @@ nav ul li a {
 .panel-left {
   overflow: auto;
   overflow-y: auto;
-  flex: 1;
+  flex: 60;
   /* Vertikale Scrollleiste anzeigen, wenn Inhalt zu lang */
   overflow-x: hidden;
   /* Horizontale Scrollleiste ausblenden */
