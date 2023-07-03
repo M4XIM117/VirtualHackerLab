@@ -3,7 +3,6 @@ services:
   login_patched:
     build:
       context: Login
-    image: log4shell-login
     stdin_open: true
     tty: true
     command: ["tail", "-f", "/dev/null"]
@@ -13,7 +12,6 @@ services:
   httpserver_patched:
     build:
       context: HttpServer
-    image: log4shell-httpserver
     hostname: hackerslabhttp_patched
     ports:
       - '8082:8082'
@@ -23,7 +21,6 @@ services:
   ldapserver_patched:
     build:
       context: LDAPServer
-    image: log4shell-ldapserver
     hostname: hackerslabldap_patched
     ports:
       - '10389:10389'
