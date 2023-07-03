@@ -903,14 +903,13 @@ nav ul li a {
 }
 
 .panel {
-  flex: 1;
   padding: 80px;
 }
 
 .panel-left {
   overflow: auto;
   overflow-y: auto;
-  flex: 60;
+  flex: 1;
   /* Vertikale Scrollleiste anzeigen, wenn Inhalt zu lang */
   overflow-x: hidden;
   /* Horizontale Scrollleiste ausblenden */
@@ -918,7 +917,6 @@ nav ul li a {
 
 
 .panel-right {
-  flex: 47;
   background-color: #ddd;
   overflow-x: hidden;
   overflow-y: hidden;
