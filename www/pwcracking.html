@@ -188,44 +188,37 @@ bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos
 ausführen.</li>
 <li>-it: i = interactive; t = Allocate pseudo TTY</li>
 </ul>
-<h1 id="star-start">:star: Start</h1>
+<h1 id="start">Start</h1>
 <h2 style="color:red">
 <ol type="1">
 <li>Part: ONLINE Passwort-Cracking (ssh)
 </h2></li>
 </ol>
-<ul>
-<li><h3 style="color:lightblue">
-<p>Schritt 1.1</p>
+<h3 style="color:lightblue">
+Schritt 1.1 Offene Ports scannen
 </h3>
 <p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
 benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
 IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
 Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
 IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
-folgenden Befehl aus:</p>
-<pre><code> ip address show eth0</code></pre>
-<p>In der Ausgabe sehen wir nun einen Eintrag nach <em>inet</em> die
-IP-Adresse des Containers.</p>
+folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
+sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
+Containers.</p>
 <p>Bspw. 172.18.0.5/16</p>
 <p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
-welcher oben bereits beschrieben wurde.</p>
-<pre><code>nmap 172.18.0.0-16</code></pre>
-<p>:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
+welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
+:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
 wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
 <em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
 <p>Nun benötigen wir für den restlichen Versuch folgende Informationen
-aus der Ausgabe: <em>(Kopieren Sie sich diese in einen
-Texteditor!)</em></p>
-<ul>
-<li>IP-Adresse, wo ein Host gefunden wurde</li>
-<li>Der bekannte Port der einzelnen IP-Adressen<br> (999 &amp; 998 sind
-uninteressant, nur die tabellarische Ausgabe beachten)</li>
-<li>Der jeweilige Service hinter einem Port (Sie sollten ssh, http und
-mysql finden)</li>
-</ul></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 1.2</p>
+aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
+- IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
+einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
+tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
+Port (Sie sollten ssh, http und mysql finden)</p>
+<h3 style="color:lightblue">
+Schritt 1.2
 </h3>
 <p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
 <p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
@@ -235,15 +228,11 @@ Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
 zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
 verwenden wir als Input für unseren Angriffsversuch mit
 <em>Hydra</em>.</p>
-<p>Der Befehl um Hydra zu starten lautet wie folgt:</p>
-<pre><code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code></pre>
-<ul>
-<li>auf -L folgt die Listeneingabe der User</li>
-<li>auf -P folgt die Listeneingabe der möglichen Passwörter</li>
-<li>-V loggt die Versuche &amp; -f bricht hydra ab, sobald ein Passwort
-gefunden wurde.</li>
-</ul></li>
-</ul>
+<p>Der Befehl um Hydra zu starten lautet wie folgt:
+<code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
+- auf -L folgt die Listeneingabe der User - auf -P folgt die
+Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
+bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
 <p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
 Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
 Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
@@ -257,14 +246,14 @@ Ubuntu Server herzustellen:</p>
 Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
 Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
 Internetseite, welche als Angriffsziel des Versuchs dient, ist der
-“password_cracking_login_vulnapp” Container. -
+“password_cracking_login_vulnapp” Container.
 <h3 style="color:lightblue">
 Schritt 2.0
 </h3>
 Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
 gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
-Loginformular sehen. -
+Loginformular sehen.
 <h3 style="color:lightblue">
 Schritt 2.1
 </h3>
@@ -277,12 +266,13 @@ Backend-Query für das Login-Formular sieht wie folgt aus:</p>
 erfolgreichen Login vorzutäuschen. __<em> :bulb:
 </em><strong>Hinweis</strong>_</p>
 <ul>
-<li><p>In MySQL beginnen Kommentare mit einem #</p></li>
-<li><p>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input
-PW&gt; sind von Hochkommata (’) eingeschlossen.</p></li>
-<li><p>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</p></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 2.2</p>
+<li>In MySQL beginnen Kommentare mit einem #</li>
+<li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
+sind von Hochkommata (’) eingeschlossen.</li>
+<li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
+</ul>
+<h3 style="color:lightblue">
+Schritt 2.2
 </h3>
 <p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
 Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
@@ -296,9 +286,9 @@ welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
 für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
 <em>&lt;IP Adresse&gt;</em> mit der IP des
 password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
-welche Sie in der Browser eingegeben haben (ohne :Port!).</p></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 2.3</p>
+welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
+<h3 style="color:lightblue">
+Schritt 2.3
 </h3>
 <p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
 SQLMAP auf den HTTP-Request starten:</p>
@@ -319,8 +309,7 @@ mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
 (Sie können auch den Default verwenden). Die Datei liegt im aktuellen
 Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
 der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
-anzeigen.</p></li>
-</ul>
+anzeigen.</p>
 <hr />
 <p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
 die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
@@ -334,10 +323,7 @@ schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
 Außerdem konnte man in diesem Versuch gut sehen, dass der
 Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
 benötigen deutlich mehr Zeit und machen Brute-Force noch
-ineffizienter.<br> 🛠️</p>
-<hr />
-<h1 id="star-sie-haben-das-ende-der-übung-erreicht">:star: Sie haben das
-Ende der Übung erreicht</h1>
+ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
 <h1 id="übungsanleitung-1">Übungsanleitung</h1>
 <h2 id="password-cracking-sql-injection-1"><strong>Password-Cracking
 &amp; SQL-Injection</strong></h2>
@@ -434,44 +420,37 @@ bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos
 ausführen.</li>
 <li>-it: i = interactive; t = Allocate pseudo TTY</li>
 </ul>
-<h1 id="star-start-1">:star: Start</h1>
+<h1 id="start-1">Start</h1>
 <h2 style="color:red">
 <ol type="1">
 <li>Part: ONLINE Passwort-Cracking (ssh)
 </h2></li>
 </ol>
-<ul>
-<li><h3 style="color:lightblue">
-<p>Schritt 1.1</p>
+<h3 style="color:lightblue">
+Schritt 1.1 Offene Ports scannen
 </h3>
 <p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
 benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
 IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
 Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
 IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
-folgenden Befehl aus:</p>
-<pre><code> ip address show eth0</code></pre>
-<p>In der Ausgabe sehen wir nun einen Eintrag nach <em>inet</em> die
-IP-Adresse des Containers.</p>
+folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
+sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
+Containers.</p>
 <p>Bspw. 172.18.0.5/16</p>
 <p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
-welcher oben bereits beschrieben wurde.</p>
-<pre><code>nmap 172.18.0.0-16</code></pre>
-<p>:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
+welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
+:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
 wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
 <em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
 <p>Nun benötigen wir für den restlichen Versuch folgende Informationen
-aus der Ausgabe: <em>(Kopieren Sie sich diese in einen
-Texteditor!)</em></p>
-<ul>
-<li>IP-Adresse, wo ein Host gefunden wurde</li>
-<li>Der bekannte Port der einzelnen IP-Adressen<br> (999 &amp; 998 sind
-uninteressant, nur die tabellarische Ausgabe beachten)</li>
-<li>Der jeweilige Service hinter einem Port (Sie sollten ssh, http und
-mysql finden)</li>
-</ul></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 1.2</p>
+aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
+- IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
+einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
+tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
+Port (Sie sollten ssh, http und mysql finden)</p>
+<h3 style="color:lightblue">
+Schritt 1.2
 </h3>
 <p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
 <p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
@@ -481,15 +460,11 @@ Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
 zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
 verwenden wir als Input für unseren Angriffsversuch mit
 <em>Hydra</em>.</p>
-<p>Der Befehl um Hydra zu starten lautet wie folgt:</p>
-<pre><code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code></pre>
-<ul>
-<li>auf -L folgt die Listeneingabe der User</li>
-<li>auf -P folgt die Listeneingabe der möglichen Passwörter</li>
-<li>-V loggt die Versuche &amp; -f bricht hydra ab, sobald ein Passwort
-gefunden wurde.</li>
-</ul></li>
-</ul>
+<p>Der Befehl um Hydra zu starten lautet wie folgt:
+<code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
+- auf -L folgt die Listeneingabe der User - auf -P folgt die
+Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
+bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
 <p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
 Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
 Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
@@ -503,14 +478,14 @@ Ubuntu Server herzustellen:</p>
 Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
 Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
 Internetseite, welche als Angriffsziel des Versuchs dient, ist der
-“password_cracking_login_vulnapp” Container. -
+“password_cracking_login_vulnapp” Container.
 <h3 style="color:lightblue">
 Schritt 2.0
 </h3>
 Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
 gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
-Loginformular sehen. -
+Loginformular sehen.
 <h3 style="color:lightblue">
 Schritt 2.1
 </h3>
@@ -523,12 +498,13 @@ Backend-Query für das Login-Formular sieht wie folgt aus:</p>
 erfolgreichen Login vorzutäuschen. __<em> :bulb:
 </em><strong>Hinweis</strong>_</p>
 <ul>
-<li><p>In MySQL beginnen Kommentare mit einem #</p></li>
-<li><p>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input
-PW&gt; sind von Hochkommata (’) eingeschlossen.</p></li>
-<li><p>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</p></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 2.2</p>
+<li>In MySQL beginnen Kommentare mit einem #</li>
+<li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
+sind von Hochkommata (’) eingeschlossen.</li>
+<li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
+</ul>
+<h3 style="color:lightblue">
+Schritt 2.2
 </h3>
 <p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
 Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
@@ -542,9 +518,9 @@ welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
 für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
 <em>&lt;IP Adresse&gt;</em> mit der IP des
 password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
-welche Sie in der Browser eingegeben haben (ohne :Port!).</p></li>
-<li><h3 style="color:lightblue">
-<p>Schritt 2.3</p>
+welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
+<h3 style="color:lightblue">
+Schritt 2.3
 </h3>
 <p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
 SQLMAP auf den HTTP-Request starten:</p>
@@ -565,8 +541,7 @@ mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
 (Sie können auch den Default verwenden). Die Datei liegt im aktuellen
 Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
 der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
-anzeigen.</p></li>
-</ul>
+anzeigen.</p>
 <hr />
 <p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
 die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
@@ -580,11 +555,7 @@ schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
 Außerdem konnte man in diesem Versuch gut sehen, dass der
 Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
 benötigen deutlich mehr Zeit und machen Brute-Force noch
-ineffizienter.<br> 🛠️</p>
-<hr />
-<h1 id="star-sie-haben-das-ende-der-übung-erreicht-1">:star: Sie haben
-das Ende der Übung erreicht</h1>
-
+ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
         </div>
         <div class="panel panel-right">
             <div class="tabs">
