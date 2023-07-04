@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Passwortüberprüfung
         if (password_verify($password, $storedPassword)) {
-            $_SESSION["loggedin"] = true; // Sitzungsvariable setzen
             header("Location: labore.php"); // Weiterleitung zur labore.php-Seite
+            $_SESSION["loggedin"] = true; // Sitzungsvariable setzen
             exit();
         } else {
             echo "Falsches Passwort";
