@@ -8,7 +8,6 @@ $port = 3306;
 
 $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
-session_start();
 
 // Überprüfen, ob die Verbindung erfolgreich war
 if ($conn->connect_error) {
@@ -40,6 +39,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Benutzer nicht gefunden";
     }
 }
-
 $conn->close();
 ?>
