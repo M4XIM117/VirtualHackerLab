@@ -175,7 +175,7 @@ if (!$loggedIn) {
                         <h3 class="mb-1">Log4Shell</h3>
                         <span><strong>Level</strong> - easy</span>
                         <p class="mt-3">Schädlichen Code über Log-Nachrichten einschleusen und ausführen, um Systeme zu kompromittieren.</p>
-                        <button class="custom-button webshell" onclick="window.location.href = 'webshell.html'">Labor starten</button>
+                        <button class="custom-button webshell" onclick="window.location.href = 'log4shell.html'">Labor starten</button>
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@ if (!$loggedIn) {
                         <h3 class="mb-1">Password-Cracking & SQL Injection</h3>
                         <span><strong>Level</strong> - middle</span>
                         <p class="mt-3">Online und Offline Brute Force sowie Passwort-Hashes mit SQL-injection herausfinden</p>
-                        <button class="custom-button log4shell" onclick="window.location.href = 'log4shell.html'">Labor starten</button>
+                        <button class="custom-button log4shell" onclick="window.location.href = 'pwcracking.html'">Labor starten</button>
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@ if (!$loggedIn) {
                         <h3 class="mb-1">Webshell</h3>
                         <span><strong>Level</strong> - hard</span>
                         <p class="mt-3">Durch Skripteinschleusung über Web-Upload in einen Server gelangen, auf diesen zugreifen und Kontrolle ausüben</p>
-                        <button class="custom-button log4j" onclick="window.location.href = 'pwcracking.html'">Labor starten</button>
+                        <button class="custom-button log4j" onclick="window.location.href = 'webshell.html'">Labor starten</button>
                     </div>
                 </div>
             </div>
