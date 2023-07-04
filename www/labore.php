@@ -2,7 +2,7 @@
 session_start(); // Starte die Sitzung, um auf die Sitzungsvariablen zugreifen zu können
 
 // Überprüfe, ob der Benutzer angemeldet ist
-$loggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
 
 // Weiterleitung zur Login-Seite oder Anzeige einer Fehlermeldung, wenn der Benutzer nicht angemeldet ist
 if (!$loggedIn) {
