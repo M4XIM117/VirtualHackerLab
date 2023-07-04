@@ -1,4 +1,5 @@
 <?php
+session_start();
 // MySQL-Verbindung herstellen
 $servername = "virtualhackerlab_database_1";
 $dbname = "jahresprojekt";
@@ -8,7 +9,7 @@ $port = 3306;
 
 $conn = mysqli_connect($servername, $username, $password, $dbname, $port);
 
-session_start();
+
 
 // Überprüfen, ob die Verbindung erfolgreich war
 if ($conn->connect_error) {
