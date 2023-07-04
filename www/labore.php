@@ -1,13 +1,15 @@
 <?php
-// labore.php
-
 session_start(); // Starte die Sitzung, um auf die Sitzungsvariablen zugreifen zu können
 
 // Überprüfe, ob der Benutzer angemeldet ist
-$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+$loggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 
+// Weiterleitung zur Login-Seite oder Anzeige einer Fehlermeldung, wenn der Benutzer nicht angemeldet ist
+if (!$loggedIn) {
+    header('Location: index.php');
+    exit;
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="de">
@@ -16,27 +18,36 @@ $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
     <title>Virtual Hacker's Lab</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
-    <!-- für SEO: muss noch ausgefüllt werden -->
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="">
+    <meta name="description"
+        content="Virtual Hacker's Lab ist eine interaktive Plattform, die virtuelle Hacking Labs für das Lernen und Üben von Ethical Hacking und Cyber-Security bietet. Entdecke eine breite Palette von Herausforderungen, um deine Fähigkeiten zu verbessern und echte Szenarien zu simulieren. Tauche ein in die Welt des Hackings und erlange wertvolles Wissen für eine Karriere in der Cyber-Security.">
+    <meta name="keywords"
+        content="Virtual Hacker's Lab, virtuelle Hacking Labs, Ethical Hacking, Cyber-Security, Hacking Herausforderungen, Lernen, Üben, Cyber-Security-Versuche">
+    <meta name="author" content="Virtual Hacker's Lab Team">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <link rel="icon" href="favicon.ico" type="images/x-icon">
+    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="fonts/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/aos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/xterm.css">
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="favicon.ico" type="images/x-icon">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .site-footer {
+            margin-top: auto;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
 
-    <!-- MENU BAR -->
     <!-- MENU BAR -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -54,18 +65,18 @@ $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
                     <li class="nav-item">
                         <a href="labore.php" class="nav-link">Labore</a>
                     </li>
-                    <?php if($loggedIn): ?>
-                    <li class="nav-item">
-                        <a href="logout.php" class="nav-link">Abmelden</a>
-                    </li>
+                    <?php if ($loggedIn): ?>
+                        <li class="nav-item">
+                            <a href="logout.php" class="nav-link">Abmelden</a>
+                        </li>
                     <?php else: ?>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-toggle="modal" data-target="#registerModal">Registrieren</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i
-                                class="fas fa-sign-in-alt"></i> Anmelden</a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#registerModal">Registrieren</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#loginModal"><i
+                                    class="fas fa-sign-in-alt"></i> Anmelden</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -157,35 +168,35 @@ $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
                 <h6>Erreiche deine Ziele</h6>
                 <h2>Unsere Labore</h2>
             </div>
-            <div class="col-lg-4 col-md-6 col-12">
+            <div class="col-lg-4 col-md-6 col-12" id="log4shell-card">
                 <div class="class-thumb">
                     <img src="images/labs/lab-easy.jpg" class="img-lab1" alt="Labor-1">
                     <div class="class-info">
-                        <h3 class="mb-1">Webshell</h3>
+                        <h3 class="mb-1">Log4Shell</h3>
                         <span><strong>Level</strong> - easy</span>
-                        <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+                        <p class="mt-3">Schädlichen Code über Log-Nachrichten einschleusen und ausführen, um Systeme zu kompromittieren.</p>
                         <button class="custom-button webshell" onclick="window.location.href = 'webshell.html'">Labor starten</button>
                     </div>
                 </div>
             </div>
-            <div class="mt-5 mt-lg-0 mt-md-0 col-lg-4 col-md-6 col-12">
+            <div class="mt-5 mt-lg-0 mt-md-0 col-lg-4 col-md-6 col-12" id="pwcracking-card">
                 <div class="class-thumb">
                     <img src="images/labs/lab-middle.jpg" class="img-lab2" alt="Labor-2">
                     <div class="class-info">
-                        <h3 class="mb-1">Jog4Shell</h3>
+                        <h3 class="mb-1">Password-Cracking & SQL Injection</h3>
                         <span><strong>Level</strong> - middle</span>
-                        <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+                        <p class="mt-3">Online und Offline Brute Force sowie Passwort-Hashes mit SQL-injection herausfinden</p>
                         <button class="custom-button log4shell" onclick="window.location.href = 'log4shell.html'">Labor starten</button>
                     </div>
                 </div>
             </div>
-            <div class="mt-5 mt-lg-0 col-lg-4 col-md-6 col-12">
+            <div class="mt-5 mt-lg-0 col-lg-4 col-md-6 col-12" id="webshell-card">
                 <div class="class-thumb">
                     <img src="images/labs/lab-hard.jpg" class="img-lab3" alt="Class">
                     <div class="class-info">
-                        <h3 class="mb-1">Password-Cracking & SQL Injection</h3>
+                        <h3 class="mb-1">Webshell</h3>
                         <span><strong>Level</strong> - hard</span>
-                        <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+                        <p class="mt-3">Durch Skripteinschleusung über Web-Upload in einen Server gelangen, auf diesen zugreifen und Kontrolle ausüben</p>
                         <button class="custom-button log4j" onclick="window.location.href = 'pwcracking.html'">Labor starten</button>
                     </div>
                 </div>
@@ -198,25 +209,24 @@ $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
     <footer class="site-footer">
         <div class="container">
             <div class="row">
-                <div class="ml-auto col-lg-4 col-md-5">
-                    <p class="copyright-text">Copyright &copy; 2023 vhl
-                        <br>Projekt: VHL</a>
-                    </p>
+                <div class="col-lg-4 col-md-5">
+                    <p class="footer-text">Virtual Hacker's Lab &copy; 2023</p>
                 </div>
-                <div class="d-flex justify-content-center mx-auto col-lg-5 col-md-7 col-12">
-                    <p class="mr-4">
-                        <i class="fa fa-envelope-o mr-1"></i>
-                        <a href="#">info@vhl.de</a>
-                    </p>
+                <div class="col-lg-5 col-md-7 col-12">
+                    <ul class="footer-menu">
+                        <li><a href="aboutproject.html">Über uns</a></li>
+                        <li><a href="labore.php">Labore</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#registerModal">Registrieren</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#loginModal">Anmelden</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </footer>
 
+
     <!-- SCRIPTS -->
     <script src="js/script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/aos.js"></script>
