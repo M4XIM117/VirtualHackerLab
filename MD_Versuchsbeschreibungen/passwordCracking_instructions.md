@@ -73,7 +73,7 @@ nano <Dateiname>
 
 # Start
 
-<h3 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
+<h3 style="color:Tomato">1. Part: ONLINE Passwort-Cracking (ssh)</h2>
 
 <h3 style="color:steelblue">Schritt 1.1 Offene Ports scannen</h3>
 
@@ -117,7 +117,7 @@ Um dies zu bestätigen können Sie nun mit den Informationen versuchen, eine ssh
 ssh <Username>@<IP des Ubuntu Containers>
 ```
 
-<h3 style="color:red">  2. Part: SQL-Injection </h2>
+<h3 style="color:Tomato">2. Part: SQL-Injection</h2>
 Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite anwenden, um an vertrauliche Daten zu kommen. Die Internetseite, welche als Angriffsziel des Versuchs dient, ist der "password_cracking_login_vulnapp" Container.
 <h3 style="color:steelblue">Schritt 2.0</h3>
   Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples Loginformular sehen.
