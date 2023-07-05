@@ -90,7 +90,7 @@ nano <Dateiname>
   ```
   nmap 172.18.0.0-16
   ```
-  :exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz _172.18.0_ über eine Range von 16 Host-IDs anzeigen.
+  ❗  Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz _172.18.0_ über eine Range von 16 Host-IDs anzeigen.
 
   Nun benötigen wir für den restlichen Versuch folgende Informationen aus der Ausgabe: _(Kopieren Sie sich diese in einen Texteditor!)_
   - IP-Adresse, wo ein Host gefunden wurde
