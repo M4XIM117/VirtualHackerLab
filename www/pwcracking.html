@@ -131,16 +131,18 @@
                 in dieser Übung bei dem Webshell-Angriff.</p>
                 <ul>
                 <li><p><strong>Hydra</strong></p>
-                <p>Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen
-                Funkionen. Hier verwendet für den ersten einfachen online Brute-Force
-                Angriff.</p></li>
+                <p>Brute-Force Passwort-Cracking Werkzeug für unterschiedlichste
+                Protokolle. Hier verwendet für den ersten einfachen online Brute-Force
+                Angriff mit SSH. https://github.com/vanhauser-thc/thc-hydra</p></li>
                 <li><p><strong>SQL Map</strong></p>
-                <p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu
-                testen.</p></li>
+                <p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu testen und
+                ggf. auszunutzen. https://sqlmap.org/</p></li>
                 <li><p><strong>HashCat</strong></p>
-                <p>Werkzeug um Brute-Force auf gehashte Werte durchzuführen.</p></li>
+                <p>Werkzeug um Hashwerte zu knacken.
+                https://hashcat.net/hashcat/</p></li>
                 <li><p><strong>NMap</strong></p>
-                <p>Werkzeug für Network Discovery, um Hosts zu entdecken.</p></li>
+                <p>“Network Mapper”. Werkzeug für Network Discovery, um Hosts zu
+                entdecken. https://nmap.org/</p></li>
                 </ul></li>
                 </ul>
                 <h3 id="angriffsziele">Angriffsziele</h3>
@@ -177,7 +179,7 @@
                 welche als Input für die SQL-Injection verwendet wird.</li>
                 </ul>
                 <h1 id="start">Start</h1>
-                <h3 style="color:red">
+                <h3 style="color:Tomato">
                 <ol type="1">
                 <li>Part: ONLINE Passwort-Cracking (ssh)
                 </h2></li>
@@ -196,8 +198,8 @@
                 <p>Bspw. 172.18.0.5/16</p>
                 <p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
                 welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
-                :exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
-                wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
+                ❗ Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt wurde. Mit
+                diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
                 <em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
                 <p>Nun benötigen wir für den restlichen Versuch folgende Informationen
                 aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
@@ -226,7 +228,7 @@
                 Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
                 Ubuntu Server herzustellen:</p>
                 <pre><code>ssh &lt;Username&gt;@&lt;IP des Ubuntu Containers&gt;</code></pre>
-                <h3 style="color:red">
+                <h3 style="color:Tomato">
                 <ol start="2" type="1">
                 <li>Part: SQL-Injection
                 </h2>
@@ -286,18 +288,17 @@
                 übergeben</li>
                 <li>– dump bringt sqlmap dazu, sämtliche Informationen auszugeben,
                 welches es abgreifen kann</li>
-                <li>💡SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen
-                Sie die Hinweise und antworten Sie dementsprechend.</li>
+                <li>💡 SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen Sie
+                die Hinweise und antworten Sie dementsprechend.</li>
                 </ul>
-                <p>❗  SQLMAP erkennt die Hashwerte in Kombination mit dem
-                Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an,
-                einen Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein.
-                Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary
-                mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
-                (Sie können auch den Default verwenden). Die Datei liegt im aktuellen
-                Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
-                der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
-                anzeigen.</p>
+                <p>❗ SQLMAP erkennt die Hashwerte in Kombination mit dem Spaltennamen
+                direkt als angreifbare Passwortspalte und bietet Ihnen an, einen
+                Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein. Anschließend
+                müssen Sie auswählen, ob Sie ein eigenes Dictionary mitgeben möchten.
+                Dies bestätigen Sie indem Sie <em>“2”</em> eintippen (Sie können auch
+                den Default verwenden). Die Datei liegt im aktuellen Verzeichnis und
+                heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu der Datei ein und
+                lassen Sie sich die Passwörter neben den Hashwerten anzeigen.</p>
                 <hr />
                 <p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
                 die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
@@ -311,12 +312,10 @@
                 Außerdem konnte man in diesem Versuch gut sehen, dass der
                 Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
                 benötigen deutlich mehr Zeit und machen Brute-Force noch
-                ineffizienter.<br> 🛠️</p>
-                <hr />
+                ineffizienter.<br> 🛠️<br> ___</p>
                 <h2 id="sie-haben-das-ende-der-übung-erreicht">Sie haben das Ende der
                 Übung erreicht</h2>
                 
-                        
         </div>
         <div class="panel panel-right">
             <div class="tabs">

@@ -26,20 +26,22 @@
     
     - **Hydra**
         
-        Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen Funkionen. 
-        Hier verwendet für den ersten einfachen online Brute-Force Angriff.
+        Brute-Force Passwort-Cracking Werkzeug für unterschiedlichste Protokolle. 
+        Hier verwendet für den ersten einfachen online Brute-Force Angriff mit SSH.
+        https://github.com/vanhauser-thc/thc-hydra
         
     - **SQL Map**
         
-        Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu testen.
+        Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu testen und ggf. auszunutzen. https://sqlmap.org/
     
     - **HashCat**
         
-        Werkzeug um Brute-Force auf gehashte Werte durchzuführen.
+        Werkzeug um Hashwerte zu knacken. https://hashcat.net/hashcat/
 
     - **NMap**
 
-        Werkzeug für Network Discovery, um Hosts zu entdecken.
+        "Network Mapper". Werkzeug für Network Discovery, um Hosts zu entdecken.
+        https://nmap.org/
 
 ### Angriffsziele
 
