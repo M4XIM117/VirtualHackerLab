@@ -130,7 +130,7 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   ```
   Probieren Sie, ohne valide Einloggdaten zu kennen, einen erfolgreichen Login vorzutäuschen.<br>
   ___
-  :bulb: _**Hinweis**_
+  💡 _**Hinweis**_
 
   - In MySQL beginnen Kommentare mit einem #
   - Die Eingabevariablen \<Input Username> & \<Input PW> sind von Hochkommata (') eingeschlossen.
@@ -150,9 +150,9 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   ```
   - _username_ wird als _testable parameter_ übergeben
   - -- dump bringt sqlmap dazu, sämtliche Informationen auszugeben, welches es abgreifen kann
-  - :bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs.  Lesen Sie die Hinweise und antworten Sie dementsprechend.
+  - 💡 SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs.  Lesen Sie die Hinweise und antworten Sie dementsprechend.
   
-  :exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an, einen Dictionary-Attack zu starten. Tippen Sie _"y"_ ein. Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary mitgeben möchten. Dies bestätigen Sie indem Sie _"2"_ eintippen (Sie können auch den Default verwenden). Die Datei liegt im aktuellen Verzeichnis und heißt _"passwords.txt"_. Tippen Sie den Pfad zu der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten anzeigen.
+  ❗ SQLMAP erkennt die Hashwerte in Kombination mit dem Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an, einen Dictionary-Attack zu starten. Tippen Sie _"y"_ ein. Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary mitgeben möchten. Dies bestätigen Sie indem Sie _"2"_ eintippen (Sie können auch den Default verwenden). Die Datei liegt im aktuellen Verzeichnis und heißt _"passwords.txt"_. Tippen Sie den Pfad zu der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten anzeigen.
 
 ___
 
@@ -160,7 +160,7 @@ ___
 Um die Sicherheitslücke für SQL-Injection zu schließen können die Eingaben vorab validiert werden sowie in Parameter für _Prepared Statements_ einfließen. _Prepared Statements_ sind ein Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und funktionieren:
 https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br>
 Bei Passwort-Agriffen sollten man Betreiber einer Webseite oder eines Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert. Außerdem konnte man in diesem Versuch gut sehen, dass der Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2 benötigen deutlich mehr Zeit und machen Brute-Force noch ineffizienter.<br>
-🛠️
+🛠️<br>
 ___
 
 ## Sie haben das Ende der Übung erreicht 
