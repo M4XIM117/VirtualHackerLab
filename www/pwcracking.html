@@ -91,472 +91,442 @@
     </div>
 
     <section class="panel-container">
-        <div class="panel panel-left">
-            <h1 id="übungsanleitung">Übungsanleitung</h1>
-<h2 id="password-cracking-sql-injection"><strong>Password-Cracking &amp;
-SQL-Injection</strong></h2>
-<h3 id="allgemeines">Allgemeines</h3>
-<ul>
-<li><p><strong>Password-Cracking</strong></p>
-<p>Beim Password-Cracking unterscheidet man grundsätzlich zwischen
-Online und Offline Angriffen.</p>
-<ul>
-<li>Online-Angriffe sind aufgrund Timeouts der Anfragen nicht so
-effizient wie ein Offline-Brute-Force Angriff. Hierbei versucht man
-bspw. durch eine Vielzahl an Anfragen das Passwort für einen
-<strong>bekannten</strong> Usernamen das Passwort zu erraten. Als Input
-verwendet man den bekannten User und eine Liste (Textdatei) mit gängigen
-Passwörtern, die durchgetestet werden können.</li>
-<li>Bei Offline Brute-Force Angriffen sind meistens bereits Passwörter
-<strong>in gehashter Form</strong> vorhanden (Bereits erfolgreicher
-Angriff auf Datenbank, wo Usernamen und gehashte Passwörter abgegriffen
-werden konnten). Hierbei werden Timeouts vermieden, da der Rechner lokal
-Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes
-identisch sind.</li>
-</ul></li>
-<li><p><strong>SQL-Injection</strong></p>
-<ul>
-<li>Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login)
-unsichere SQL-Queries, können mit schlauen Eingabestrings die
-SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und
-vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es
-ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu
-testen.</li>
-</ul></li>
-</ul>
-<h3 id="komponenten">Komponenten</h3>
-<ul>
-<li><h3 id="angreifer">Angreifer</h3>
-<ul>
-<li><p><strong>Kali Linux</strong></p>
-<p>Eine auf Debian basierte Linux Distribution. Kali Linux stellt
-Programme für Penetrationstest zur Verfügung. Die auf dieser
-Distribution installierten Programme unterstützen den/die Angreifer/-in,
-in dieser Übung bei dem Webshell-Angriff.</p>
-<ul>
-<li><p><strong>Hydra</strong></p>
-<p>Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen
-Funkionen. Hier verwendet für den ersten einfachen online Brute-Force
-Angriff.</p></li>
-<li><p><strong>SQL Map</strong></p>
-<p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu
-testen.</p></li>
-<li><p><strong>HashCat</strong></p>
-<p>Werkzeug um Brute-Force auf gehashte Werte durchzuführen.</p></li>
-<li><p><strong>NMap</strong></p>
-<p>Werkzeug für Network Discovery, um Hosts zu entdecken.</p></li>
-</ul></li>
-</ul></li>
-<li><h3 id="angriffsziele">Angriffsziele</h3>
-<ul>
-<li><p><strong>Ubuntu Rechner</strong></p>
-<p>Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit
-Brute-Force vertraut zu machen. Besitzt mehrere User für eine
-ssh-Verbindung, welche mittels Online-Cracking geknackt wird.</p></li>
-<li><p><strong>Webapplikation</strong></p>
-<p>Eine einfache Webseite mit Login-Formular und anschließender
-SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten
-(gehashte Passwörter) abzugreifen und anschließen offline zu
-knacken.</p></li>
-<li><p><strong>Datenbank</strong></p>
-<p>Eine MySQL-Datenbank. Enthält Userdaten der Webseite.</p></li>
-</ul></li>
-</ul>
-<h3 id="hilfreiche-befehle">💡Hilfreiche Befehle💡</h3>
-<pre><code>sudo &lt;eigentlicher Befehl&gt;</code></pre>
-<ul>
-<li>Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos
-das Schlüsselwort ‘sudo’ davorstellen, um den Befehl auszuführen.</li>
-</ul>
-<pre><code>nano &lt;Dateiname&gt;</code></pre>
-<ul>
-<li>Nano ist ein Textbearbeitungsinstrument für Linux. Ist die
-angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch
-benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei,
-welche als Input für die SQL-Injection verwendet wird.</li>
-</ul>
-<pre><code>docker-compose up -d --build</code></pre>
-<ul>
-<li>-d steht für daemon: Service läuft dann im Hintergrund und blockiert
-nicht das Terminal</li>
-<li>–build: Rebuilded die Docker-Images</li>
-</ul>
-<pre><code>docker exec -it &lt;CONTAINER-NAME&gt; bash</code></pre>
-<ul>
-<li>exec führt Befehl auf bestimmten container aus. In diesem Falle
-bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos
-ausführen.</li>
-<li>-it: i = interactive; t = Allocate pseudo TTY</li>
-</ul>
-<h1 id="start">Start</h1>
-<h2 style="color:red">
-<ol type="1">
-<li>Part: ONLINE Passwort-Cracking (ssh)
-</h2></li>
-</ol>
-<h3 style="color:steelblue">
-Schritt 1.1 Offene Ports scannen
-</h3>
-<p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
-benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
-IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
-Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
-IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
-folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
-sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
-Containers.</p>
-<p>Bspw. 172.18.0.5/16</p>
-<p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
-welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
-:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
-wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
-<em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
-<p>Nun benötigen wir für den restlichen Versuch folgende Informationen
-aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
-- IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
-einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
-tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
-Port (Sie sollten ssh, http und mysql finden)</p>
-<h3 style="color:steelblue">
-Schritt 1.2
-</h3>
-<p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
-<p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
-Dateien <em>passwords.txt</em> und <em>users.txt</em> sehen. Mit dem
-<em>nano</em>-Befehl können Sie die Dateien öffnen und mal anschauen.
-Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
-zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
-verwenden wir als Input für unseren Angriffsversuch mit
-<em>Hydra</em>.</p>
-<p>Der Befehl um Hydra zu starten lautet wie folgt:
-<code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
-- auf -L folgt die Listeneingabe der User - auf -P folgt die
-Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
-bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
-<p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
-Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
-Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
-Ubuntu Server herzustellen:</p>
-<pre><code>ssh &lt;Username&gt;@&lt;IP des Ubuntu Containers&gt;</code></pre>
-<h2 style="color:red">
-<ol start="2" type="1">
-<li>Part: SQL-Injection
-</h2></li>
-</ol>
-Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
-Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
-Internetseite, welche als Angriffsziel des Versuchs dient, ist der
-“password_cracking_login_vulnapp” Container.
-<h3 style="color:steelblue">
-Schritt 2.0
-</h3>
-Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
-in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
-gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
-Loginformular sehen.
-<h3 style="color:steelblue">
-Schritt 2.1
-</h3>
-<p>Wie bereits beschrieben werden bei SLQ-Injections die Eingaben
-bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert
-werden können. Das DBMS in diesem Beispiel basiert auf MySQL. Das
-Backend-Query für das Login-Formular sieht wie folgt aus:</p>
-<pre><code>SELECT * FROM user WHERE username = &#39;&lt;Input Username&gt;&#39; AND password_hash = &#39;&lt;Input PW&gt;&#39;</code></pre>
-<p>Probieren Sie, ohne valide Einloggdaten zu kennen, einen
-erfolgreichen Login vorzutäuschen. __<em> :bulb:
-</em><strong>Hinweis</strong>_</p>
-<ul>
-<li>In MySQL beginnen Kommentare mit einem #</li>
-<li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
-sind von Hochkommata (’) eingeschlossen.</li>
-<li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
-</ul>
-<h3 style="color:steelblue">
-Schritt 2.2
-</h3>
-<p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
-Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
-nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse
-direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections
-auf einen Service anzuwenden, um sich so anhand der Responses
-Informationen über das DBMS zusammenzustellen.</p>
-<p>Sie finden im Kali-Client eine Datei namens
-<em>sqli_post_request</em>. Die Datei beinhaltet den Post-Request,
-welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
-für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
-<em>&lt;IP Adresse&gt;</em> mit der IP des
-password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
-welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
-<h3 style="color:steelblue">
-Schritt 2.3
-</h3>
-<p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
-SQLMAP auf den HTTP-Request starten:</p>
-<pre><code>sqlmap -r sqli_post_request -p &quot;name&quot; --dump</code></pre>
-<ul>
-<li><em>username</em> wird als <em>testable parameter</em>
-übergeben</li>
-<li>– dump bringt sqlmap dazu, sämtliche Informationen auszugeben,
-welches es abgreifen kann</li>
-<li>:bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen
-Sie die Hinweise und antworten Sie dementsprechend.</li>
-</ul>
-<p>:exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem
-Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an,
-einen Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein.
-Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary
-mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
-(Sie können auch den Default verwenden). Die Datei liegt im aktuellen
-Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
-der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
-anzeigen.</p>
-<hr />
-<p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
-die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
-Statements</em> einfließen. <em>Prepared Statements</em> sind ein
-Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und
-funktionieren:
-https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br> Bei
-Passwort-Agriffen sollten man Betreiber einer Webseite oder eines
-Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu
-schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
-Außerdem konnte man in diesem Versuch gut sehen, dass der
-Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
-benötigen deutlich mehr Zeit und machen Brute-Force noch
-ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
-<h1 id="übungsanleitung-1">Übungsanleitung</h1>
-<h2 id="password-cracking-sql-injection-1"><strong>Password-Cracking
-&amp; SQL-Injection</strong></h2>
-<h3 id="allgemeines-1">Allgemeines</h3>
-<ul>
-<li><p><strong>Password-Cracking</strong></p>
-<p>Beim Password-Cracking unterscheidet man grundsätzlich zwischen
-Online und Offline Angriffen.</p>
-<ul>
-<li>Online-Angriffe sind aufgrund Timeouts der Anfragen nicht so
-effizient wie ein Offline-Brute-Force Angriff. Hierbei versucht man
-bspw. durch eine Vielzahl an Anfragen das Passwort für einen
-<strong>bekannten</strong> Usernamen das Passwort zu erraten. Als Input
-verwendet man den bekannten User und eine Liste (Textdatei) mit gängigen
-Passwörtern, die durchgetestet werden können.</li>
-<li>Bei Offline Brute-Force Angriffen sind meistens bereits Passwörter
-<strong>in gehashter Form</strong> vorhanden (Bereits erfolgreicher
-Angriff auf Datenbank, wo Usernamen und gehashte Passwörter abgegriffen
-werden konnten). Hierbei werden Timeouts vermieden, da der Rechner lokal
-Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes
-identisch sind.</li>
-</ul></li>
-<li><p><strong>SQL-Injection</strong></p>
-<ul>
-<li>Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login)
-unsichere SQL-Queries, können mit schlauen Eingabestrings die
-SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und
-vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es
-ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu
-testen.</li>
-</ul></li>
-</ul>
-<h3 id="komponenten-1">Komponenten</h3>
-<ul>
-<li><h3 id="angreifer-1">Angreifer</h3>
-<ul>
-<li><p><strong>Kali Linux</strong></p>
-<p>Eine auf Debian basierte Linux Distribution. Kali Linux stellt
-Programme für Penetrationstest zur Verfügung. Die auf dieser
-Distribution installierten Programme unterstützen den/die Angreifer/-in,
-in dieser Übung bei dem Webshell-Angriff.</p>
-<ul>
-<li><p><strong>Hydra</strong></p>
-<p>Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen
-Funkionen. Hier verwendet für den ersten einfachen online Brute-Force
-Angriff.</p></li>
-<li><p><strong>SQL Map</strong></p>
-<p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu
-testen.</p></li>
-<li><p><strong>HashCat</strong></p>
-<p>Werkzeug um Brute-Force auf gehashte Werte durchzuführen.</p></li>
-<li><p><strong>NMap</strong></p>
-<p>Werkzeug für Network Discovery, um Hosts zu entdecken.</p></li>
-</ul></li>
-</ul></li>
-<li><h3 id="angriffsziele-1">Angriffsziele</h3>
-<ul>
-<li><p><strong>Ubuntu Rechner</strong></p>
-<p>Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit
-Brute-Force vertraut zu machen. Besitzt mehrere User für eine
-ssh-Verbindung, welche mittels Online-Cracking geknackt wird.</p></li>
-<li><p><strong>Webapplikation</strong></p>
-<p>Eine einfache Webseite mit Login-Formular und anschließender
-SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten
-(gehashte Passwörter) abzugreifen und anschließen offline zu
-knacken.</p></li>
-<li><p><strong>Datenbank</strong></p>
-<p>Eine MySQL-Datenbank. Enthält Userdaten der Webseite.</p></li>
-</ul></li>
-</ul>
-<h3 id="hilfreiche-befehle-1">💡Hilfreiche Befehle💡</h3>
-<pre><code>sudo &lt;eigentlicher Befehl&gt;</code></pre>
-<ul>
-<li>Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos
-das Schlüsselwort ‘sudo’ davorstellen, um den Befehl auszuführen.</li>
-</ul>
-<pre><code>nano &lt;Dateiname&gt;</code></pre>
-<ul>
-<li>Nano ist ein Textbearbeitungsinstrument für Linux. Ist die
-angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch
-benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei,
-welche als Input für die SQL-Injection verwendet wird.</li>
-</ul>
-<pre><code>docker-compose up -d --build</code></pre>
-<ul>
-<li>-d steht für daemon: Service läuft dann im Hintergrund und blockiert
-nicht das Terminal</li>
-<li>–build: Rebuilded die Docker-Images</li>
-</ul>
-<pre><code>docker exec -it &lt;CONTAINER-NAME&gt; bash</code></pre>
-<ul>
-<li>exec führt Befehl auf bestimmten container aus. In diesem Falle
-bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos
-ausführen.</li>
-<li>-it: i = interactive; t = Allocate pseudo TTY</li>
-</ul>
-<h1 id="start-1">Start</h1>
-<h2 style="color:red">
-<ol type="1">
-<li>Part: ONLINE Passwort-Cracking (ssh)
-</h2></li>
-</ol>
-<h3 style="color:steelblue">
-Schritt 1.1 Offene Ports scannen
-</h3>
-<p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
-benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
-IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
-Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
-IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
-folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
-sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
-Containers.</p>
-<p>Bspw. 172.18.0.5/16</p>
-<p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
-welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
-:exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
-wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
-<em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
-<p>Nun benötigen wir für den restlichen Versuch folgende Informationen
-aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
-- IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
-einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
-tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
-Port (Sie sollten ssh, http und mysql finden)</p>
-<h3 style="color:steelblue">
-Schritt 1.2
-</h3>
-<p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
-<p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
-Dateien <em>passwords.txt</em> und <em>users.txt</em> sehen. Mit dem
-<em>nano</em>-Befehl können Sie die Dateien öffnen und mal anschauen.
-Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
-zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
-verwenden wir als Input für unseren Angriffsversuch mit
-<em>Hydra</em>.</p>
-<p>Der Befehl um Hydra zu starten lautet wie folgt:
-<code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
-- auf -L folgt die Listeneingabe der User - auf -P folgt die
-Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
-bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
-<p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
-Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
-Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
-Ubuntu Server herzustellen:</p>
-<pre><code>ssh &lt;Username&gt;@&lt;IP des Ubuntu Containers&gt;</code></pre>
-<h2 style="color:red">
-<ol start="2" type="1">
-<li>Part: SQL-Injection
-</h2></li>
-</ol>
-Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
-Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
-Internetseite, welche als Angriffsziel des Versuchs dient, ist der
-“password_cracking_login_vulnapp” Container.
-<h3 style="color:steelblue">
-Schritt 2.0
-</h3>
-Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
-in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
-gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
-Loginformular sehen.
-<h3 style="color:steelblue">
-Schritt 2.1
-</h3>
-<p>Wie bereits beschrieben werden bei SLQ-Injections die Eingaben
-bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert
-werden können. Das DBMS in diesem Beispiel basiert auf MySQL. Das
-Backend-Query für das Login-Formular sieht wie folgt aus:</p>
-<pre><code>SELECT * FROM user WHERE username = &#39;&lt;Input Username&gt;&#39; AND password_hash = &#39;&lt;Input PW&gt;&#39;</code></pre>
-<p>Probieren Sie, ohne valide Einloggdaten zu kennen, einen
-erfolgreichen Login vorzutäuschen. __<em> :bulb:
-</em><strong>Hinweis</strong>_</p>
-<ul>
-<li>In MySQL beginnen Kommentare mit einem #</li>
-<li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
-sind von Hochkommata (’) eingeschlossen.</li>
-<li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
-</ul>
-<h3 style="color:steelblue">
-Schritt 2.2
-</h3>
-<p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
-Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
-nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse
-direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections
-auf einen Service anzuwenden, um sich so anhand der Responses
-Informationen über das DBMS zusammenzustellen.</p>
-<p>Sie finden im Kali-Client eine Datei namens
-<em>sqli_post_request</em>. Die Datei beinhaltet den Post-Request,
-welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
-für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
-<em>&lt;IP Adresse&gt;</em> mit der IP des
-password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
-welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
-<h3 style="color:steelblue">
-Schritt 2.3
-</h3>
-<p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
-SQLMAP auf den HTTP-Request starten:</p>
-<pre><code>sqlmap -r sqli_post_request -p &quot;name&quot; --dump</code></pre>
-<ul>
-<li><em>username</em> wird als <em>testable parameter</em>
-übergeben</li>
-<li>– dump bringt sqlmap dazu, sämtliche Informationen auszugeben,
-welches es abgreifen kann</li>
-<li>:bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen
-Sie die Hinweise und antworten Sie dementsprechend.</li>
-</ul>
-<p>:exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem
-Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an,
-einen Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein.
-Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary
-mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
-(Sie können auch den Default verwenden). Die Datei liegt im aktuellen
-Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
-der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
-anzeigen.</p>
-<hr />
-<p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
-die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
-Statements</em> einfließen. <em>Prepared Statements</em> sind ein
-Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und
-funktionieren:
-https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br> Bei
-Passwort-Agriffen sollten man Betreiber einer Webseite oder eines
-Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu
-schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
-Außerdem konnte man in diesem Versuch gut sehen, dass der
-Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
-benötigen deutlich mehr Zeit und machen Brute-Force noch
-ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
-
+        <div class="panel panel-left"> Ab hier Übungsanleitung
+            <h1 id="password-cracking-sql-injection"><strong>Password-Cracking &amp;
+                SQL-Injection</strong></h1>
+                <h2 id="allgemeines">Allgemeines</h2>
+                <h3 id="password-cracking"><strong>Password-Cracking</strong></h3>
+                <p>Beim Password-Cracking unterscheidet man grundsätzlich zwischen
+                Online und Offline Angriffen. - Online-Angriffe sind aufgrund Timeouts
+                der Anfragen nicht so effizient wie ein Offline-Brute-Force Angriff.
+                Hierbei versucht man bspw. durch eine Vielzahl an Anfragen das Passwort
+                für einen <strong>bekannten</strong> Usernamen das Passwort zu erraten.
+                Als Input verwendet man den bekannten User und eine Liste (Textdatei)
+                mit gängigen Passwörtern, die durchgetestet werden können. - Bei Offline
+                Brute-Force Angriffen sind meistens bereits Passwörter <strong>in
+                gehashter Form</strong> vorhanden (Bereits erfolgreicher Angriff auf
+                Datenbank, wo Usernamen und gehashte Passwörter abgegriffen werden
+                konnten). Hierbei werden Timeouts vermieden, da der Rechner lokal
+                Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes
+                identisch sind.</p>
+                <h3 id="sql-injection"><strong>SQL-Injection</strong></h3>
+                <ul>
+                <li>Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login)
+                unsichere SQL-Queries, können mit schlauen Eingabestrings die
+                SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und
+                vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es
+                ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu
+                testen.</li>
+                </ul>
+                <h2 id="komponenten">Komponenten</h2>
+                <h3 id="angreifer">Angreifer</h3>
+                <ul>
+                <li><p><strong>Kali Linux</strong></p>
+                <p>Eine auf Debian basierte Linux Distribution. Kali Linux stellt
+                Programme für Penetrationstest zur Verfügung. Die auf dieser
+                Distribution installierten Programme unterstützen den/die Angreifer/-in,
+                in dieser Übung bei dem Webshell-Angriff.</p>
+                <ul>
+                <li><p><strong>Hydra</strong></p>
+                <p>Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen
+                Funkionen. Hier verwendet für den ersten einfachen online Brute-Force
+                Angriff.</p></li>
+                <li><p><strong>SQL Map</strong></p>
+                <p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu
+                testen.</p></li>
+                <li><p><strong>HashCat</strong></p>
+                <p>Werkzeug um Brute-Force auf gehashte Werte durchzuführen.</p></li>
+                <li><p><strong>NMap</strong></p>
+                <p>Werkzeug für Network Discovery, um Hosts zu entdecken.</p></li>
+                </ul></li>
+                </ul>
+                <h3 id="angriffsziele">Angriffsziele</h3>
+                <ul>
+                <li><p><strong>Ubuntu Rechner</strong></p>
+                <ul>
+                <li>Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit
+                Brute-Force vertraut zu machen. Besitzt mehrere User für eine
+                ssh-Verbindung, welche mittels Online-Cracking geknackt wird.</li>
+                </ul></li>
+                <li><p><strong>Webapplikation</strong></p>
+                <ul>
+                <li>Eine einfache Webseite mit Login-Formular und anschließender
+                SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten
+                (gehashte Passwörter) abzugreifen und anschließen offline zu
+                knacken.</li>
+                </ul></li>
+                <li><p><strong>Datenbank</strong></p>
+                <ul>
+                <li>Eine MySQL-Datenbank. Enthält Userdaten der Webseite.</li>
+                </ul></li>
+                </ul>
+                <h3 id="hilfreiche-befehle">💡Hilfreiche Befehle💡</h3>
+                <pre><code>sudo &lt;eigentlicher Befehl&gt;</code></pre>
+                <ul>
+                <li>Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos
+                das Schlüsselwort ‘sudo’ davorstellen, um den Befehl auszuführen.</li>
+                </ul>
+                <pre><code>nano &lt;Dateiname&gt;</code></pre>
+                <ul>
+                <li>Nano ist ein Textbearbeitungsinstrument für Linux. Ist die
+                angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch
+                benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei,
+                welche als Input für die SQL-Injection verwendet wird.</li>
+                </ul>
+                <h1 id="start">Start</h1>
+                <h2 style="color:red">
+                <ol type="1">
+                <li>Part: ONLINE Passwort-Cracking (ssh)
+                </h2></li>
+                </ol>
+                <h3 style="color:steelblue">
+                Schritt 1.1 Offene Ports scannen
+                </h3>
+                <p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
+                benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
+                IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
+                Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
+                IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
+                folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
+                sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
+                Containers.</p>
+                <p>Bspw. 172.18.0.5/16</p>
+                <p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
+                welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
+                :exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
+                wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
+                <em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
+                <p>Nun benötigen wir für den restlichen Versuch folgende Informationen
+                aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
+                - IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
+                einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
+                tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
+                Port (Sie sollten ssh, http und mysql finden)</p>
+                <h3 style="color:steelblue">
+                Schritt 1.2
+                </h3>
+                <p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
+                <p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
+                Dateien <em>passwords.txt</em> und <em>users.txt</em> sehen. Mit dem
+                <em>nano</em>-Befehl können Sie die Dateien öffnen und mal anschauen.
+                Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
+                zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
+                verwenden wir als Input für unseren Angriffsversuch mit
+                <em>Hydra</em>.</p>
+                <p>Der Befehl um Hydra zu starten lautet wie folgt:
+                <code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
+                - auf -L folgt die Listeneingabe der User - auf -P folgt die
+                Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
+                bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
+                <p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
+                Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
+                Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
+                Ubuntu Server herzustellen:</p>
+                <pre><code>ssh &lt;Username&gt;@&lt;IP des Ubuntu Containers&gt;</code></pre>
+                <h2 style="color:red">
+                <ol start="2" type="1">
+                <li>Part: SQL-Injection
+                </h2></li>
+                </ol>
+                Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
+                Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
+                Internetseite, welche als Angriffsziel des Versuchs dient, ist der
+                “password_cracking_login_vulnapp” Container.
+                <h3 style="color:steelblue">
+                Schritt 2.0
+                </h3>
+                Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
+                in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
+                gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
+                Loginformular sehen.
+                <h3 style="color:steelblue">
+                Schritt 2.1
+                </h3>
+                <p>Wie bereits beschrieben werden bei SLQ-Injections die Eingaben
+                bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert
+                werden können. Das DBMS in diesem Beispiel basiert auf MySQL. Das
+                Backend-Query für das Login-Formular sieht wie folgt aus:</p>
+                <pre><code>SELECT * FROM user WHERE username = &#39;&lt;Input Username&gt;&#39; AND password_hash = &#39;&lt;Input PW&gt;&#39;</code></pre>
+                <p>Probieren Sie, ohne valide Einloggdaten zu kennen, einen
+                erfolgreichen Login vorzutäuschen. __<em> :bulb:
+                </em><strong>Hinweis</strong>_</p>
+                <ul>
+                <li>In MySQL beginnen Kommentare mit einem #</li>
+                <li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
+                sind von Hochkommata (’) eingeschlossen.</li>
+                <li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
+                </ul>
+                <h3 style="color:steelblue">
+                Schritt 2.2
+                </h3>
+                <p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
+                Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
+                nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse
+                direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections
+                auf einen Service anzuwenden, um sich so anhand der Responses
+                Informationen über das DBMS zusammenzustellen.</p>
+                <p>Sie finden im Kali-Client eine Datei namens
+                <em>sqli_post_request</em>. Die Datei beinhaltet den Post-Request,
+                welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
+                für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
+                <em>&lt;IP Adresse&gt;</em> mit der IP des
+                password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
+                welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
+                <h3 style="color:steelblue">
+                Schritt 2.3
+                </h3>
+                <p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
+                SQLMAP auf den HTTP-Request starten:</p>
+                <pre><code>sqlmap -r sqli_post_request -p &quot;name&quot; --dump</code></pre>
+                <ul>
+                <li><em>username</em> wird als <em>testable parameter</em>
+                übergeben</li>
+                <li>– dump bringt sqlmap dazu, sämtliche Informationen auszugeben,
+                welches es abgreifen kann</li>
+                <li>:bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen
+                Sie die Hinweise und antworten Sie dementsprechend.</li>
+                </ul>
+                <p>:exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem
+                Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an,
+                einen Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein.
+                Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary
+                mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
+                (Sie können auch den Default verwenden). Die Datei liegt im aktuellen
+                Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
+                der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
+                anzeigen.</p>
+                <hr />
+                <p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
+                die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
+                Statements</em> einfließen. <em>Prepared Statements</em> sind ein
+                Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und
+                funktionieren:
+                https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br> Bei
+                Passwort-Agriffen sollten man Betreiber einer Webseite oder eines
+                Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu
+                schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
+                Außerdem konnte man in diesem Versuch gut sehen, dass der
+                Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
+                benötigen deutlich mehr Zeit und machen Brute-Force noch
+                ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
+                <h1 id="password-cracking-sql-injection-1"><strong>Password-Cracking
+                &amp; SQL-Injection</strong></h1>
+                <h2 id="allgemeines-1">Allgemeines</h2>
+                <h3 id="password-cracking-1"><strong>Password-Cracking</strong></h3>
+                <p>Beim Password-Cracking unterscheidet man grundsätzlich zwischen
+                Online und Offline Angriffen. - Online-Angriffe sind aufgrund Timeouts
+                der Anfragen nicht so effizient wie ein Offline-Brute-Force Angriff.
+                Hierbei versucht man bspw. durch eine Vielzahl an Anfragen das Passwort
+                für einen <strong>bekannten</strong> Usernamen das Passwort zu erraten.
+                Als Input verwendet man den bekannten User und eine Liste (Textdatei)
+                mit gängigen Passwörtern, die durchgetestet werden können. - Bei Offline
+                Brute-Force Angriffen sind meistens bereits Passwörter <strong>in
+                gehashter Form</strong> vorhanden (Bereits erfolgreicher Angriff auf
+                Datenbank, wo Usernamen und gehashte Passwörter abgegriffen werden
+                konnten). Hierbei werden Timeouts vermieden, da der Rechner lokal
+                Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes
+                identisch sind.</p>
+                <h3 id="sql-injection-1"><strong>SQL-Injection</strong></h3>
+                <ul>
+                <li>Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login)
+                unsichere SQL-Queries, können mit schlauen Eingabestrings die
+                SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und
+                vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es
+                ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu
+                testen.</li>
+                </ul>
+                <h2 id="komponenten-1">Komponenten</h2>
+                <h3 id="angreifer-1">Angreifer</h3>
+                <ul>
+                <li><p><strong>Kali Linux</strong></p>
+                <p>Eine auf Debian basierte Linux Distribution. Kali Linux stellt
+                Programme für Penetrationstest zur Verfügung. Die auf dieser
+                Distribution installierten Programme unterstützen den/die Angreifer/-in,
+                in dieser Übung bei dem Webshell-Angriff.</p>
+                <ul>
+                <li><p><strong>Hydra</strong></p>
+                <p>Brute-Force Passwort-Cracking Werkzeug mit unterschiedlichen
+                Funkionen. Hier verwendet für den ersten einfachen online Brute-Force
+                Angriff.</p></li>
+                <li><p><strong>SQL Map</strong></p>
+                <p>Werkzeug um Formulare o.Ä. auf mögliche SQL-Injections zu
+                testen.</p></li>
+                <li><p><strong>HashCat</strong></p>
+                <p>Werkzeug um Brute-Force auf gehashte Werte durchzuführen.</p></li>
+                <li><p><strong>NMap</strong></p>
+                <p>Werkzeug für Network Discovery, um Hosts zu entdecken.</p></li>
+                </ul></li>
+                </ul>
+                <h3 id="angriffsziele-1">Angriffsziele</h3>
+                <ul>
+                <li><p><strong>Ubuntu Rechner</strong></p>
+                <ul>
+                <li>Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit
+                Brute-Force vertraut zu machen. Besitzt mehrere User für eine
+                ssh-Verbindung, welche mittels Online-Cracking geknackt wird.</li>
+                </ul></li>
+                <li><p><strong>Webapplikation</strong></p>
+                <ul>
+                <li>Eine einfache Webseite mit Login-Formular und anschließender
+                SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten
+                (gehashte Passwörter) abzugreifen und anschließen offline zu
+                knacken.</li>
+                </ul></li>
+                <li><p><strong>Datenbank</strong></p>
+                <ul>
+                <li>Eine MySQL-Datenbank. Enthält Userdaten der Webseite.</li>
+                </ul></li>
+                </ul>
+                <h3 id="hilfreiche-befehle-1">💡Hilfreiche Befehle💡</h3>
+                <pre><code>sudo &lt;eigentlicher Befehl&gt;</code></pre>
+                <ul>
+                <li>Je nach Rechtestruktur und Betriebssystem (Linux) muss man Kommandos
+                das Schlüsselwort ‘sudo’ davorstellen, um den Befehl auszuführen.</li>
+                </ul>
+                <pre><code>nano &lt;Dateiname&gt;</code></pre>
+                <ul>
+                <li>Nano ist ein Textbearbeitungsinstrument für Linux. Ist die
+                angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch
+                benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei,
+                welche als Input für die SQL-Injection verwendet wird.</li>
+                </ul>
+                <h1 id="start-1">Start</h1>
+                <h2 style="color:red">
+                <ol type="1">
+                <li>Part: ONLINE Passwort-Cracking (ssh)
+                </h2></li>
+                </ol>
+                <h3 style="color:steelblue">
+                Schritt 1.1 Offene Ports scannen
+                </h3>
+                <p>Zuerst wollen wir das Netzwerk nach bekannten Hosts scannen. Hierzu
+                benötigen wir jedoch eine IP-Range. In diesem Versuch ist es die
+                IP-Range der Docker-Container, welche soeben hochgefahren wurden. Da der
+                Kali-Container ebenfalls dazugehört, können wir die Ip-Range aus der
+                IP-Adresse ableiten, welche der Kali-Container hat. Hierzu führen wir
+                folgenden Befehl aus: <code>ip address show eth0</code> In der Ausgabe
+                sehen wir nun einen Eintrag nach <em>inet</em> die IP-Adresse des
+                Containers.</p>
+                <p>Bspw. 172.18.0.5/16</p>
+                <p>Diese Information setzen wir in den nächsten Befehl <em>nmap</em>,
+                welcher oben bereits beschrieben wurde. <code>nmap 172.18.0.0-16</code>
+                :exclamation: Beachten Sie, dass die IP-Adresse nicht 1:1 eingesetzt
+                wurde. Mit diesem Befehl lassen wir uns bekannte Ports aus dem Subnetz
+                <em>172.18.0</em> über eine Range von 16 Host-IDs anzeigen.</p>
+                <p>Nun benötigen wir für den restlichen Versuch folgende Informationen
+                aus der Ausgabe: <em>(Kopieren Sie sich diese in einen Texteditor!)</em>
+                - IP-Adresse, wo ein Host gefunden wurde - Der bekannte Port der
+                einzelnen IP-Adressen<br> (999 &amp; 998 sind uninteressant, nur die
+                tabellarische Ausgabe beachten) - Der jeweilige Service hinter einem
+                Port (Sie sollten ssh, http und mysql finden)</p>
+                <h3 style="color:steelblue">
+                Schritt 1.2
+                </h3>
+                <p>Nun wollen wir den Dictionary-Angriff auf den ssh-Host starten.</p>
+                <p>Sie sollten im aktuellen Verzeichnis mit dem Befehl <em>ls</em> die
+                Dateien <em>passwords.txt</em> und <em>users.txt</em> sehen. Mit dem
+                <em>nano</em>-Befehl können Sie die Dateien öffnen und mal anschauen.
+                Die Dateien beinhalten zum Einen 4 mögliche User, die der Host kennt,
+                zum Anderen beinhaltet es die 200 gängigsten Passwörter. Diese Dateien
+                verwenden wir als Input für unseren Angriffsversuch mit
+                <em>Hydra</em>.</p>
+                <p>Der Befehl um Hydra zu starten lautet wie folgt:
+                <code>hydra -L users.txt -P passwords.txt ssh://&lt;IP des ssh-services&gt; -V -f</code>
+                - auf -L folgt die Listeneingabe der User - auf -P folgt die
+                Listeneingabe der möglichen Passwörter - -V loggt die Versuche &amp; -f
+                bricht hydra ab, sobald ein Passwort gefunden wurde.</p>
+                <p>Hydra zeigt einem dann abschließend Username und Passwort wenn der
+                Versuch erfolgreich abgeschlossen wurde. Um dies zu bestätigen können
+                Sie nun mit den Informationen versuchen, eine ssh-Verbindung auf den
+                Ubuntu Server herzustellen:</p>
+                <pre><code>ssh &lt;Username&gt;@&lt;IP des Ubuntu Containers&gt;</code></pre>
+                <h2 style="color:red">
+                <ol start="2" type="1">
+                <li>Part: SQL-Injection
+                </h2></li>
+                </ol>
+                Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer
+                Internetseite anwenden, um an vertrauliche Daten zu kommen. Die
+                Internetseite, welche als Angriffsziel des Versuchs dient, ist der
+                “password_cracking_login_vulnapp” Container.
+                <h3 style="color:steelblue">
+                Schritt 2.0
+                </h3>
+                Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1
+                in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu
+                gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples
+                Loginformular sehen.
+                <h3 style="color:steelblue">
+                Schritt 2.1
+                </h3>
+                <p>Wie bereits beschrieben werden bei SLQ-Injections die Eingaben
+                bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert
+                werden können. Das DBMS in diesem Beispiel basiert auf MySQL. Das
+                Backend-Query für das Login-Formular sieht wie folgt aus:</p>
+                <pre><code>SELECT * FROM user WHERE username = &#39;&lt;Input Username&gt;&#39; AND password_hash = &#39;&lt;Input PW&gt;&#39;</code></pre>
+                <p>Probieren Sie, ohne valide Einloggdaten zu kennen, einen
+                erfolgreichen Login vorzutäuschen. __<em> :bulb:
+                </em><strong>Hinweis</strong>_</p>
+                <ul>
+                <li>In MySQL beginnen Kommentare mit einem #</li>
+                <li>Die Eingabevariablen &lt;Input Username&gt; &amp; &lt;Input PW&gt;
+                sind von Hochkommata (’) eingeschlossen.</li>
+                <li>‘1’=‘1’ ist eine immer wahre WHERE Bedingung ___</li>
+                </ul>
+                <h3 style="color:steelblue">
+                Schritt 2.2
+                </h3>
+                <p>Wenn Sie sich erfolgreich “angemeldet” haben, sehen Sie erneut eine
+                Eingabemaske, diesmal jedoch nur mit einem Eingabefeld. Hier werden wir
+                nun mit dem Tool SQLMAP SQL-Injections testen und uns die Ergebnisse
+                direkt ausgeben lassen. SQLMAP ist in der Lage gezielt SQL-Injections
+                auf einen Service anzuwenden, um sich so anhand der Responses
+                Informationen über das DBMS zusammenzustellen.</p>
+                <p>Sie finden im Kali-Client eine Datei namens
+                <em>sqli_post_request</em>. Die Datei beinhaltet den Post-Request,
+                welcher an die Seite gesendet mit Abschicken des Formulars. Um die Datei
+                für Ihren Versuch vorzubereiten müssen Sie in der Datei an drei Stellen
+                <em>&lt;IP Adresse&gt;</em> mit der IP des
+                password_cracking_login_vulnapp Containers ersetzen, die selbe IP,
+                welche Sie in der Browser eingegeben haben (ohne :Port!).</p>
+                <h3 style="color:steelblue">
+                Schritt 2.3
+                </h3>
+                <p>Wenn Sie die Datei vorbereitet haben, können Sie mit folgendem Befel
+                SQLMAP auf den HTTP-Request starten:</p>
+                <pre><code>sqlmap -r sqli_post_request -p &quot;name&quot; --dump</code></pre>
+                <ul>
+                <li><em>username</em> wird als <em>testable parameter</em>
+                übergeben</li>
+                <li>– dump bringt sqlmap dazu, sämtliche Informationen auszugeben,
+                welches es abgreifen kann</li>
+                <li>:bulb:SQLMAP stellt Ihnen Fragen bzgl. des weiteren Verlaufs. Lesen
+                Sie die Hinweise und antworten Sie dementsprechend.</li>
+                </ul>
+                <p>:exclamation: SQLMAP erkennt die Hashwerte in Kombination mit dem
+                Spaltennamen direkt als angreifbare Passwortspalte und bietet Ihnen an,
+                einen Dictionary-Attack zu starten. Tippen Sie <em>“y”</em> ein.
+                Anschließend müssen Sie auswählen, ob Sie ein eigenes Dictionary
+                mitgeben möchten. Dies bestätigen Sie indem Sie <em>“2”</em> eintippen
+                (Sie können auch den Default verwenden). Die Datei liegt im aktuellen
+                Verzeichnis und heißt <em>“passwords.txt”</em>. Tippen Sie den Pfad zu
+                der Datei ein und lassen Sie sich die Passwörter neben den Hashwerten
+                anzeigen.</p>
+                <hr />
+                <p>🛠️<br> Um die Sicherheitslücke für SQL-Injection zu schließen können
+                die Eingaben vorab validiert werden sowie in Parameter für <em>Prepared
+                Statements</em> einfließen. <em>Prepared Statements</em> sind ein
+                Best-Practice. Hier eine Zusammenfassung, wie diese aufgebaut sind und
+                funktionieren:
+                https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br> Bei
+                Passwort-Agriffen sollten man Betreiber einer Webseite oder eines
+                Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu
+                schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert.
+                Außerdem konnte man in diesem Versuch gut sehen, dass der
+                Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2
+                benötigen deutlich mehr Zeit und machen Brute-Force noch
+                ineffizienter.<br> 🛠️ ___ # Sie haben das Ende der Übung erreicht</p>
+                
         </div>
         <div class="panel panel-right">
             <div class="tabs">

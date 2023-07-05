@@ -1,25 +1,23 @@
-# Übungsanleitung
+# **Password-Cracking & SQL-Injection**
 
-## **Password-Cracking & SQL-Injection**
+## Allgemeines
 
-### Allgemeines
-
-- **Password-Cracking**
+### **Password-Cracking**
     
-    Beim Password-Cracking unterscheidet man grundsätzlich zwischen Online und Offline Angriffen.
-    - Online-Angriffe sind aufgrund Timeouts der Anfragen nicht so effizient wie ein Offline-Brute-Force Angriff.
-    Hierbei versucht man bspw. durch eine Vielzahl an Anfragen das Passwort für einen **bekannten** Usernamen das Passwort zu erraten. Als Input verwendet man den bekannten User und eine Liste (Textdatei) mit gängigen Passwörtern, die durchgetestet werden können.
-    - Bei Offline Brute-Force Angriffen sind meistens bereits Passwörter **in gehashter Form** vorhanden (Bereits erfolgreicher Angriff auf Datenbank, wo Usernamen und gehashte Passwörter abgegriffen werden konnten).
-    Hierbei werden Timeouts vermieden, da der Rechner lokal Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes identisch sind.
+  Beim Password-Cracking unterscheidet man grundsätzlich zwischen Online und Offline Angriffen.
+  - Online-Angriffe sind aufgrund Timeouts der Anfragen nicht so effizient wie ein Offline-Brute-Force Angriff.
+  Hierbei versucht man bspw. durch eine Vielzahl an Anfragen das Passwort für einen **bekannten** Usernamen das Passwort zu erraten. Als Input verwendet man den bekannten User und eine Liste (Textdatei) mit gängigen Passwörtern, die durchgetestet werden können.
+  - Bei Offline Brute-Force Angriffen sind meistens bereits Passwörter **in gehashter Form** vorhanden (Bereits erfolgreicher Angriff auf Datenbank, wo Usernamen und gehashte Passwörter abgegriffen werden konnten).
+  Hierbei werden Timeouts vermieden, da der Rechner lokal Passwörter mit der gegebenen Hash-Variante durchtestet, bis die Hashes identisch sind.
     
-- **SQL-Injection**
+### **SQL-Injection**
     
-    - Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login) unsichere SQL-Queries, können mit schlauen Eingabestrings die SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu testen.
+  - Verwendet ein Webserver für Anfragen auf die Datenbank (bspw. Login) unsichere SQL-Queries, können mit schlauen Eingabestrings die SQL-Queries so manipuliert werden, dass man einen Bypass erzeugt und vortäuscht, sich erfolgreich eingeloggt zu haben. Hierfür gibt es ebenfalls Tools, um Webformulare auf mögliche SQL-Injections zu testen.
     
 
-### Komponenten 
+## Komponenten 
 
-- ### Angreifer
+### Angreifer
     
   - **Kali Linux**
     
@@ -42,20 +40,20 @@
 
         Werkzeug für Network Discovery, um Hosts zu entdecken.
 
-- ### Angriffsziele
+### Angriffsziele
 
   - **Ubuntu Rechner**
     
-    Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit Brute-Force vertraut zu machen. 
+    - Einfaches Ziel für den ersten Abschnitt des Versuchs, um sich mit Brute-Force vertraut zu machen. 
     Besitzt mehrere User für eine ssh-Verbindung, welche mittels Online-Cracking geknackt wird.    
         
   - **Webapplikation**
     
-    Eine einfache Webseite mit Login-Formular und anschließender SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten (gehashte Passwörter) abzugreifen und anschließen offline zu knacken.
+    - Eine einfache Webseite mit Login-Formular und anschließender SQL-Abfragemöglichkeit. Hier wird SQL-Injection simuliert, um Userdaten (gehashte Passwörter) abzugreifen und anschließen offline zu knacken.
     
   - **Datenbank**
     
-    Eine MySQL-Datenbank. Enthält Userdaten der Webseite.
+    - Eine MySQL-Datenbank. Enthält Userdaten der Webseite.
     
 
 ### 💡Hilfreiche Befehle💡
@@ -72,24 +70,7 @@ nano <Dateiname>
 ```
 - Nano ist ein Textbearbeitungsinstrument für Linux. Ist die angegebene Datei nicht vorhanden wird sie erzeugt. In diesem Versuch benötigen wir nano für die Bearbeitung einer HTTP-Post-Request Datei, welche als Input für die SQL-Injection verwendet wird.
 
-
-```
-docker-compose up -d --build
-```
-- -d steht für daemon: Service läuft dann im Hintergrund und blockiert nicht das Terminal
-- --build: Rebuilded die Docker-Images
-  
-
-```
-docker exec -it <CONTAINER-NAME> bash
-```
-- exec führt Befehl auf bestimmten container aus. In diesem Falle bash. Dadurch verbindet man sich mit dem Container und kann da Kommandos ausführen.
-- -it: i = interactive; t = Allocate pseudo TTY
-
-
 # Start
-
-
 
 <h2 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
 

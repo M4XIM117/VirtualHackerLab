@@ -92,11 +92,9 @@
 
     <section class="panel-container">
         <div class="panel panel-left">
-            <h1 id="übungsanleitung">Übungsanleitung</h1>
-<h2 id="log4shell"><strong>Log4Shell</strong></h2>
-<h3 id="allgemeines">Allgemeines</h3>
-<ul>
-<li><p><strong>Log4J</strong></p>
+            <h1 id="log4shell"><strong>Log4Shell</strong></h1>
+<h2 id="allgemeines">Allgemeines</h2>
+<h3 id="log4j"><strong>Log4J</strong></h3>
 <ul>
 <li>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
 Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
@@ -106,8 +104,8 @@ zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
 Log4J läuft auf der freien Open Source Software der Apache Software
 Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
 meisten Java basierten Programmen als Standard verwendet.</li>
-</ul></li>
-<li><p><strong>Log4Shell</strong></p>
+</ul>
+<h3 id="log4shell-1"><strong>Log4Shell</strong></h3>
 <ul>
 <li><p>Die Schwachstelle in Log4J wird als Log4Shell oder CVE-2021-44228
 bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
@@ -127,11 +125,9 @@ können den Pfad zu dem bösartigen Code in ihre Payloads schreiben und
 Log4J interpretiert die manipulierten Nachrichten nicht als einfachen
 Text, sondern als Java-Objekte. Log4J lädt den bösartigen Schadcode über
 JNDI zur Laufzeit aus dem Netz nach und führt ihn aus.</p></li>
-</ul></li>
 </ul>
-<h3 id="komponenten">Komponenten</h3>
-<ul>
-<li><h3 id="angreifer">Angreifer</h3>
+<h2 id="komponenten">Komponenten</h2>
+<h3 id="angreifer">Angreifer</h3>
 <ul>
 <li><p><strong>LDAP-Server</strong></p>
 <ul>
@@ -154,8 +150,8 @@ Schadcodes zurück und sorgt dafür, dass der Angreifer diesen Code beim
 Opfer einschleust. Der HTTP-Server hostet .class-Dateien, die für eine
 Remote-Code-Ausführung verwendet werden.</li>
 </ul></li>
-</ul></li>
-<li><h3 id="angriffsziel">Angriffsziel</h3>
+</ul>
+<h3 id="angriffsziel">Angriffsziel</h3>
 <ul>
 <li><p><strong>Login</strong></p>
 <ul>
@@ -166,7 +162,6 @@ Existiert der Benutzer nicht, oder das Passwort ist falsch, so wird im
 Hintergrund eine Fehlermeldung mit dem Log4J-Framework geloggt. Die für
 die Sicherheitslücke Log4Shell benötigte Log4J-Version (2.14.1) wird
 hier verwendet.</li>
-</ul></li>
 </ul></li>
 </ul>
 <h3 id="hilfreiche-befehle">💡Hilfreiche Befehle💡</h3>
@@ -313,11 +308,9 @@ werden. (Beweis: Anwendung nutzt Log4J-Framework mit gepatchter
 Version).</p>
 <h2 id="sie-haben-nun-das-ende-der-log4shell-übung-part-2-erreicht">Sie
 haben nun das Ende der Log4Shell-Übung Part 2 erreicht</h2>
-<h1 id="übungsanleitung-1">Übungsanleitung</h1>
-<h2 id="log4shell-1"><strong>Log4Shell</strong></h2>
-<h3 id="allgemeines-1">Allgemeines</h3>
-<ul>
-<li><p><strong>Log4J</strong></p>
+<h1 id="log4shell-2"><strong>Log4Shell</strong></h1>
+<h2 id="allgemeines-1">Allgemeines</h2>
+<h3 id="log4j-1"><strong>Log4J</strong></h3>
 <ul>
 <li>Log4J ist eine Java-Bibliothek, die Softwareentwicklern dabei hilft,
 Fehler und Prozesse in einer Software zu verfolgen. Es erfasst und
@@ -327,8 +320,8 @@ zu verstehen, wie die Software in bestimmten Situationen reagiert hat.
 Log4J läuft auf der freien Open Source Software der Apache Software
 Foundation und gilt als Vorreiter für Login-Frameworks und wird in den
 meisten Java basierten Programmen als Standard verwendet.</li>
-</ul></li>
-<li><p><strong>Log4Shell</strong></p>
+</ul>
+<h3 id="log4shell-3"><strong>Log4Shell</strong></h3>
 <ul>
 <li><p>Die Schwachstelle in Log4J wird als Log4Shell oder CVE-2021-44228
 bezeichnet und wurde Ende 2021 bekannt gemacht. Sie basiert auf einer
@@ -348,11 +341,9 @@ können den Pfad zu dem bösartigen Code in ihre Payloads schreiben und
 Log4J interpretiert die manipulierten Nachrichten nicht als einfachen
 Text, sondern als Java-Objekte. Log4J lädt den bösartigen Schadcode über
 JNDI zur Laufzeit aus dem Netz nach und führt ihn aus.</p></li>
-</ul></li>
 </ul>
-<h3 id="komponenten-1">Komponenten</h3>
-<ul>
-<li><h3 id="angreifer-1">Angreifer</h3>
+<h2 id="komponenten-1">Komponenten</h2>
+<h3 id="angreifer-1">Angreifer</h3>
 <ul>
 <li><p><strong>LDAP-Server</strong></p>
 <ul>
@@ -375,8 +366,8 @@ Schadcodes zurück und sorgt dafür, dass der Angreifer diesen Code beim
 Opfer einschleust. Der HTTP-Server hostet .class-Dateien, die für eine
 Remote-Code-Ausführung verwendet werden.</li>
 </ul></li>
-</ul></li>
-<li><h3 id="angriffsziel-1">Angriffsziel</h3>
+</ul>
+<h3 id="angriffsziel-1">Angriffsziel</h3>
 <ul>
 <li><p><strong>Login</strong></p>
 <ul>
@@ -387,7 +378,6 @@ Existiert der Benutzer nicht, oder das Passwort ist falsch, so wird im
 Hintergrund eine Fehlermeldung mit dem Log4J-Framework geloggt. Die für
 die Sicherheitslücke Log4Shell benötigte Log4J-Version (2.14.1) wird
 hier verwendet.</li>
-</ul></li>
 </ul></li>
 </ul>
 <h3 id="hilfreiche-befehle-1">💡Hilfreiche Befehle💡</h3>
@@ -536,6 +526,7 @@ Version).</p>
 <h2
 id="sie-haben-nun-das-ende-der-log4shell-übung-part-2-erreicht-1">Sie
 haben nun das Ende der Log4Shell-Übung Part 2 erreicht</h2>
+
 
         </div>
         <div class="panel panel-right">
