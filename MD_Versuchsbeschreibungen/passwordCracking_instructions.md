@@ -4,7 +4,8 @@
 
 ### **Password-Cracking**
     
-  Beim Password-Cracking unterscheidet man grundsätzlich zwischen Online und Offline Angriffen.
+  Beim Password-Cracking unterscheidet man grundsätzlich zwischen Online und Offline Angriffen:
+
   - Online-Angriffe sind aufgrund Timeouts der Anfragen nicht so effizient wie ein Offline-Brute-Force Angriff.
   Hierbei versucht man bspw. durch eine Vielzahl an Anfragen das Passwort für einen **bekannten** Usernamen das Passwort zu erraten. Als Input verwendet man den bekannten User und eine Liste (Textdatei) mit gängigen Passwörtern, die durchgetestet werden können.
   - Bei Offline Brute-Force Angriffen sind meistens bereits Passwörter **in gehashter Form** vorhanden (Bereits erfolgreicher Angriff auf Datenbank, wo Usernamen und gehashte Passwörter abgegriffen werden konnten).
@@ -72,7 +73,7 @@ nano <Dateiname>
 
 # Start
 
-<h2 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
+<h3 style="color:red">  1. Part: ONLINE Passwort-Cracking (ssh) </h2>
 
 <h3 style="color:steelblue">Schritt 1.1 Offene Ports scannen</h3>
 
@@ -116,11 +117,9 @@ Um dies zu bestätigen können Sie nun mit den Informationen versuchen, eine ssh
 ssh <Username>@<IP des Ubuntu Containers>
 ```
 
-<h2 style="color:red">  2. Part: SQL-Injection </h2>
-
+<h3 style="color:red">  2. Part: SQL-Injection </h2>
 Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite anwenden, um an vertrauliche Daten zu kommen. Die Internetseite, welche als Angriffsziel des Versuchs dient, ist der "password_cracking_login_vulnapp" Container.
 <h3 style="color:steelblue">Schritt 2.0</h3>
-
   Sie können die IP-Adresse und den Port des http-Services aus Schritt 1.1 in einen neuen Tab im Webbrowser eingeben, um auf die Internetseite zu gelangen (Bspw. 172.18.0.2:80). Sie sollten ein sehr simples Loginformular sehen.
 <h3 style="color:steelblue">Schritt 2.1</h3>
   Wie bereits beschrieben werden bei SLQ-Injections die Eingaben bedacht so gewählt, dass im Backend die Datenbankabfragen manipuliert werden können.
@@ -129,7 +128,7 @@ Im zweiten Teil des Versuchs werden wir SQL-Injection auf einer Internetseite an
   ```
   SELECT * FROM user WHERE username = '<Input Username>' AND password_hash = '<Input PW>'
   ```
-  Probieren Sie, ohne valide Einloggdaten zu kennen, einen erfolgreichen Login vorzutäuschen.
+  Probieren Sie, ohne valide Einloggdaten zu kennen, einen erfolgreichen Login vorzutäuschen.<br>
   ___
   :bulb: _**Hinweis**_
 
@@ -163,6 +162,7 @@ https://www.w3schools.com/php/php_mysql_prepared_statements.asp<br>
 Bei Passwort-Agriffen sollten man Betreiber einer Webseite oder eines Services strikte Passwortrichtlinien einsetzen, um die Nutzer zu schützen. Regelmäßige Passwortänderungen sind ebenso empfehlenswert. Außerdem konnte man in diesem Versuch gut sehen, dass der Hash-Algorithmus schnell berechnet wurde. Algorithmen wie Argon2 benötigen deutlich mehr Zeit und machen Brute-Force noch ineffizienter.<br>
 🛠️
 ___
-# Sie haben das Ende der Übung erreicht 
+
+## Sie haben das Ende der Übung erreicht 
 
 
