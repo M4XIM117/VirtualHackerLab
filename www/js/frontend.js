@@ -4,10 +4,10 @@
 class VHLTerminal {
   constructor(element, startupCommand) { // Currently Constructor expects a startup command defined in the div tag of the html
     this.element = element;
-    this.startupCommand = startupCommand;
+    this.startupCommand = startupCommand; // Startup-Command defined in HTML-File
     this.term = null;
     this.terminalId = null;
-    this.command = ''
+    this.command = '' // Command, which is being stored and manipulated while user types something
     // List of forbidden commands
     this.forbiddenCommands = [
       /sudo shutdown/i,
@@ -59,6 +59,7 @@ class VHLTerminal {
               this.command = this.command.substring(0, this.command.length - 1);
           } 
           break;
+        // SWITCH CASES FOR LEFT AND RIGHT ARROW KEY; NOT FUNCTIONING YET, HANDLING OF LINE BREAKS MISSING!
         // case '\x1b[D': // Left arrow key
         //   if (!this.command.length == 0 && this.term._core.buffer.x > 2) {
         //     this.term.write('\x1b[1D');
